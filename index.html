@@ -57,30 +57,31 @@
     .theme-maroon { --bg-body: #1a0505; --bg-card: #2e0d0d; --text-main: #fef2f2; --text-sub: #fca5a5; --accent-btn: #dc2626; --accent-text: #ffffff; --sec-btn-bg: #451a1a; --sec-btn-text: #ffffff; --card-border: #451a1a; --blob-1: #451a1a; --blob-2: #7f1d1d; --blob-3: #341212; --blob-4: #991b1b; --icon-bg: #451a1a; --icon-color: #ffffff; --header-glow: rgba(220, 38, 38, 0.25); }
 
     html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
-    body { background-color: var(--bg-body); color: var(--text-main); display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
+    body { background-color: var(--bg-body); color: var(--text-main); display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; transition: background-color 0.5s ease, color 0.5s ease; }
     
-    .card-bg { background-color: var(--bg-card); border-color: var(--card-border); }
-    .btn-save { background-color: var(--accent-btn); color: var(--accent-text) !important; }
-    .btn-save:hover { filter: brightness(0.95); }
-    .btn-share { background-color: var(--sec-btn-bg); color: var(--sec-btn-text) !important; }
-    .btn-share:hover { filter: brightness(0.95); }
-    .text-accent { color: var(--accent-btn); }
-    .text-sub { color: var(--text-sub); }
-    .text-main { color: var(--text-main); }
-    .icon-box { background-color: var(--icon-bg); color: var(--icon-color); }
+    /* SMOOTH CARD ANIMATIONS */
+    .card-bg { background-color: var(--bg-card); border-color: var(--card-border); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+    .btn-save { background-color: var(--accent-btn); color: var(--accent-text) !important; transition: all 0.3s ease; }
+    .btn-save:hover { filter: brightness(0.95); transform: translateY(-1px); }
+    .btn-share { background-color: var(--sec-btn-bg); color: var(--sec-btn-text) !important; transition: all 0.3s ease; }
+    .btn-share:hover { filter: brightness(0.95); transform: translateY(-1px); }
+    .text-accent { color: var(--accent-btn); transition: color 0.5s ease; }
+    .text-sub { color: var(--text-sub); transition: color 0.5s ease; }
+    .text-main { color: var(--text-main); transition: color 0.5s ease; }
+    .icon-box { background-color: var(--icon-bg); color: var(--icon-color); transition: all 0.5s ease; }
 
     .modal-btn-accent { background-color: var(--accent-btn); color: var(--accent-text); }
     .modal-btn-accent:hover { filter: brightness(0.92); }
     .modal-icon-bg { background-color: var(--icon-bg); color: var(--accent-btn); border-color: var(--card-border); }
 
     /* HEADER STYLING ACCENTS */
-    .header-wave { fill: var(--bg-card); }
-    .header-circle-1 { position: absolute; width: 110px; height: 110px; border-radius: 50%; background: var(--header-glow); filter: blur(20px); top: -20px; left: -20px; pointer-events: none; }
-    .header-circle-2 { position: absolute; width: 90px; height: 90px; border-radius: 50%; background: var(--header-glow); filter: blur(15px); bottom: 10px; right: 20px; pointer-events: none; }
+    .header-wave { fill: var(--bg-card); transition: fill 0.5s ease; }
+    .header-circle-1 { position: absolute; width: 110px; height: 110px; border-radius: 50%; background: var(--header-glow); filter: blur(20px); top: -20px; left: -20px; pointer-events: none; transition: background 0.5s ease; }
+    .header-circle-2 { position: absolute; width: 90px; height: 90px; border-radius: 50%; background: var(--header-glow); filter: blur(15px); bottom: 10px; right: 20px; pointer-events: none; transition: background 0.5s ease; }
 
     /* ELEGANT ORGANIC BACKGROUND BLOBS */
     .blob-wrapper { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
-    .blob { position: absolute; filter: blur(65px); opacity: 0.55; border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+    .blob { position: absolute; filter: blur(65px); opacity: 0.55; border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transition: background-color 0.8s ease; }
     
     .blob-1 { background-color: var(--blob-1); width: 360px; height: 360px; top: -100px; left: -90px; animation: float1 10s infinite alternate ease-in-out; }
     .blob-2 { background-color: var(--blob-2); width: 340px; height: 340px; bottom: -90px; right: -90px; animation: float2 12s infinite alternate ease-in-out; }
@@ -92,10 +93,10 @@
     @keyframes float3 { 0% { transform: translate(0, 0) rotate(0deg) scale(1); } 100% { transform: translate(-30px, 40px) rotate(25deg) scale(1.2); } }
   </style>
 </head>
-<body id="bodyTag" class="theme-pink font-whiteangelica p-4 relative">
+<body id="bodyTag" class="theme-pink font-whiteangelica p-4 transition-colors duration-500 relative">
 
   <!-- ELEGANT CUSTOM TOAST NOTIFICATION -->
-  <div id="toastNotification" class="fixed top-5 left-1/2 -translate-x-1/2 z-[100] hidden transition-all duration-300 ease-out transform -translate-y-10 opacity-0">
+  <div id="toastNotification" class="fixed top-5 left-1/2 -translate-x-1/2 z-[100] hidden transition-all duration-500 ease-out transform -translate-y-10 opacity-0">
     <div class="bg-slate-900/90 backdrop-blur-md text-white border border-slate-700/60 px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3">
       <div id="toastIcon" class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm">
         <i class="fa-solid fa-check"></i>
@@ -115,7 +116,7 @@
     <div class="blob blob-4"></div>
   </div>
 
-  <div class="w-full max-w-md card-bg border rounded-3xl shadow-xl overflow-hidden relative z-10 mx-auto transition-all duration-300">
+  <div class="w-full max-w-md card-bg border rounded-3xl shadow-xl overflow-hidden relative z-10 transition-colors duration-300 mx-auto">
     <!-- STYLED HEADER BANNER -->
     <div class="h-40 relative bg-slate-200 dark:bg-slate-800 overflow-hidden">
       <img id="coverImg" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800" alt="Cover" class="w-full h-full object-cover opacity-90 transition-opacity duration-300" crossorigin="anonymous">
@@ -138,41 +139,26 @@
       </div>
     </div>
 
-    <!-- FULL CARD SKELETON PLACEHOLDER (MATCHES CARD SHAPE) -->
-    <div id="loadingBox" class="px-6 pb-6 relative text-center animate-pulse">
-      <div class="relative -mt-16 mb-4 inline-block z-20">
-        <div class="w-28 h-28 rounded-full border-4 border-white shadow-lg mx-auto bg-slate-300/60 dark:bg-slate-700/60"></div>
-      </div>
-      <div class="h-6 w-44 bg-slate-300/60 dark:bg-slate-700/60 rounded-lg mx-auto mb-2"></div>
-      <div class="h-4 w-28 bg-slate-200/60 dark:bg-slate-800/60 rounded-lg mx-auto mb-6"></div>
-      
-      <div class="grid grid-cols-2 gap-3 mb-6">
-        <div class="h-10 bg-slate-200/70 dark:bg-slate-800/70 rounded-xl"></div>
-        <div class="h-10 bg-slate-200/70 dark:bg-slate-800/70 rounded-xl"></div>
-      </div>
-
-      <div class="space-y-3">
-        <div class="h-12 bg-slate-200/60 dark:bg-slate-800/60 rounded-2xl w-full"></div>
-        <div class="h-12 bg-slate-200/60 dark:bg-slate-800/60 rounded-2xl w-full"></div>
-        <div class="h-12 bg-slate-200/60 dark:bg-slate-800/60 rounded-2xl w-full"></div>
-      </div>
+    <!-- LOADING SPINNER / CONTAINER -->
+    <div id="loadingBox" class="p-8 text-center font-bold text-gray-500">
+      Loading digital card...
     </div>
 
-    <div id="cardContent" class="px-6 pb-6 relative text-center hidden transition-all duration-300">
+    <div id="cardContent" class="px-6 pb-6 relative text-center hidden">
       <div class="relative -mt-16 mb-4 inline-block z-20">
-        <img id="avatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400" alt="Avatar" class="w-28 h-28 rounded-full border-4 border-white shadow-lg mx-auto object-cover" crossorigin="anonymous">
+        <img id="avatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400" alt="Avatar" class="w-28 h-28 rounded-full border-4 border-white shadow-lg mx-auto object-cover transition-all duration-300" crossorigin="anonymous">
       </div>
 
-      <h1 id="displayName" class="text-2xl font-bold text-main">---</h1>
+      <h1 id="displayName" class="text-2xl font-bold text-main">Loading...</h1>
       <p id="displayTitle" class="text-sm font-semibold text-sub mt-1">---</p>
       <p id="displayBio" class="text-xs text-sub opacity-90 mt-2 px-4">---</p>
 
       <div class="grid grid-cols-2 gap-3 mt-6">
-        <button onclick="downloadVCard()" class="btn-save flex items-center justify-center gap-2 font-bold py-2.5 px-4 rounded-xl shadow-md transition-transform active:scale-95 text-sm">
+        <button onclick="downloadVCard()" class="btn-save flex items-center justify-center gap-2 font-bold py-2.5 px-4 rounded-xl shadow-md transition-all active:scale-95 text-sm">
           <i class="fa-solid fa-user-plus"></i>
           <span>Save Contact</span>
         </button>
-        <button onclick="shareCard()" class="btn-share flex items-center justify-center gap-2 font-semibold py-2.5 px-4 rounded-xl transition-transform active:scale-95 text-sm shadow-sm">
+        <button onclick="shareCard()" class="btn-share flex items-center justify-center gap-2 font-semibold py-2.5 px-4 rounded-xl transition-all active:scale-95 text-sm shadow-sm">
           <i class="fa-solid fa-share-nodes"></i>
           <span>Share</span>
         </button>
@@ -227,13 +213,13 @@
     </div>
 
     <!-- Edit Button -->
-    <button onclick="handleEditClick()" class="absolute top-3 right-3 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:scale-105 p-2.5 rounded-full shadow-md transition active:scale-95">
+    <button onclick="openPasscodeModal()" class="absolute top-3 right-3 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:scale-105 p-2.5 rounded-full shadow-md transition active:scale-95">
       <i class="fa-solid fa-pen text-xs"></i>
     </button>
   </div>
 
   <!-- PASSCODE MODAL -->
-  <div id="passcodeModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden flex justify-center items-center p-4 z-[60]">
+  <div id="passcodeModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden flex justify-center items-center p-4 z-[60] transition-opacity duration-300">
     <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-xs rounded-2xl p-5 shadow-2xl space-y-4 text-center">
       <div class="w-12 h-12 modal-icon-bg rounded-full flex items-center justify-center mx-auto text-xl border">
         <i class="fa-solid fa-lock"></i>
@@ -259,7 +245,7 @@
   </div>
 
   <!-- RECOVERY / FORGOT PASSCODE MODAL -->
-  <div id="recoveryModal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden flex justify-center items-center p-4 z-[70]">
+  <div id="recoveryModal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden flex justify-center items-center p-4 z-[70] transition-opacity duration-300">
     <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-xs rounded-2xl p-5 shadow-2xl space-y-4 text-center">
       <div class="w-12 h-12 modal-icon-bg rounded-full flex items-center justify-center mx-auto text-xl border">
         <i class="fa-solid fa-key"></i>
@@ -282,7 +268,7 @@
   </div>
 
   <!-- EDIT PROFILE MODAL -->
-  <div id="editModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex justify-center items-center p-4 z-50">
+  <div id="editModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex justify-center items-center p-4 z-50 transition-opacity duration-300">
     <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center border-b border-slate-800 pb-3">
         <h3 class="text-lg font-bold text-white">Edit Profile & Style</h3>
@@ -290,23 +276,11 @@
       </div>
 
       <div class="space-y-3">
-        <!-- Security Settings: PIN Toggle + Input -->
-        <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-3">
-          <div class="flex items-center justify-between">
-            <div>
-              <label class="text-xs font-semibold text-slate-200 block">Require PIN for Editing</label>
-              <p class="text-[10px] text-slate-400">Turn OFF to skip passcode when opening settings.</p>
-            </div>
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" id="togglePinRequired" onchange="togglePinInputVisibility()" class="sr-only peer">
-              <div class="w-9 h-5 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
-            </label>
-          </div>
-
-          <div id="pinInputBox" class="pt-2 border-t border-slate-800/80">
-            <label class="text-xs font-medium text-slate-400 block mb-1">Security PIN (4 Digits)</label>
-            <input type="password" id="inputPasscode" maxlength="4" placeholder="Default: 1234" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm text-white focus:outline-none tracking-widest">
-          </div>
+        <!-- Passcode Setting -->
+        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+          <label class="text-xs font-semibold text-slate-300 block mb-1">Security PIN (4 Digits)</label>
+          <input type="password" id="inputPasscode" maxlength="4" placeholder="Default: 1234" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm text-white focus:outline-none tracking-widest">
+          <p class="text-[10px] text-slate-400 mt-1">Set a 4-digit custom PIN to restrict editing access.</p>
         </div>
 
         <!-- Theme Selection & Custom Color Extractor -->
@@ -452,7 +426,7 @@
     const MASTER_RECOVERY_CODE = 'ZD2026';
     let currentCard = null;
 
-    // CUSTOM TOAST NOTIFICATION
+    // CUSTOM TOAST NOTIFICATION FUNCTION
     function showToast(message, isError = false, title = "Success") {
       const toast = document.getElementById('toastNotification');
       const toastIcon = document.getElementById('toastIcon');
@@ -479,8 +453,8 @@
       setTimeout(() => {
         toast.classList.remove('translate-y-0', 'opacity-100');
         toast.classList.add('-translate-y-10', 'opacity-0');
-        setTimeout(() => toast.classList.add('hidden'), 300);
-      }, 2500);
+        setTimeout(() => toast.classList.add('hidden'), 500);
+      }, 3000);
     }
 
     function fixUrl(url) {
@@ -586,15 +560,13 @@
           renderUI(currentCard);
         } else {
           document.getElementById('loadingBox').innerHTML = `
-            <div class="py-8 text-center">
-              <p class="text-red-500 font-bold">Card Not Found!</p>
-              <p class="text-xs text-gray-500 mt-1">Ang ID sa URL ay wala sa database.</p>
-            </div>
+            <p class="text-red-500 font-bold">Card Not Found!</p>
+            <p class="text-xs text-gray-500 mt-1">Ang ID sa URL ay wala sa database.</p>
           `;
         }
       } catch (err) {
         console.error("Load Error:", err);
-        document.getElementById('loadingBox').innerHTML = `<div class="py-8 text-center text-red-500 font-bold">Error loading card<br><span class="text-xs font-normal">${err.message}</span></div>`;
+        document.getElementById('loadingBox').innerHTML = `<p class="text-red-500 font-bold">Error loading card<br><span class="text-xs font-normal">${err.message}</span></p>`;
       }
     }
 
@@ -636,11 +608,11 @@
       const customCol = data.custom_color || data.customColor;
 
       if (data.theme === 'theme-custom' && customCol) {
-        body.className = `${data.font || 'font-whiteangelica'} p-4 relative`;
+        body.className = `${data.font || 'font-whiteangelica'} p-4 transition-colors duration-500 relative`;
         applyDynamicCustomColor(customCol);
       } else {
         document.documentElement.removeAttribute('style');
-        body.className = `${data.theme || 'theme-pink'} ${data.font || 'font-whiteangelica'} p-4 relative`;
+        body.className = `${data.theme || 'theme-pink'} ${data.font || 'font-whiteangelica'} p-4 transition-colors duration-500 relative`;
       }
     }
 
@@ -651,26 +623,6 @@
         customBox.classList.remove('hidden');
       } else {
         customBox.classList.add('hidden');
-      }
-    }
-
-    // CHECK IF PIN IS REQUIRED BEFORE OPENING EDIT MODAL
-    function handleEditClick() {
-      const pinRequired = currentCard?.enable_pin ?? true; // Defaults to TRUE if not specified
-      if (pinRequired) {
-        openPasscodeModal();
-      } else {
-        toggleModal(true);
-      }
-    }
-
-    function togglePinInputVisibility() {
-      const isChecked = document.getElementById('togglePinRequired').checked;
-      const pinBox = document.getElementById('pinInputBox');
-      if (isChecked) {
-        pinBox.classList.remove('hidden');
-      } else {
-        pinBox.classList.add('hidden');
       }
     }
 
@@ -733,10 +685,6 @@
     function toggleModal(show) {
       const modal = document.getElementById('editModal');
       if (show && currentCard) {
-        const pinRequired = currentCard.enable_pin ?? true;
-        document.getElementById('togglePinRequired').checked = pinRequired;
-        togglePinInputVisibility();
-
         document.getElementById('inputPasscode').value = currentCard.pin || currentCard.passcode || '1234';
         document.getElementById('inputName').value = currentCard.full_name || currentCard.name || '';
         document.getElementById('inputTitle').value = currentCard.title || currentCard.job_title || '';
@@ -795,10 +743,8 @@
     }
 
     async function saveProfile() {
-      const pinRequired = document.getElementById('togglePinRequired').checked;
       const newPin = document.getElementById('inputPasscode').value.trim();
-
-      if (pinRequired && newPin && newPin.length !== 4) {
+      if (newPin && newPin.length !== 4) {
         showToast('Ang PIN ay kailangang 4 digits!', true, 'Validation Error');
         return;
       }
@@ -821,35 +767,37 @@
           newCover = await compressImage(coverFile, 800, 0.75);
         }
 
-        const updatePayload = {
-          enable_pin: pinRequired
-        };
+        // Potential payload containing desired updates
+        const candidatePayload = {};
         
-        if (currentCard.hasOwnProperty('full_name')) updatePayload.full_name = document.getElementById('inputName').value;
-        if (currentCard.hasOwnProperty('name')) updatePayload.name = document.getElementById('inputName').value;
+        candidatePayload.full_name = document.getElementById('inputName').value;
+        candidatePayload.name = document.getElementById('inputName').value;
+        candidatePayload.title = document.getElementById('inputTitle').value;
+        candidatePayload.job_title = document.getElementById('inputTitle').value;
+        candidatePayload.pin = newPin || '1234';
+        candidatePayload.passcode = newPin || '1234';
+        candidatePayload.custom_color = document.getElementById('inputCustomColor').value;
+        candidatePayload.customColor = document.getElementById('inputCustomColor').value;
+        candidatePayload.bio = document.getElementById('inputBio').value;
+        candidatePayload.phone = document.getElementById('inputPhone').value;
+        candidatePayload.email = document.getElementById('inputEmail').value;
+        candidatePayload.website = document.getElementById('inputWebsite').value;
+        candidatePayload.facebook = document.getElementById('inputFacebook').value;
+        candidatePayload.instagram = document.getElementById('inputInstagram').value;
+        candidatePayload.whatsapp = document.getElementById('inputWhatsapp').value;
+        candidatePayload.wechat = document.getElementById('inputWechat').value;
+        candidatePayload.avatar = newAvatar;
+        candidatePayload.cover = newCover;
+        candidatePayload.theme = document.getElementById('selectTheme').value;
+        candidatePayload.font = document.getElementById('selectFont').value;
 
-        if (currentCard.hasOwnProperty('title')) updatePayload.title = document.getElementById('inputTitle').value;
-        if (currentCard.hasOwnProperty('job_title')) updatePayload.job_title = document.getElementById('inputTitle').value;
-
-        if (currentCard.hasOwnProperty('pin')) updatePayload.pin = newPin || '1234';
-        if (currentCard.hasOwnProperty('passcode')) updatePayload.passcode = newPin || '1234';
-
-        if (currentCard.hasOwnProperty('custom_color')) updatePayload.custom_color = document.getElementById('inputCustomColor').value;
-        if (currentCard.hasOwnProperty('customColor')) updatePayload.customColor = document.getElementById('inputCustomColor').value;
-
-        // Standard fields
-        updatePayload.bio = document.getElementById('inputBio').value;
-        updatePayload.phone = document.getElementById('inputPhone').value;
-        updatePayload.email = document.getElementById('inputEmail').value;
-        updatePayload.website = document.getElementById('inputWebsite').value;
-        updatePayload.facebook = document.getElementById('inputFacebook').value;
-        updatePayload.instagram = document.getElementById('inputInstagram').value;
-        updatePayload.whatsapp = document.getElementById('inputWhatsapp').value;
-        updatePayload.wechat = document.getElementById('inputWechat').value;
-        updatePayload.avatar = newAvatar;
-        updatePayload.cover = newCover;
-        updatePayload.theme = document.getElementById('selectTheme').value;
-        updatePayload.font = document.getElementById('selectFont').value;
+        // STRICT FILTERING: Strict column filtering based ONLY on existing database row keys
+        const updatePayload = {};
+        Object.keys(currentCard).forEach(col => {
+          if (candidatePayload.hasOwnProperty(col) && candidatePayload[col] !== undefined) {
+            updatePayload[col] = candidatePayload[col];
+          }
+        });
 
         const { error } = await _supabase
           .from('cards')
@@ -858,11 +806,11 @@
 
         if (error) throw error;
 
-        // Update local object & render UI dynamically (NO HARD RELOAD!)
+        // Update local memory and refresh UI instantly
         Object.assign(currentCard, updatePayload);
         renderUI(currentCard);
         
-        // Close modal smoothly & show sleek toast
+        // Close modal and present feedback toast
         toggleModal(false);
         showToast('Card profile updated successfully!', false, 'Success');
 
