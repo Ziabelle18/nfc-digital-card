@@ -87,7 +87,7 @@
 
       <h1 id="displayName" class="text-2xl font-bold text-main">Rose Anne Perez</h1>
       <p id="displayTitle" class="text-sm font-semibold text-accent mt-1">Digital Creator</p>
-      <p id="displayBio" class="text-xs text-sub mt-2 px-4">Crafting nfc</p>
+      <p id="displayBio" class="text-xs text-sub mt-2 px-4">Crafting digital experiences & NFC solutions.</p>
 
       <div class="grid grid-cols-2 gap-3 mt-6">
         <button onclick="downloadVCard()" class="btn-save flex items-center justify-center gap-2 font-bold py-2.5 px-4 rounded-xl shadow-md transition-all active:scale-95 text-sm">
@@ -154,20 +154,20 @@
     </button>
   </div>
 
-  <!-- PASSCODE MODAL (Custom Password Popup) -->
+  <!-- PASSCODE MODAL (Custom Elegant Auth Window) -->
   <div id="passcodeModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden flex justify-center items-center p-4 z-[60]">
     <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-xs rounded-2xl p-5 shadow-2xl space-y-4 text-center">
       <div class="w-12 h-12 bg-indigo-600/20 text-indigo-400 rounded-full flex items-center justify-center mx-auto text-xl border border-indigo-500/30">
         <i class="fa-solid fa-lock"></i>
       </div>
       <div>
-        <h3 class="text-base font-bold text-white">Enter Passcode</h3>
-        <p class="text-xs text-slate-400 mt-1">I-type ang PIN para mabuksan ang editor.</p>
+        <h3 class="text-base font-bold text-white">Security Passcode</h3>
+        <p class="text-xs text-slate-400 mt-1">Please enter your PIN to unlock the profile editor.</p>
       </div>
 
       <div>
-        <input type="password" id="authPin" placeholder="Default: 1234" class="w-full text-center bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-base text-white focus:outline-none focus:border-indigo-500">
-        <p id="pinError" class="text-xs text-red-400 mt-2 hidden font-semibold">Maling Passcode!</p>
+        <input type="password" id="authPin" placeholder="Default PIN: 1234" class="w-full text-center bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-base text-white focus:outline-none focus:border-indigo-500">
+        <p id="pinError" class="text-xs text-red-400 mt-2 hidden font-semibold">Invalid Passcode!</p>
       </div>
 
       <div class="flex gap-2">
@@ -190,7 +190,7 @@
         <div class="bg-indigo-950/60 p-3 rounded-xl border border-indigo-800/80">
           <label class="text-xs font-semibold text-indigo-300 block mb-1">Security Passcode (PIN)</label>
           <input type="password" id="inputPasscode" placeholder="Default: 1234" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm text-white focus:outline-none">
-          <p class="text-[10px] text-slate-400 mt-1">Palitan ito ng bagong PIN para sa buyer.</p>
+          <p class="text-[10px] text-slate-400 mt-1">Set a custom PIN to restrict editing access.</p>
         </div>
 
         <div class="grid grid-cols-2 gap-3 bg-slate-950 p-3 rounded-xl border border-slate-800">
@@ -212,26 +212,26 @@
           <div>
             <label class="text-xs text-slate-400 block mb-1">Font Style</label>
             <select id="selectFont" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white">
-              <optgroup label="Girly & Sosyal Fonts (10)">
-                <option value="font-parisienne">Parisienne (Sosyal Script)</option>
+              <optgroup label="Girly & Elegant Fonts (10)">
+                <option value="font-parisienne">Parisienne (Chic Script)</option>
                 <option value="font-alexbrush">Alex Brush (Calligraphy)</option>
                 <option value="font-cormorant">Cormorant (High Fashion)</option>
                 <option value="font-bodoni">Bodoni Moda (Vogue Style)</option>
                 <option value="font-allura">Allura (Elegant Flow)</option>
-                <option value="font-quicksand">Quicksand (Cute Soft)</option>
-                <option value="font-pacifico">Pacifico (Fun Chic)</option>
+                <option value="font-quicksand">Quicksand (Soft Modern)</option>
+                <option value="font-pacifico">Pacifico (Fun Script)</option>
                 <option value="font-greatvibes">Great Vibes (Classic)</option>
                 <option value="font-playfair">Playfair (Luxury Serif)</option>
                 <option value="font-caveat">Caveat (Handwritten)</option>
               </optgroup>
-              <optgroup label="Men & Bold Fonts (10)">
+              <optgroup label="Masculine & Bold Fonts (10)">
                 <option value="font-bebas">Bebas Neue (Tall Bold)</option>
                 <option value="font-syne">Syne (Executive Modern)</option>
                 <option value="font-prata">Prata (Executive Serif)</option>
                 <option value="font-lora">Lora (Sophisticated)</option>
                 <option value="font-montserrat">Montserrat (Clean Bold)</option>
                 <option value="font-oswald">Oswald (Strong Impact)</option>
-                <option value="font-robotomono">Roboto Mono (Tech)</option>
+                <option value="font-robotomono">Roboto Mono (Tech Clean)</option>
                 <option value="font-anton">Anton (Heavy Punch)</option>
                 <option value="font-cinzel">Cinzel (Roman Luxe)</option>
                 <option value="font-inter">Inter (Clean Standard)</option>
@@ -310,7 +310,7 @@
       passcode: '1234',
       name: 'Rose Anne Perez',
       title: 'Digital Creator',
-      bio: 'Crafting nfc',
+      bio: 'Crafting digital experiences & NFC solutions.',
       phone: '09606099421',
       email: 'krizzialester@gmail.com',
       website: 'ziadigital.store/zialink',
@@ -369,7 +369,6 @@
       body.className = `${data.theme || 'theme-plum'} ${data.font || 'font-parisienne'} p-4 transition-colors duration-500 relative`;
     }
 
-    // --- CUSTOM PASSCODE MODAL HANDLERS ---
     function openPasscodeModal() {
       document.getElementById('authPin').value = '';
       document.getElementById('pinError').classList.add('hidden');
