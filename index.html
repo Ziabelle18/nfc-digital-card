@@ -213,7 +213,7 @@
     </div>
 
     <!-- Edit Button -->
-    <button onclick="openPasscodeModal()" class="absolute top-3 right-3 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:scale-105 p-2.5 rounded-full shadow-md transition active:scale-95">
+    <button onclick="handleEditClick()" class="absolute top-3 right-3 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:scale-105 p-2.5 rounded-full shadow-md transition active:scale-95">
       <i class="fa-solid fa-pen text-xs"></i>
     </button>
   </div>
@@ -279,16 +279,26 @@
       </div>
 
       <div class="space-y-3">
-        <!-- Passcode Setting with Eye Toggle -->
-        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-          <label class="text-xs font-semibold text-slate-300 block mb-1">Security PIN (4 Digits)</label>
-          <div class="relative">
-            <input type="password" id="inputPasscode" maxlength="4" placeholder="Default: 1234" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 pr-10 text-sm text-white focus:outline-none tracking-widest">
-            <button type="button" onclick="togglePinVisibility('inputPasscode', 'eyeIconEdit')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white">
+        <!-- PASSCODE ON/OFF TOGGLE + EYE INPUT -->
+        <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <div>
+              <label class="text-xs font-semibold text-slate-200 block">PIN Protection</label>
+              <p class="text-[10px] text-slate-400">Require PIN when editing profile</p>
+            </div>
+            <!-- Toggle Switch -->
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="toggleEnablePin" onchange="handlePinToggleChange()" class="sr-only peer">
+              <div class="w-9 h-5 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-pink-500"></div>
+            </label>
+          </div>
+
+          <div id="pinInputContainer" class="relative pt-1 transition-all duration-300">
+            <input type="password" id="inputPasscode" maxlength="4" placeholder="Default PIN: 1234" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 pr-10 text-sm text-white focus:outline-none tracking-widest">
+            <button type="button" onclick="togglePinVisibility('inputPasscode', 'eyeIconEdit')" class="absolute right-3 top-[12px] text-slate-400 hover:text-white">
               <i id="eyeIconEdit" class="fa-solid fa-eye text-xs"></i>
             </button>
           </div>
-          <p class="text-[10px] text-slate-400 mt-1">Set a 4-digit custom PIN to restrict editing access.</p>
         </div>
 
         <!-- Theme Selection & Custom Color Extractor -->
@@ -434,7 +444,36 @@
     const MASTER_RECOVERY_CODE = 'ZD2026';
     let currentCard = null;
 
-    // EYE TOGGLE FUNCTION
+    // CHECK IF PIN IS REQUIRED
+    function isPinRequired() {
+      if (!currentCard) return false;
+      if (currentCard.enable_pin === false || currentCard.enable_pin === 'false') return false;
+      const p = currentCard.pin || currentCard.passcode;
+      if (!p || String(p).trim() === '') return false;
+      return true;
+    }
+
+    // HANDLE EDIT PEN CLICK
+    function handleEditClick() {
+      if (isPinRequired()) {
+        openPasscodeModal();
+      } else {
+        toggleModal(true);
+      }
+    }
+
+    // TOGGLE PIN INPUT VISIBILITY IN EDIT MODAL
+    function handlePinToggleChange() {
+      const isChecked = document.getElementById('toggleEnablePin').checked;
+      const container = document.getElementById('pinInputContainer');
+      if (isChecked) {
+        container.classList.remove('opacity-30', 'pointer-events-none');
+      } else {
+        container.classList.add('opacity-30', 'pointer-events-none');
+      }
+    }
+
+    // EYE SHOW/HIDE PIN FUNCTION
     function togglePinVisibility(inputId, iconId) {
       const input = document.getElementById(inputId);
       const icon = document.getElementById(iconId);
@@ -583,7 +622,7 @@
           renderUI(currentCard);
         } else {
           loadingBox.innerHTML = `
-            <div class="py-6 px-4">
+            <div class="py-6 px-4 text-center">
               <p class="text-red-500 font-bold text-sm">Card Not Found</p>
               <p class="text-xs text-slate-400 mt-1">Walang nahanap na record sa database.</p>
             </div>
@@ -592,7 +631,7 @@
       } catch (err) {
         console.error("Load Error:", err);
         loadingBox.innerHTML = `
-          <div class="py-6 px-4">
+          <div class="py-6 px-4 text-center">
             <p class="text-red-500 font-bold text-sm">Failed to Load Profile</p>
             <p class="text-[11px] text-slate-400 mt-1">${err.message || 'Please check connection'}</p>
           </div>
@@ -601,7 +640,6 @@
     }
 
     function renderUI(data) {
-      // Hide loading box completely and display content
       const loadingBox = document.getElementById('loadingBox');
       const cardContent = document.getElementById('cardContent');
       if (loadingBox) loadingBox.style.display = 'none';
@@ -718,7 +756,11 @@
     function toggleModal(show) {
       const modal = document.getElementById('editModal');
       if (show && currentCard) {
+        const pinActive = isPinRequired();
+        document.getElementById('toggleEnablePin').checked = pinActive;
         document.getElementById('inputPasscode').value = currentCard.pin || currentCard.passcode || '1234';
+        handlePinToggleChange();
+
         document.getElementById('inputName').value = currentCard.full_name || currentCard.name || '';
         document.getElementById('inputTitle').value = currentCard.title || currentCard.job_title || '';
         document.getElementById('inputBio').value = currentCard.bio || '';
@@ -776,11 +818,15 @@
     }
 
     async function saveProfile() {
-      const newPin = document.getElementById('inputPasscode').value.trim();
-      if (newPin && newPin.length !== 4) {
+      const pinEnabled = document.getElementById('toggleEnablePin').checked;
+      const typedPin = document.getElementById('inputPasscode').value.trim();
+
+      if (pinEnabled && typedPin && typedPin.length !== 4) {
         showToast('Ang PIN ay kailangang 4 digits!', true, 'Validation Error');
         return;
       }
+
+      const effectivePin = pinEnabled ? (typedPin || '1234') : '';
 
       const saveBtn = document.getElementById('saveBtn');
       saveBtn.innerText = 'Saving...';
@@ -805,8 +851,11 @@
         candidatePayload.name = document.getElementById('inputName').value;
         candidatePayload.title = document.getElementById('inputTitle').value;
         candidatePayload.job_title = document.getElementById('inputTitle').value;
-        candidatePayload.pin = newPin || '1234';
-        candidatePayload.passcode = newPin || '1234';
+        
+        candidatePayload.enable_pin = pinEnabled;
+        candidatePayload.pin = effectivePin;
+        candidatePayload.passcode = effectivePin;
+        
         candidatePayload.custom_color = document.getElementById('inputCustomColor').value;
         candidatePayload.customColor = document.getElementById('inputCustomColor').value;
         candidatePayload.bio = document.getElementById('inputBio').value;
@@ -822,7 +871,7 @@
         candidatePayload.theme = document.getElementById('selectTheme').value;
         candidatePayload.font = document.getElementById('selectFont').value;
 
-        // Strict Column Filtering to ensure no schema mismatch
+        // Strict Column Filtering: Safely pass fields matching existing schema rows
         const updatePayload = {};
         Object.keys(currentCard).forEach(col => {
           if (candidatePayload.hasOwnProperty(col) && candidatePayload[col] !== undefined) {
@@ -837,7 +886,8 @@
 
         if (error) throw error;
 
-        Object.assign(currentCard, updatePayload);
+        // Update local object instantly
+        Object.assign(currentCard, candidatePayload);
         renderUI(currentCard);
         
         toggleModal(false);
