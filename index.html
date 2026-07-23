@@ -148,13 +148,36 @@
       </div>
     </div>
 
-    <!-- Edit Button (Triggers Passcode Check) -->
-    <button onclick="checkPasscode()" class="absolute top-3 right-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:scale-105 p-2.5 rounded-full shadow-md transition active:scale-95">
+    <!-- Edit Button -->
+    <button onclick="openPasscodeModal()" class="absolute top-3 right-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:scale-105 p-2.5 rounded-full shadow-md transition active:scale-95">
       <i class="fa-solid fa-pen text-xs"></i>
     </button>
   </div>
 
-  <!-- Edit Profile Modal -->
+  <!-- PASSCODE MODAL (Custom Password Popup) -->
+  <div id="passcodeModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden flex justify-center items-center p-4 z-[60]">
+    <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-xs rounded-2xl p-5 shadow-2xl space-y-4 text-center">
+      <div class="w-12 h-12 bg-indigo-600/20 text-indigo-400 rounded-full flex items-center justify-center mx-auto text-xl border border-indigo-500/30">
+        <i class="fa-solid fa-lock"></i>
+      </div>
+      <div>
+        <h3 class="text-base font-bold text-white">Enter Passcode</h3>
+        <p class="text-xs text-slate-400 mt-1">I-type ang PIN para mabuksan ang editor.</p>
+      </div>
+
+      <div>
+        <input type="password" id="authPin" placeholder="Default: 1234" class="w-full text-center bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-base text-white focus:outline-none focus:border-indigo-500">
+        <p id="pinError" class="text-xs text-red-400 mt-2 hidden font-semibold">Maling Passcode!</p>
+      </div>
+
+      <div class="flex gap-2">
+        <button onclick="closePasscodeModal()" class="w-1/2 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg">Cancel</button>
+        <button onclick="verifyPasscode()" class="w-1/2 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-lg shadow">Unlock</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT PROFILE MODAL -->
   <div id="editModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex justify-center items-center p-4 z-50">
     <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center border-b border-slate-800 pb-3">
@@ -163,11 +186,11 @@
       </div>
 
       <div class="space-y-3">
-        <!-- Passcode Field -->
+        <!-- Passcode Setting -->
         <div class="bg-indigo-950/60 p-3 rounded-xl border border-indigo-800/80">
           <label class="text-xs font-semibold text-indigo-300 block mb-1">Security Passcode (PIN)</label>
           <input type="password" id="inputPasscode" placeholder="Default: 1234" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm text-white focus:outline-none">
-          <p class="text-[10px] text-slate-400 mt-1">Ikaw at ang buyer lang ang nakakaalam nito para protektado ang profile.</p>
+          <p class="text-[10px] text-slate-400 mt-1">Palitan ito ng bagong PIN para sa buyer.</p>
         </div>
 
         <div class="grid grid-cols-2 gap-3 bg-slate-950 p-3 rounded-xl border border-slate-800">
@@ -346,15 +369,27 @@
       body.className = `${data.theme || 'theme-plum'} ${data.font || 'font-parisienne'} p-4 transition-colors duration-500 relative`;
     }
 
-    function checkPasscode() {
+    // --- CUSTOM PASSCODE MODAL HANDLERS ---
+    function openPasscodeModal() {
+      document.getElementById('authPin').value = '';
+      document.getElementById('pinError').classList.add('hidden');
+      document.getElementById('passcodeModal').classList.remove('hidden');
+    }
+
+    function closePasscodeModal() {
+      document.getElementById('passcodeModal').classList.add('hidden');
+    }
+
+    function verifyPasscode() {
       const data = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
       const currentPin = data.passcode || '1234';
+      const enteredPin = document.getElementById('authPin').value;
 
-      const userPin = prompt("Enter Passcode to Edit Profile:");
-      if (userPin === currentPin) {
+      if (enteredPin === currentPin) {
+        closePasscodeModal();
         toggleModal(true);
-      } else if (userPin !== null) {
-        alert("Incorrect Passcode!");
+      } else {
+        document.getElementById('pinError').classList.remove('hidden');
       }
     }
 
