@@ -5,13 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Digital Business Card</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Modern Supabase Client -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body id="bodyTag" class="bg-gray-100 font-sans min-h-screen flex items-center justify-center p-4">
+<body id="bodyTag" class="bg-gray-100 font-sans min-h-screen flex items-center justify-center p-4 transition-colors duration-500">
 
   <!-- MAIN CARD CONTAINER -->
-  <div id="cardContainer" class="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden relative p-6 transition-all duration-300">
+  <div id="cardContainer" class="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden relative p-6">
     <div id="loading" class="text-center py-10 font-bold text-gray-500">
       Loading digital card...
     </div>
@@ -28,23 +26,14 @@
       <p id="jobTitle" class="text-sm text-gray-500 mb-6">---</p>
 
       <div class="space-y-3 text-left mb-6">
-        <a id="phoneBtn" href="#" class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition">
-          📞 <span id="phoneText" class="text-gray-700 text-sm font-medium">---</span>
-        </a>
-        <a id="emailBtn" href="#" class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition">
-          ✉️ <span id="emailText" class="text-gray-700 text-sm font-medium">---</span>
-        </a>
-        <a id="websiteBtn" href="#" target="_blank" class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition">
-          🌐 <span id="websiteText" class="text-gray-700 text-sm font-medium">---</span>
-        </a>
+        <div class="p-3 bg-gray-50 rounded-xl">📞 <span id="phoneText">---</span></div>
+        <div class="p-3 bg-gray-50 rounded-xl">✉️ <span id="emailText">---</span></div>
+        <div class="p-3 bg-gray-50 rounded-xl">🌐 <span id="websiteText">---</span></div>
       </div>
 
       <div class="flex gap-2">
-        <button onclick="alert('Contact Saved!')" class="flex-1 bg-pink-500 text-white font-bold py-3 rounded-xl shadow hover:bg-pink-600 transition">
-          + Save Contact
-        </button>
-        <button onclick="navigator.clipboard.writeText(window.location.href); alert('Link copied!');" class="bg-gray-200 text-gray-700 font-bold px-4 rounded-xl hover:bg-gray-300 transition">
-          Share
+        <button onclick="openPasscodeModal()" class="flex-1 bg-pink-500 text-white font-bold py-3 rounded-xl shadow hover:bg-pink-600 transition">
+          Edit Profile
         </button>
       </div>
     </div>
@@ -52,161 +41,151 @@
 
   <!-- PASSCODE MODAL -->
   <div id="passcodeModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 hidden z-50">
-    <div class="bg-white p-6 rounded-2xl w-full max-w-xs text-center shadow-2xl">
+    <div class="bg-white p-6 rounded-2xl w-full max-w-xs text-center">
       <h3 class="font-bold text-lg mb-3">Enter Security PIN</h3>
-      <input type="password" id="pinInput" placeholder="Enter PIN (e.g. 123456)" class="w-full border p-2 rounded-xl mb-4 text-center text-lg">
+      <input type="password" id="pinInput" placeholder="PIN (default 123456)" class="w-full border p-2 rounded-xl mb-4 text-center">
       <div class="flex gap-2">
-        <button onclick="closePasscodeModal()" class="flex-1 bg-gray-200 py-2 rounded-xl font-semibold">Cancel</button>
-        <button onclick="verifyPin()" class="flex-1 bg-black text-white py-2 rounded-xl font-semibold">Submit</button>
+        <button onclick="closePasscodeModal()" class="flex-1 bg-gray-200 py-2 rounded-xl">Cancel</button>
+        <button onclick="verifyPin()" class="flex-1 bg-black text-white py-2 rounded-xl">Submit</button>
       </div>
     </div>
   </div>
 
   <!-- EDIT MODAL -->
-  <div id="editModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 hidden z-50 overflow-y-auto">
-    <div class="bg-white p-6 rounded-2xl w-full max-w-md shadow-2xl space-y-4">
-      <h3 class="font-bold text-xl text-gray-800">Edit Profile & Theme</h3>
-      
+  <div id="editModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 hidden z-50">
+    <div class="bg-white p-6 rounded-2xl w-full max-w-md space-y-4">
+      <h3 class="font-bold text-xl text-gray-800">Edit Card</h3>
       <div>
-        <label class="text-xs font-bold text-gray-500 uppercase">Full Name</label>
+        <label class="text-xs font-bold text-gray-500">Full Name</label>
         <input type="text" id="editName" class="w-full border p-2 rounded-xl mt-1">
       </div>
       <div>
-        <label class="text-xs font-bold text-gray-500 uppercase">Phone</label>
+        <label class="text-xs font-bold text-gray-500">Phone</label>
         <input type="text" id="editPhone" class="w-full border p-2 rounded-xl mt-1">
       </div>
       <div>
-        <label class="text-xs font-bold text-gray-500 uppercase">Theme Color</label>
+        <label class="text-xs font-bold text-gray-500">Theme</label>
         <select id="editTheme" class="w-full border p-2 rounded-xl mt-1">
-          <option value="bg-gray-100">Default Gray</option>
+          <option value="bg-gray-100">Gray Theme</option>
           <option value="bg-pink-100">Pink Theme</option>
           <option value="bg-blue-100">Blue Theme</option>
           <option value="bg-emerald-100">Green Theme</option>
-          <option value="bg-purple-100">Purple Theme</option>
         </select>
       </div>
-
       <div class="flex gap-2 pt-2">
-        <button onclick="closeEditModal()" class="flex-1 bg-gray-200 py-2.5 rounded-xl font-semibold">Cancel</button>
-        <button onclick="saveProfile()" class="flex-1 bg-pink-500 text-white py-2.5 rounded-xl font-bold hover:bg-pink-600 transition">Save Changes</button>
+        <button onclick="closeEditModal()" class="flex-1 bg-gray-200 py-2 rounded-xl">Cancel</button>
+        <button onclick="saveProfile()" class="flex-1 bg-pink-500 text-white py-2 rounded-xl font-bold">Save</button>
       </div>
     </div>
   </div>
 
   <script>
-    // 1. SUPABASE INITIALIZATION
     const SUPABASE_URL = "https://rehsynbkacvjttjedlxr.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_PjdxXTNrQ6sDsC7zZ9UFNA_127f9a123"; // Gagamitin ang bagong Key format
-    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const SUPABASE_KEY = "sb_publishable_PjdxXTNrQ6sDsC7zZ9UFNA_127f9a123";
 
-    let currentCardData = null;
+    let currentCard = null;
 
-    // 2. FETCH CARD DATA
     async function loadCard() {
       const urlParams = new URLSearchParams(window.location.search);
       let cardId = urlParams.get('id');
 
+      // Direct REST Endpoint Request (No SDK Bug Risk)
+      let endpoint = `${SUPABASE_URL}/rest/v1/cards?select=*`;
+      if (cardId) {
+        endpoint += `&id=eq.${cardId}`;
+      } else {
+        endpoint += `&limit=1`; // Fallback sa 1st card kung walang id sa URL
+      }
+
       try {
-        let query = _supabase.from('cards').select('*');
-        
-        if (cardId) {
-          query = query.eq('id', cardId);
-        } else {
-          // Kung walang ID sa URL, kukunin 'yung unang card sa table bilang fallback!
-          query = query.limit(1);
-        }
+        const response = await fetch(endpoint, {
+          headers: {
+            "apikey": SUPABASE_KEY,
+            "Authorization": `Bearer ${SUPABASE_KEY}`
+          }
+        });
 
-        const { data, error } = await query;
+        if (!response.ok) throw new Error("HTTP error " + response.status);
 
-        if (error) throw error;
+        const data = await response.json();
 
         if (data && data.length > 0) {
-          currentCardData = data[0];
-          renderUI(currentCardData);
+          currentCard = data[0];
+          renderUI(currentCard);
         } else {
-          document.getElementById('loading').innerHTML = `<p class="text-red-500 font-bold">Card not found in database.</p>`;
+          document.getElementById('loading').innerHTML = `
+            <p class="text-red-500 font-bold">Card Not Found!</p>
+            <p class="text-xs text-gray-500 mt-1">Ang ID sa URL ay wala sa 100 cards mo.</p>
+          `;
         }
       } catch (err) {
-        console.error("Fetch Error:", err);
-        document.getElementById('loading').innerHTML = `<p class="text-red-500 font-bold">Error Loading Card<br><span class="text-xs font-normal">${err.message || err}</span></p>`;
+        console.error(err);
+        document.getElementById('loading').innerHTML = `<p class="text-red-500 font-bold">Error loading card</p>`;
       }
     }
 
-    // 3. RENDER UI
     function renderUI(card) {
       document.getElementById('loading').classList.add('hidden');
       document.getElementById('cardContent').classList.remove('hidden');
 
       document.getElementById('fullName').innerText = card.full_name || 'No Name';
-      document.getElementById('jobTitle').innerText = card.job_title || 'Digital Card Holder';
+      document.getElementById('jobTitle').innerText = card.job_title || 'Business Card Holder';
       document.getElementById('phoneText').innerText = card.phone || 'N/A';
       document.getElementById('emailText').innerText = card.email || 'N/A';
       document.getElementById('websiteText').innerText = card.website || 'N/A';
 
-      if (card.avatar_url) {
-        document.getElementById('avatar').src = card.avatar_url;
-      }
-
-      // Apply Background Theme
       if (card.theme) {
         document.body.className = `${card.theme} font-sans min-h-screen flex items-center justify-center p-4 transition-colors duration-500`;
       }
     }
 
-    // 4. MODAL CONTROLS
-    function openPasscodeModal() {
-      document.getElementById('passcodeModal').classList.remove('hidden');
-    }
-    function closePasscodeModal() {
-      document.getElementById('passcodeModal').classList.add('hidden');
-      document.getElementById('pinInput').value = '';
-    }
-    function closeEditModal() {
-      document.getElementById('editModal').classList.add('hidden');
-    }
+    function openPasscodeModal() { document.getElementById('passcodeModal').classList.remove('hidden'); }
+    function closePasscodeModal() { document.getElementById('passcodeModal').classList.add('hidden'); }
+    function closeEditModal() { document.getElementById('editModal').classList.add('hidden'); }
 
     function verifyPin() {
       const pin = document.getElementById('pinInput').value;
-      const correctPin = currentCardData?.pin || "123456";
-
-      if (pin === correctPin) {
+      if (pin === (currentCard?.pin || "123456")) {
         closePasscodeModal();
-        // Populate edit modal fields
-        document.getElementById('editName').value = currentCardData.full_name || '';
-        document.getElementById('editPhone').value = currentCardData.phone || '';
-        document.getElementById('editTheme').value = currentCardData.theme || 'bg-gray-100';
+        document.getElementById('editName').value = currentCard.full_name || '';
+        document.getElementById('editPhone').value = currentCard.phone || '';
+        document.getElementById('editTheme').value = currentCard.theme || 'bg-gray-100';
         document.getElementById('editModal').classList.remove('hidden');
       } else {
         alert("Incorrect PIN!");
       }
     }
 
-    // 5. SAVE PROFILE TO SUPABASE
     async function saveProfile() {
       const newName = document.getElementById('editName').value;
       const newPhone = document.getElementById('editPhone').value;
       const newTheme = document.getElementById('editTheme').value;
 
       try {
-        const { error } = await _supabase
-          .from('cards')
-          .update({ 
-            full_name: newName, 
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/cards?id=eq.${currentCard.id}`, {
+          method: 'PATCH',
+          headers: {
+            "apikey": SUPABASE_KEY,
+            "Authorization": `Bearer ${SUPABASE_KEY}`,
+            "Content-Type": "application/json",
+            "Prefer": "return=minimal"
+          },
+          body: JSON.stringify({
+            full_name: newName,
             phone: newPhone,
-            theme: newTheme 
+            theme: newTheme
           })
-          .eq('id', currentCardData.id);
+        });
 
-        if (error) throw error;
+        if (!response.ok) throw new Error("Save failed");
 
-        alert("Card Updated Successfully!");
+        alert("Saved successfully!");
         location.reload();
       } catch (err) {
         alert("Failed to save: " + err.message);
       }
     }
 
-    // Start application
     window.addEventListener('DOMContentLoaded', loadCard);
   </script>
 </body>
