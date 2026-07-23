@@ -463,9 +463,22 @@
     let currentCard = null;
     let rawDbKeys = []; 
 
+    // EXTRACT PIN VALUE SAFELY
+    function getStoredPin() {
+      if (!currentCard) return '1234';
+      let raw = (currentCard.pin ?? currentCard.passcode);
+      if (raw === null || raw === undefined || String(raw).trim() === '') return '1234';
+      let str = String(raw).trim();
+      if (str.startsWith('OFF:')) return str.replace('OFF:', '');
+      return str;
+    }
+
+    // CHECK IF PIN IS REQUIRED STRICTLY & CROSS-BROWSER ACCURATE
     function isPinRequired() {
       if (!currentCard) return false;
       if (currentCard.enable_pin === false || currentCard.enable_pin === 'false') return false;
+      let raw = (currentCard.pin ?? currentCard.passcode);
+      if (raw && String(raw).startsWith('OFF:')) return false;
       return true;
     }
 
@@ -614,6 +627,7 @@
       }
     }
 
+    // DETERMINISTIC CROSS-BROWSER LOAD
     async function loadProfile() {
       const loadingBox = document.getElementById('loadingBox');
       const urlParams = new URLSearchParams(window.location.search);
@@ -624,7 +638,8 @@
         if (cardId) {
           response = await _supabase.from('cards').select('*').eq('id', cardId).maybeSingle();
         } else {
-          response = await _supabase.from('cards').select('*').limit(1).maybeSingle();
+          // CONSISTENT CARD LOADING ORDER ACROSS ALL BROWSERS & DEVICES
+          response = await _supabase.from('cards').select('*').order('created_at', { ascending: true }).limit(1).maybeSingle();
         }
 
         if (response.error) throw response.error;
@@ -748,13 +763,12 @@
       document.getElementById('passcodeModal').classList.add('hidden');
     }
 
-    // ACCURATE PIN VERIFICATION MATCHING EXACT SAVED PIN
+    // ACCURATE PIN VERIFICATION MATCHING SAVED CUSTOM PIN PERMANENTLY
     function verifyPasscode() {
       const enteredPin = document.getElementById('authPin').value.trim();
-      const rawDbPin = (currentCard?.pin ?? currentCard?.passcode);
-      const dbPin = (rawDbPin !== null && rawDbPin !== undefined && String(rawDbPin).trim() !== '') ? String(rawDbPin).trim() : '1234';
+      const targetPin = getStoredPin();
 
-      if (enteredPin === dbPin) {
+      if (enteredPin === targetPin || (targetPin === '1234' && enteredPin === '1234')) {
         closePasscodeModal();
         toggleModal(true);
       } else {
@@ -806,7 +820,7 @@
       if (show && currentCard) {
         const pinActive = isPinRequired();
         document.getElementById('toggleEnablePin').checked = pinActive;
-        document.getElementById('inputPasscode').value = currentCard.pin || currentCard.passcode || '1234';
+        document.getElementById('inputPasscode').value = getStoredPin();
         handlePinToggleChange();
 
         document.getElementById('inputName').value = currentCard.full_name || currentCard.name || '';
@@ -875,8 +889,9 @@
         return;
       }
 
-      // PRESERVE CUSTOM PIN FIX: Keeps the existing custom PIN if not edited, never erases it on toggle OFF
-      const effectivePin = typedPin || currentCard.pin || currentCard.passcode || '1234';
+      // PERMANENT CROSS-BROWSER PIN & STATE SAVE
+      const cleanPin = typedPin || getStoredPin() || '1234';
+      const dbPinValue = pinEnabled ? cleanPin : ('OFF:' + cleanPin);
 
       const saveBtn = document.getElementById('saveBtn');
       saveBtn.innerText = 'Saving...';
@@ -918,10 +933,10 @@
         setIfColExists('job_title', titleValue);
         setIfColExists('occupation', titleValue);
 
-        // SAFE PIN RETENTION
+        // CROSS-BROWSER PERMANENT PIN RETENTION & STATE
         setIfColExists('enable_pin', pinEnabled);
-        setIfColExists('pin', effectivePin);
-        setIfColExists('passcode', effectivePin);
+        setIfColExists('pin', dbPinValue);
+        setIfColExists('passcode', dbPinValue);
 
         setIfColExists('custom_color', document.getElementById('inputCustomColor').value);
         setIfColExists('customColor', document.getElementById('inputCustomColor').value);
@@ -952,8 +967,8 @@
         currentCard.job_title = titleValue;
         currentCard.occupation = titleValue;
         currentCard.enable_pin = pinEnabled;
-        currentCard.pin = effectivePin;
-        currentCard.passcode = effectivePin;
+        currentCard.pin = dbPinValue;
+        currentCard.passcode = dbPinValue;
         Object.assign(currentCard, updatePayload);
 
         renderUI(currentCard);
