@@ -11,82 +11,76 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Google Fonts -->
+  <!-- 100% WORKING GOOGLE FONTS LIBRARY (20 FONTS) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Allura&family=Bebas+Neue&family=Caveat:wght@600&family=Clicker+Script&family=Great+Vibes&family=Inter:wght@400;600;700&family=Josefin+Sans:wght@400;600;700&family=Montserrat:wght@500;700&family=Oswald:wght@500;700&family=Pacifico&family=Parisienne&family=Playfair+Display:ital,wght@0,600&family=Quicksand:wght@500;700&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Allura&family=Anton&family=Bebas+Neue&family=Caveat:wght@600&family=Cinzel:wght@600;700&family=Clicker+Script&family=Fira+Code:wght@500&family=Great+Vibes&family=Inter:wght@400;600;700&family=Josefin+Sans:wght@400;600;700&family=Montserrat:wght@500;700&family=Oswald:wght@500;700&family=Pacifico&family=Parisienne&family=Playfair+Display:ital,wght@0,600&family=Quicksand:wght@500;700&family=Righteous&family=Roboto+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 
   <!-- Official Supabase JS SDK v2 -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    /* --- 10 WOMEN / GIRLY / ELEGANT FONTS --- */
-    .font-whiteangelica { font-family: 'White Angelica', 'Great Vibes', cursive; }
-    .font-quentin       { font-family: 'Quentin', 'Playfair Display', serif; }
+    /* --- 10 FEMININE / ELEGANT FONTS (REAL GOOGLE FONTS) --- */
+    .font-greatvibes    { font-family: 'Great Vibes', cursive; }
+    .font-playfair      { font-family: 'Playfair Display', serif; }
     .font-quicksand     { font-family: 'Quicksand', sans-serif; }
     .font-clickerscript { font-family: 'Clicker Script', cursive; }
-    .font-amarieta      { font-family: 'Amarieta', 'Parisienne', cursive; }
+    .font-parisienne    { font-family: 'Parisienne', cursive; }
     .font-alexbrush     { font-family: 'Alex Brush', cursive; }
-    .font-moonlight     { font-family: 'Moonlight', 'Caveat', cursive; }
+    .font-caveat        { font-family: 'Caveat', cursive; }
     .font-josefinsans   { font-family: 'Josefin Sans', sans-serif; }
-    .font-nickainley    { font-family: 'Nickainley', 'Allura', cursive; }
-    .font-conjiote      { font-family: 'Conjiote', 'Quicksand', sans-serif; }
+    .font-allura        { font-family: 'Allura', cursive; }
+    .font-pacifico      { font-family: 'Pacifico', cursive; }
 
-    /* --- 10 MEN / BOLD / EXECUTIVE FONTS --- */
+    /* --- 10 MASCULINE / BOLD / EXECUTIVE FONTS (REAL GOOGLE FONTS) --- */
     .font-bebas         { font-family: 'Bebas Neue', sans-serif; }
-    .font-helvetica     { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
-    .font-futura        { font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif; }
-    .font-concrete     { font-family: 'Concrete Forge', 'Impact', sans-serif; }
-    .font-backcountry   { font-family: 'Backcountry', 'Oswald', sans-serif; }
-    .font-gatore        { font-family: 'Gatore', 'Arial Black', sans-serif; }
-    .font-altaca        { font-family: 'Altaca', 'Montserrat', sans-serif; }
-    .font-proxima       { font-family: 'Proxima Nova', 'Inter', sans-serif; }
-    .font-heartstrong   { font-family: 'Heartstrong', 'Caveat', cursive; }
-    .font-taldose       { font-family: 'Taldose', 'Roboto Mono', monospace; }
+    .font-montserrat    { font-family: 'Montserrat', sans-serif; }
+    .font-oswald        { font-family: 'Oswald', sans-serif; }
+    .font-robotomono    { font-family: 'Roboto Mono', monospace; }
+    .font-inter         { font-family: 'Inter', sans-serif; }
+    .font-cinzel        { font-family: 'Cinzel', serif; }
+    .font-anton         { font-family: 'Anton', sans-serif; }
+    .font-spacegrotesk  { font-family: 'Space Grotesk', sans-serif; }
+    .font-righteous     { font-family: 'Righteous', cursive; }
+    .font-firacode      { font-family: 'Fira Code', monospace; }
 
-    /* REFINED SOFT PASTEL COLOR THEMES (MALAMIG SA MATA & DISTINCT) */
+    /* PASTEL & SOFT DYNAMIC COLOR THEMES */
     .theme-pink { --bg-body: #fdf2f8; --bg-card: #fce7f3; --text-main: #701a75; --text-sub: #a21caf; --accent-btn: #ec4899; --accent-text: #ffffff; --sec-btn-bg: #fbcfe8; --sec-btn-text: #701a75; --card-border: #fbcfe8; --blob-1: #fbcfe8; --blob-2: #f472b6; --blob-3: #fef08a; --blob-4: #f87171; --icon-bg: #fbcfe8; --icon-color: #701a75; --header-glow: rgba(236, 72, 153, 0.25); }
     .theme-plum { --bg-body: #faf5ff; --bg-card: #f3e8ff; --text-main: #581c87; --text-sub: #7e22ce; --accent-btn: #a855f7; --accent-text: #ffffff; --sec-btn-bg: #e9d5ff; --sec-btn-text: #581c87; --card-border: #e9d5ff; --blob-1: #e9d5ff; --blob-2: #c084fc; --blob-3: #fbcfe8; --blob-4: #818cf8; --icon-bg: #e9d5ff; --icon-color: #581c87; --header-glow: rgba(168, 85, 247, 0.25); }
     .theme-skyblue { --bg-body: #f0f9ff; --bg-card: #e0f2fe; --text-main: #0c4a6e; --text-sub: #0369a1; --accent-btn: #0284c7; --accent-text: #ffffff; --sec-btn-bg: #bae6fd; --sec-btn-text: #0c4a6e; --card-border: #bae6fd; --blob-1: #bae6fd; --blob-2: #38bdf8; --blob-3: #e0e7ff; --blob-4: #67e8f9; --icon-bg: #bae6fd; --icon-color: #0c4a6e; --header-glow: rgba(2, 132, 199, 0.25); }
-    
-    /* DISTINCT PASTEL BEIGE (WARM NUDE CREAM) */
-    .theme-beige { --bg-body: #fdfbf7; --bg-card: #f5efe6; --text-main: #4a3b32; --text-sub: #786354; --accent-btn: #a88365; --accent-text: #ffffff; --sec-btn-bg: #e8ded2; --sec-btn-text: #4a3b32; --card-border: #e8ded2; --blob-1: #e8ded2; --blob-2: #d4c3b3; --blob-3: #f5efe6; --blob-4: #d8c4b6; --icon-bg: #e8ded2; --icon-color: #4a3b32; --header-glow: rgba(168, 131, 101, 0.25); }
-    
-    /* DISTINCT PASTEL YELLOW (SOFT BUTTER LEMON) */
-    .theme-yellow { --bg-body: #fefce8; --bg-card: #fef9c3; --text-main: #713f12; --text-sub: #a16207; --accent-btn: #d97706; --accent-text: #ffffff; --sec-btn-bg: #fef08a; --sec-btn-text: #713f12; --card-border: #fef08a; --blob-1: #fef08a; --blob-2: #facc15; --blob-3: #fed7aa; --blob-4: #fde68a; --icon-bg: #fef08a; --icon-color: #713f12; --header-glow: rgba(217, 119, 6, 0.25); }
-    
+    .theme-beige { --bg-body: #fffbeb; --bg-card: #fef3c7; --text-main: #451a03; --text-sub: #92400e; --accent-btn: #d97706; --accent-text: #ffffff; --sec-btn-bg: #fde68a; --sec-btn-text: #451a03; --card-border: #fde68a; --blob-1: #fde68a; --blob-2: #fbbf24; --blob-3: #ffedd5; --blob-4: #fef08a; --icon-bg: #fde68a; --icon-color: #451a03; --header-glow: rgba(217, 119, 6, 0.25); }
+    .theme-yellow { --bg-body: #fefce8; --bg-card: #fef9c3; --text-main: #713f12; --text-sub: #a16207; --accent-btn: #ca8a04; --accent-text: #ffffff; --sec-btn-bg: #fef08a; --sec-btn-text: #713f12; --card-border: #fef08a; --blob-1: #fef08a; --blob-2: #facc15; --blob-3: #fed7aa; --blob-4: #fde68a; --icon-bg: #fef08a; --icon-color: #713f12; --header-glow: rgba(202, 138, 4, 0.25); }
     .theme-mint { --bg-body: #f0fdf4; --bg-card: #dcfce7; --text-main: #064e3b; --text-sub: #047857; --accent-btn: #10b981; --accent-text: #ffffff; --sec-btn-bg: #bbf7d0; --sec-btn-text: #064e3b; --card-border: #bbf7d0; --blob-1: #bbf7d0; --blob-2: #6ee7b7; --blob-3: #bae6fd; --blob-4: #a7f3d0; --icon-bg: #bbf7d0; --icon-color: #064e3b; --header-glow: rgba(16, 185, 129, 0.25); }
     .theme-peach { --bg-body: #fff7ed; --bg-card: #ffedd5; --text-main: #7c2d12; --text-sub: #c2410c; --accent-btn: #f97316; --accent-text: #ffffff; --sec-btn-bg: #fed7aa; --sec-btn-text: #7c2d12; --card-border: #fed7aa; --blob-1: #fed7aa; --blob-2: #fdba74; --blob-3: #fef08a; --blob-4: #fbcfe8; --icon-bg: #fed7aa; --icon-color: #7c2d12; --header-glow: rgba(249, 115, 22, 0.25); }
     .theme-lavender { --bg-body: #f8fafc; --bg-card: #e2e8f0; --text-main: #1e293b; --text-sub: #475569; --accent-btn: #64748b; --accent-text: #ffffff; --sec-btn-bg: #cbd5e1; --sec-btn-text: #1e293b; --card-border: #cbd5e1; --blob-1: #cbd5e1; --blob-2: #94a3b8; --blob-3: #e2e8f0; --blob-4: #cbd5e1; --icon-bg: #cbd5e1; --icon-color: #1e293b; --header-glow: rgba(100, 116, 139, 0.25); }
     .theme-black { --bg-body: #09090b; --bg-card: #18181b; --text-main: #ffffff; --text-sub: #a1a1aa; --accent-btn: #52525b; --accent-text: #ffffff; --sec-btn-bg: #27272a; --sec-btn-text: #ffffff; --card-border: #27272a; --blob-1: #27272a; --blob-2: #3f3f46; --blob-3: #18181b; --blob-4: #3f3f46; --icon-bg: #27272a; --icon-color: #ffffff; --header-glow: rgba(255, 255, 255, 0.15); }
     .theme-maroon { --bg-body: #1a0505; --bg-card: #2e0d0d; --text-main: #fef2f2; --text-sub: #fca5a5; --accent-btn: #dc2626; --accent-text: #ffffff; --sec-btn-bg: #451a1a; --sec-btn-text: #ffffff; --card-border: #451a1a; --blob-1: #451a1a; --blob-2: #7f1d1d; --blob-3: #341212; --blob-4: #991b1b; --icon-bg: #451a1a; --icon-color: #ffffff; --header-glow: rgba(220, 38, 38, 0.25); }
 
-    html, body { width: 100%; height: 100%; margin: 0; padding: 0; background-color: var(--bg-body, #fdf2f8); }
-    body { color: var(--text-main); display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; transition: background-color 0.4s ease, color 0.4s ease; }
+    html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
+    body { background-color: var(--bg-body); color: var(--text-main); display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
     
-    /* SMOOTH CARD ANIMATIONS */
-    .card-bg { background-color: var(--bg-card); border-color: var(--card-border); transition: background-color 0.4s ease, border-color 0.4s ease; }
-    .btn-save { background-color: var(--accent-btn); color: var(--accent-text) !important; transition: all 0.3s ease; }
-    .btn-save:hover { filter: brightness(0.95); transform: translateY(-1px); }
-    .btn-share { background-color: var(--sec-btn-bg); color: var(--sec-btn-text) !important; transition: all 0.3s ease; }
-    .btn-share:hover { filter: brightness(0.95); transform: translateY(-1px); }
-    .text-accent { color: var(--accent-btn); transition: color 0.4s ease; }
-    .text-sub { color: var(--text-sub); transition: color 0.4s ease; }
-    .text-main { color: var(--text-main); transition: color 0.4s ease; }
-    .icon-box { background-color: var(--icon-bg); color: var(--icon-color); transition: all 0.4s ease; }
+    .card-bg { background-color: var(--bg-card); border-color: var(--card-border); }
+    .btn-save { background-color: var(--accent-btn); color: var(--accent-text) !important; }
+    .btn-save:hover { filter: brightness(0.95); }
+    .btn-share { background-color: var(--sec-btn-bg); color: var(--sec-btn-text) !important; }
+    .btn-share:hover { filter: brightness(0.95); }
+    .text-accent { color: var(--accent-btn); }
+    .text-sub { color: var(--text-sub); }
+    .text-main { color: var(--text-main); }
+    .icon-box { background-color: var(--icon-bg); color: var(--icon-color); }
 
     .modal-btn-accent { background-color: var(--accent-btn); color: var(--accent-text); }
     .modal-btn-accent:hover { filter: brightness(0.92); }
     .modal-icon-bg { background-color: var(--icon-bg); color: var(--accent-btn); border-color: var(--card-border); }
 
     /* HEADER STYLING ACCENTS */
-    .header-wave { fill: var(--bg-card); transition: fill 0.4s ease; }
-    .header-circle-1 { position: absolute; width: 110px; height: 110px; border-radius: 50%; background: var(--header-glow); filter: blur(20px); top: -20px; left: -20px; pointer-events: none; transition: background 0.4s ease; }
-    .header-circle-2 { position: absolute; width: 90px; height: 90px; border-radius: 50%; background: var(--header-glow); filter: blur(15px); bottom: 10px; right: 20px; pointer-events: none; transition: background 0.4s ease; }
+    .header-wave { fill: var(--bg-card); transition: fill 0.3s ease; }
+    .header-circle-1 { position: absolute; width: 110px; height: 110px; border-radius: 50%; background: var(--header-glow); filter: blur(20px); top: -20px; left: -20px; pointer-events: none; }
+    .header-circle-2 { position: absolute; width: 90px; height: 90px; border-radius: 50%; background: var(--header-glow); filter: blur(15px); bottom: 10px; right: 20px; pointer-events: none; }
 
     /* ELEGANT ORGANIC BACKGROUND BLOBS */
     .blob-wrapper { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
-    .blob { position: absolute; filter: blur(65px); opacity: 0.55; border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transition: background-color 0.6s ease; }
+    .blob { position: absolute; filter: blur(65px); opacity: 0.55; border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
     
     .blob-1 { background-color: var(--blob-1); width: 360px; height: 360px; top: -100px; left: -90px; animation: float1 10s infinite alternate ease-in-out; }
     .blob-2 { background-color: var(--blob-2); width: 340px; height: 340px; bottom: -90px; right: -90px; animation: float2 12s infinite alternate ease-in-out; }
@@ -98,10 +92,10 @@
     @keyframes float3 { 0% { transform: translate(0, 0) rotate(0deg) scale(1); } 100% { transform: translate(-30px, 40px) rotate(25deg) scale(1.2); } }
   </style>
 </head>
-<body id="bodyTag" class="theme-pink font-whiteangelica p-4 relative">
+<body id="bodyTag" class="theme-pink font-greatvibes p-4 relative">
 
   <!-- ELEGANT CUSTOM TOAST NOTIFICATION -->
-  <div id="toastNotification" class="fixed top-5 left-1/2 -translate-x-1/2 z-[100] hidden transition-all duration-500 ease-out transform -translate-y-10 opacity-0">
+  <div id="toastNotification" class="fixed top-5 left-1/2 -translate-x-1/2 z-[100] hidden transition-all duration-300 ease-out transform -translate-y-10 opacity-0">
     <div class="bg-slate-900/90 backdrop-blur-md text-white border border-slate-700/60 px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3">
       <div id="toastIcon" class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm">
         <i class="fa-solid fa-check"></i>
@@ -124,7 +118,7 @@
   <div class="w-full max-w-md card-bg border rounded-3xl shadow-xl overflow-hidden relative z-10 mx-auto">
     <!-- STYLED HEADER BANNER -->
     <div class="h-40 relative bg-slate-200 dark:bg-slate-800 overflow-hidden">
-      <img id="coverImg" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800" alt="Cover" class="w-full h-full object-cover opacity-90 transition-opacity duration-300" crossorigin="anonymous">
+      <img id="coverImg" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800" alt="Cover" class="w-full h-full object-cover opacity-90" crossorigin="anonymous">
       
       <!-- Glowing Mood Accents on Banner -->
       <div class="header-circle-1"></div>
@@ -151,7 +145,7 @@
 
     <div id="cardContent" class="px-6 pb-6 relative text-center hidden">
       <div class="relative -mt-16 mb-4 inline-block z-20">
-        <img id="avatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400" alt="Avatar" class="w-28 h-28 rounded-full border-4 border-white shadow-lg mx-auto object-cover transition-all duration-300" crossorigin="anonymous">
+        <img id="avatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400" alt="Avatar" class="w-28 h-28 rounded-full border-4 border-white shadow-lg mx-auto object-cover" crossorigin="anonymous">
       </div>
 
       <h1 id="displayName" class="text-2xl font-bold text-main">Loading...</h1>
@@ -224,7 +218,7 @@
   </div>
 
   <!-- PASSCODE MODAL -->
-  <div id="passcodeModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden flex justify-center items-center p-4 z-[60] transition-opacity duration-300">
+  <div id="passcodeModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden flex justify-center items-center p-4 z-[60]">
     <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-xs rounded-2xl p-5 shadow-2xl space-y-4 text-center">
       <div class="w-12 h-12 modal-icon-bg rounded-full flex items-center justify-center mx-auto text-xl border">
         <i class="fa-solid fa-lock"></i>
@@ -253,7 +247,7 @@
   </div>
 
   <!-- RECOVERY / FORGOT PASSCODE MODAL -->
-  <div id="recoveryModal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden flex justify-center items-center p-4 z-[70] transition-opacity duration-300">
+  <div id="recoveryModal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden flex justify-center items-center p-4 z-[70]">
     <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-xs rounded-2xl p-5 shadow-2xl space-y-4 text-center">
       <div class="w-12 h-12 modal-icon-bg rounded-full flex items-center justify-center mx-auto text-xl border">
         <i class="fa-solid fa-key"></i>
@@ -276,7 +270,7 @@
   </div>
 
   <!-- EDIT PROFILE MODAL -->
-  <div id="editModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex justify-center items-center p-4 z-50 transition-opacity duration-300">
+  <div id="editModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex justify-center items-center p-4 z-50">
     <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center border-b border-slate-800 pb-3">
         <h3 class="text-lg font-bold text-white">Edit Profile & Style</h3>
@@ -328,29 +322,29 @@
             <div>
               <label class="text-xs text-slate-400 block mb-1">Font Style</label>
               <select id="selectFont" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white">
-                <optgroup label="Feminine & Chic Fonts (10)">
-                  <option value="font-whiteangelica">White Angelica (Elegant Script)</option>
-                  <option value="font-quentin">Quentin (Modern Chic Serif)</option>
+                <optgroup label="Feminine & Elegant Fonts (10)">
+                  <option value="font-greatvibes">Great Vibes (Elegant Script)</option>
+                  <option value="font-playfair">Playfair Display (Chic Serif)</option>
                   <option value="font-quicksand">Quicksand (Friendly Rounded)</option>
                   <option value="font-clickerscript">Clicker Script (Playful Vintage)</option>
-                  <option value="font-amarieta">Amarieta (Romantic Flow)</option>
+                  <option value="font-parisienne">Parisienne (Romantic Flow)</option>
                   <option value="font-alexbrush">Alex Brush (Flowing Brush)</option>
-                  <option value="font-moonlight">Moonlight (Whimsical Script)</option>
+                  <option value="font-caveat">Caveat (Handwritten Script)</option>
                   <option value="font-josefinsans">Josefin Sans (Vintage Geometric)</option>
-                  <option value="font-nickainley">Nickainley (Monoline Script)</option>
-                  <option value="font-conjiote">Conjiote (Structured Soft)</option>
+                  <option value="font-allura">Allura (Monoline Script)</option>
+                  <option value="font-pacifico">Pacifico (Fun Cursive)</option>
                 </optgroup>
                 <optgroup label="Masculine & Bold Fonts (10)">
-                  <option value="font-bebas">Bebas Neue (Athletic Punch)</option>
-                  <option value="font-helvetica">Helvetica Neue (Minimal Clean)</option>
-                  <option value="font-futura">Futura (Bold Geometric)</option>
-                  <option value="font-concrete">Concrete Forge (Resilient Geometric)</option>
-                  <option value="font-backcountry">Backcountry (Rugged Outdoor)</option>
-                  <option value="font-gatore">Gatore (Thick Raw Power)</option>
-                  <option value="font-altaca">Altaca (Contemporary Edge)</option>
-                  <option value="font-proxima">Proxima Nova (Modern Digital)</option>
-                  <option value="font-heartstrong">Heartstrong (Handcrafted Script)</option>
-                  <option value="font-taldose">Taldose (Rugged Sleek)</option>
+                  <option value="font-bebas">Bebas Neue (Bold Punch)</option>
+                  <option value="font-montserrat">Montserrat (Clean Executive)</option>
+                  <option value="font-oswald">Oswald (Strong Condensed)</option>
+                  <option value="font-robotomono">Roboto Mono (Tech Monospace)</option>
+                  <option value="font-inter">Inter (Modern Minimalist)</option>
+                  <option value="font-cinzel">Cinzel (Luxury Classical)</option>
+                  <option value="font-anton">Anton (Heavy Impact)</option>
+                  <option value="font-spacegrotesk">Space Grotesk (Modern Tech)</option>
+                  <option value="font-righteous">Righteous (Bold Geometric)</option>
+                  <option value="font-firacode">Fira Code (Developer Sleek)</option>
                 </optgroup>
               </select>
             </div>
@@ -448,9 +442,8 @@
 
     const MASTER_RECOVERY_CODE = 'ZD2026';
     let currentCard = null;
-    let rawDbKeys = [];
+    let rawDbKeys = []; 
 
-    // CHECK IF PIN IS REQUIRED
     function isPinRequired() {
       if (!currentCard) return false;
       if (currentCard.enable_pin === false || currentCard.enable_pin === 'false') return false;
@@ -459,7 +452,6 @@
       return true;
     }
 
-    // HANDLE EDIT PEN CLICK
     function handleEditClick() {
       if (isPinRequired()) {
         openPasscodeModal();
@@ -468,7 +460,6 @@
       }
     }
 
-    // TOGGLE PIN INPUT VISIBILITY IN EDIT MODAL
     function handlePinToggleChange() {
       const isChecked = document.getElementById('toggleEnablePin').checked;
       const container = document.getElementById('pinInputContainer');
@@ -479,7 +470,6 @@
       }
     }
 
-    // EYE SHOW/HIDE PIN FUNCTION
     function togglePinVisibility(inputId, iconId) {
       const input = document.getElementById(inputId);
       const icon = document.getElementById(iconId);
@@ -494,7 +484,6 @@
       }
     }
 
-    // CUSTOM TOAST NOTIFICATION FUNCTION
     function showToast(message, isError = false, title = "Success") {
       const toast = document.getElementById('toastNotification');
       const toastIcon = document.getElementById('toastIcon');
@@ -521,7 +510,7 @@
       setTimeout(() => {
         toast.classList.remove('translate-y-0', 'opacity-100');
         toast.classList.add('-translate-y-10', 'opacity-0');
-        setTimeout(() => toast.classList.add('hidden'), 500);
+        setTimeout(() => toast.classList.add('hidden'), 300);
       }, 3000);
     }
 
@@ -543,17 +532,6 @@
 
     function rgbToHex(r, g, b) {
       return "#" + (1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1);
-    }
-
-    function resetCustomStyles() {
-      const root = document.documentElement;
-      const props = [
-        '--bg-body', '--bg-card', '--text-main', '--text-sub', '--accent-btn',
-        '--accent-text', '--sec-btn-bg', '--sec-btn-text', '--card-border',
-        '--blob-1', '--blob-2', '--blob-3', '--blob-4', '--icon-bg',
-        '--icon-color', '--header-glow'
-      ];
-      props.forEach(p => root.style.removeProperty(p));
     }
 
     function applyDynamicCustomColor(hex) {
@@ -697,11 +675,10 @@
       const customCol = data.custom_color || data.customColor;
 
       if (data.theme === 'theme-custom' && customCol) {
-        body.className = `${data.font || 'font-whiteangelica'} p-4 relative`;
+        body.className = `${data.font || 'font-greatvibes'} p-4 relative`;
         applyDynamicCustomColor(customCol);
       } else {
-        resetCustomStyles();
-        body.className = `${data.theme || 'theme-pink'} ${data.font || 'font-whiteangelica'} p-4 relative`;
+        body.className = `${data.theme || 'theme-pink'} ${data.font || 'font-greatvibes'} p-4 relative`;
       }
     }
 
@@ -752,11 +729,7 @@
       const enteredCode = document.getElementById('recoveryKey').value.trim();
       if (enteredCode === MASTER_RECOVERY_CODE) {
         try {
-          const updateObj = {};
-          if (rawDbKeys.includes('pin')) updateObj.pin = '1234';
-          if (rawDbKeys.includes('passcode')) updateObj.passcode = '1234';
-          if (rawDbKeys.includes('enable_pin')) updateObj.enable_pin = true;
-
+          const updateObj = rawDbKeys.includes('pin') ? { pin: '1234' } : { passcode: '1234' };
           const { error } = await _supabase.from('cards').update(updateObj).eq('id', currentCard.id);
 
           if (error) throw error;
@@ -764,7 +737,6 @@
           showToast('PIN reset to default: 1234', false, 'PIN Reset');
           if (rawDbKeys.includes('pin')) currentCard.pin = '1234';
           if (rawDbKeys.includes('passcode')) currentCard.passcode = '1234';
-          if (rawDbKeys.includes('enable_pin')) currentCard.enable_pin = true;
 
           closeRecoveryModal();
           toggleModal(true);
@@ -796,7 +768,7 @@
         document.getElementById('inputWechat').value = currentCard.wechat || '';
         document.getElementById('selectTheme').value = currentCard.theme || 'theme-pink';
         document.getElementById('inputCustomColor').value = currentCard.custom_color || currentCard.customColor || '#ec4899';
-        document.getElementById('selectFont').value = currentCard.font || 'font-whiteangelica';
+        document.getElementById('selectFont').value = currentCard.font || 'font-greatvibes';
         
         handleThemeChange();
 
@@ -869,7 +841,6 @@
           newCover = await compressImage(coverFile, 800, 0.75);
         }
 
-        // Strictly map only columns that actually exist in the database table
         const updatePayload = {};
 
         const setIfColExists = (colName, val) => {
@@ -878,24 +849,19 @@
           }
         };
 
-        // Name
         if (rawDbKeys.includes('full_name')) updatePayload.full_name = document.getElementById('inputName').value;
         else if (rawDbKeys.includes('name')) updatePayload.name = document.getElementById('inputName').value;
 
-        // Title
         if (rawDbKeys.includes('title')) updatePayload.title = document.getElementById('inputTitle').value;
         else if (rawDbKeys.includes('job_title')) updatePayload.job_title = document.getElementById('inputTitle').value;
 
-        // PIN / Passcode Controls
         setIfColExists('enable_pin', pinEnabled);
         setIfColExists('pin', effectivePin);
         setIfColExists('passcode', effectivePin);
 
-        // Custom Color
         setIfColExists('custom_color', document.getElementById('inputCustomColor').value);
         setIfColExists('customColor', document.getElementById('inputCustomColor').value);
 
-        // Standard Text & File Fields
         setIfColExists('bio', document.getElementById('inputBio').value);
         setIfColExists('phone', document.getElementById('inputPhone').value);
         setIfColExists('email', document.getElementById('inputEmail').value);
@@ -916,10 +882,7 @@
 
         if (error) throw error;
 
-        // Synchronize local memory state & re-render interface
         Object.assign(currentCard, updatePayload);
-        if (rawDbKeys.includes('enable_pin')) currentCard.enable_pin = pinEnabled;
-        
         renderUI(currentCard);
         
         toggleModal(false);
