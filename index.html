@@ -716,8 +716,9 @@
 
       document.getElementById('displayName').innerText = data.full_name || data.name || 'Card Holder';
       
-      // Clean Occupation Display
-      document.getElementById('displayTitle').innerText = data.title || data.job_title || data.occupation || '';
+      // RELIABLE OCCUPATION EXTRACTION
+      const detectedOccupation = data.title || data.job_title || data.occupation || '';
+      document.getElementById('displayTitle').innerText = detectedOccupation;
       
       document.getElementById('displayBio').innerText = data.bio || '';
       document.getElementById('displayPhone').innerText = data.phone || 'N/A';
@@ -982,49 +983,46 @@
 
         const updatePayload = {};
 
-        const setIfColExists = (colName, val) => {
-          if (rawDbKeys.includes(colName)) {
-            updatePayload[colName] = val;
-          }
+        // Helper to safely write data to all available schema column variations
+        const writeToAvailableKeys = (keys, val) => {
+          keys.forEach(k => {
+            if (rawDbKeys.includes(k)) {
+              updatePayload[k] = val;
+            }
+          });
         };
 
-        if (rawDbKeys.includes('full_name')) updatePayload.full_name = document.getElementById('inputName').value;
-        else if (rawDbKeys.includes('name')) updatePayload.name = document.getElementById('inputName').value;
+        writeToAvailableKeys(['full_name', 'name'], document.getElementById('inputName').value);
 
-        // TITLE / OCCUPATION MULTI-KEY SAVE
+        // GUARANTEED MULTI-KEY SAVE FOR OCCUPATION/TITLE ACROSS ALL CARDS
         const titleValue = document.getElementById('inputTitle').value;
-        setIfColExists('title', titleValue);
-        setIfColExists('job_title', titleValue);
-        setIfColExists('occupation', titleValue);
+        writeToAvailableKeys(['title', 'job_title', 'occupation'], titleValue);
 
-        // BOTH PIN & PASSCODE KEYS UPDATED SYNCHRONOUSLY
-        setIfColExists('enable_pin', pinEnabled);
-        setIfColExists('pin', dbPinValue);
-        setIfColExists('passcode', dbPinValue);
+        // GUARANTEED BOTH PIN & PASSCODE KEYS UPDATED SYNCHRONOUSLY
+        writeToAvailableKeys(['pin', 'passcode'], dbPinValue);
+        writeToAvailableKeys(['enable_pin'], pinEnabled);
 
         // AUTOMATIC CARD STATUS UPDATE
-        setIfColExists('status', 'claimed');
+        writeToAvailableKeys(['status'], 'claimed');
 
         // COVER POSITION SAVE
-        setIfColExists('cover_position', coverPosVal);
-        setIfColExists('coverPosition', coverPosVal);
+        writeToAvailableKeys(['cover_position', 'coverPosition'], coverPosVal);
 
-        setIfColExists('custom_color', document.getElementById('inputCustomColor').value);
-        setIfColExists('customColor', document.getElementById('inputCustomColor').value);
+        writeToAvailableKeys(['custom_color', 'customColor'], document.getElementById('inputCustomColor').value);
 
-        setIfColExists('bio', document.getElementById('inputBio').value);
-        setIfColExists('phone', document.getElementById('inputPhone').value);
-        setIfColExists('email', document.getElementById('inputEmail').value);
-        setIfColExists('website', document.getElementById('inputWebsite').value);
-        setIfColExists('facebook', document.getElementById('inputFacebook').value);
-        setIfColExists('instagram', document.getElementById('inputInstagram').value);
-        setIfColExists('whatsapp', document.getElementById('inputWhatsapp').value);
-        setIfColExists('wechat', newWechatQr);
+        writeToAvailableKeys(['bio'], document.getElementById('inputBio').value);
+        writeToAvailableKeys(['phone'], document.getElementById('inputPhone').value);
+        writeToAvailableKeys(['email'], document.getElementById('inputEmail').value);
+        writeToAvailableKeys(['website'], document.getElementById('inputWebsite').value);
+        writeToAvailableKeys(['facebook'], document.getElementById('inputFacebook').value);
+        writeToAvailableKeys(['instagram'], document.getElementById('inputInstagram').value);
+        writeToAvailableKeys(['whatsapp'], document.getElementById('inputWhatsapp').value);
+        writeToAvailableKeys(['wechat'], newWechatQr);
         
-        setIfColExists('avatar', newAvatar);
-        setIfColExists('cover', newCover);
-        setIfColExists('theme', document.getElementById('selectTheme').value);
-        setIfColExists('font', document.getElementById('selectFont').value);
+        writeToAvailableKeys(['avatar'], newAvatar);
+        writeToAvailableKeys(['cover'], newCover);
+        writeToAvailableKeys(['theme'], document.getElementById('selectTheme').value);
+        writeToAvailableKeys(['font'], document.getElementById('selectFont').value);
 
         const { error } = await _supabase
           .from('cards')
