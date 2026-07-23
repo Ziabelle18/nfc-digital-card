@@ -6,8 +6,8 @@
     <title>Digital Business Card</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Supabase JS Client -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Supabase JS Client (Updated CDN) -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -38,7 +38,7 @@
     <div class="w-full max-w-md card-bg border rounded-3xl shadow-xl overflow-hidden relative z-10 p-6 transition-all duration-300">
         
         <!-- EDIT BUTTON (Pencil) -->
-        <button onclick="openPasscodeModal()" class="absolute top-4 right-4 bg-white/80 hover:bg-white p-2 rounded-full shadow transition">
+        <button onclick="openPasscodeModal()" class="absolute top-4 right-4 bg-white/80 hover:bg-white p-2 rounded-full shadow transition cursor-pointer z-20">
             <i class="fa-solid fa-pen text-gray-700"></i>
         </button>
 
@@ -58,11 +58,6 @@
             <button onclick="shareCard()" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 rounded-xl font-semibold shadow text-sm flex items-center justify-center gap-2">
                 <i class="fa-solid fa-share-nodes"></i> Share
             </button>
-        </div>
-
-        <!-- SOCIAL LINKS -->
-        <div id="uiSocials" class="flex justify-center gap-4 mt-6 text-xl text-gray-600">
-            <!-- Dynamic Social Icons -->
         </div>
 
         <!-- CONTACT DETAILS -->
@@ -88,8 +83,8 @@
             <h3 class="font-bold text-lg mb-2">Enter Passcode</h3>
             <input type="password" id="passcodeInput" placeholder="PIN" class="border w-full p-2 rounded-lg text-center text-xl tracking-widest mb-4">
             <div class="flex gap-2">
-                <button onclick="closeModal('passcodeModal')" class="flex-1 bg-gray-200 py-2 rounded-lg font-medium">Cancel</button>
-                <button onclick="verifyPasscode()" class="flex-1 bg-black text-white py-2 rounded-lg font-medium">Submit</button>
+                <button type="button" onclick="closeModal('passcodeModal')" class="flex-1 bg-gray-200 py-2 rounded-lg font-medium">Cancel</button>
+                <button type="button" onclick="verifyPasscode()" class="flex-1 bg-black text-white py-2 rounded-lg font-medium">Submit</button>
             </div>
         </div>
     </div>
@@ -159,31 +154,50 @@
         // Supabase Initialization
         const SUPABASE_URL = "https://rehsynbkacvjtjedxr.supabase.co";
         const SUPABASE_KEY = "sb_publishable_PjdxXTNrQ6sDsC7zZ9UFNA_127f9KMG";
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        let supabaseClient = null;
+        if (window.supabase && window.supabase.createClient) {
+            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        } else {
+            console.error("Supabase SDK failed to load.");
+        }
 
         // Get Card ID from URL (?id=uuid)
         const urlParams = new URLSearchParams(window.location.search);
-        const cardId = urlParams.get('id') || '47986091-619e-4d5d-866b-938a3a2ce804'; // Default Card ID
+        const cardId = urlParams.get('id') || '022013f7-e220-4c49-8392-f14dd629a9c0';
 
         let currentCardData = null;
 
         // FETCH CARD DATA FROM SUPABASE
         async function fetchCardData() {
+            if (!supabaseClient) {
+                document.getElementById('uiName').textContent = "Connection Error";
+                document.getElementById('uiTitle').textContent = "Supabase SDK Not Loaded";
+                return;
+            }
+
             try {
-                const { data, error } = await supabase
+                const { data, error } = await supabaseClient
                     .from('cards')
                     .select('*')
                     .eq('id', cardId)
                     .single();
 
-                if (error) throw error;
+                if (error) {
+                    console.error('Supabase fetch error:', error);
+                    document.getElementById('uiName').textContent = "Error Loading Card";
+                    document.getElementById('uiTitle').textContent = error.message;
+                    return;
+                }
 
                 if (data) {
                     currentCardData = data;
                     renderUI(data);
                 }
             } catch (err) {
-                console.error('Fetch error:', err.message);
+                console.error('Fetch exception:', err);
+                document.getElementById('uiName').textContent = "Unexpected Error";
+                document.getElementById('uiTitle').textContent = err.message;
             }
         }
 
@@ -224,6 +238,11 @@
         async function saveProfile(event) {
             event.preventDefault();
 
+            if (!supabaseClient) {
+                alert("Cannot save: Supabase client is not connected.");
+                return;
+            }
+
             const updatedData = {
                 full_name: document.getElementById('editName').value,
                 title: document.getElementById('editTitle').value,
@@ -236,7 +255,7 @@
             };
 
             try {
-                const { error } = await supabase
+                const { error } = await supabaseClient
                     .from('cards')
                     .update(updatedData)
                     .eq('id', cardId);
