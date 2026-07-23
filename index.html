@@ -9,55 +9,129 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Google Fonts -->
+  <!-- Google Fonts (20+ Sosyal & Elegant Fonts) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@600&family=Cinzel:wght@600;700&family=Great+Vibes&family=Inter:wght@400;600;700&family=Montserrat:wght@500;700;800&family=Oswald:wght@500;700&family=Pacifico&family=Playfair+Display:ital,wght@0,600;1,400&family=Quicksand:wght@500;700&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Allura&family=Anton&family=Bebas+Neue&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Caveat:wght@600&family=Cinzel:wght@600;700&family=Cormorant+Garamond:ital,wght@0,600;1,400&family=Great+Vibes&family=Inter:wght@400;600;700&family=Italianno&family=Lora:ital,wght@0,500;1,400&family=Montserrat:wght@500;700;800&family=Oswald:wght@500;700&family=Pacifico&family=Parisienne&family=Playfair+Display:ital,wght@0,600;1,400&family=Prata&family=Quicksand:wght@500;700&family=Roboto+Mono:wght@500;700&family=Syne:wght@600;800&display=swap" rel="stylesheet">
 
   <style>
-    /* Girly Fonts */
+    /* --- GIRLY / ELEGANT / SOSYAL FONTS (10) --- */
     .font-quicksand { font-family: 'Quicksand', sans-serif; }
     .font-pacifico { font-family: 'Pacifico', cursive; }
     .font-greatvibes { font-family: 'Great Vibes', cursive; }
     .font-playfair { font-family: 'Playfair Display', serif; }
     .font-caveat { font-family: 'Caveat', cursive; }
+    .font-parisienne { font-family: 'Parisienne', cursive; }
+    .font-alexbrush { font-family: 'Alex Brush', cursive; }
+    .font-cormorant { font-family: 'Cormorant Garamond', serif; }
+    .font-bodoni { font-family: 'Bodoni Moda', serif; }
+    .font-allura { font-family: 'Allura', cursive; }
 
-    /* Men / Masculine Fonts */
+    /* --- MEN / EXECUTIVE / BOLD FONTS (10) --- */
     .font-montserrat { font-family: 'Montserrat', sans-serif; }
     .font-oswald { font-family: 'Oswald', sans-serif; }
     .font-robotomono { font-family: 'Roboto Mono', monospace; }
     .font-anton { font-family: 'Anton', sans-serif; }
     .font-cinzel { font-family: 'Cinzel', serif; }
-    
-    /* Modern Default */
+    .font-bebas { font-family: 'Bebas Neue', sans-serif; }
+    .font-syne { font-family: 'Syne', sans-serif; }
+    .font-prata { font-family: 'Prata', serif; }
+    .font-lora { font-family: 'Lora', serif; }
     .font-inter { font-family: 'Inter', sans-serif; }
 
-    /* Color Themes */
-    .theme-skyblue   { --bg-body: #0b192c; --bg-card: #1e293b; --accent: #38bdf8; --accent-hover: #0284c7; }
-    .theme-black     { --bg-body: #000000; --bg-card: #121212; --accent: #ffffff; --accent-hover: #d1d5db; }
-    .theme-gray      { --bg-body: #18181b; --bg-card: #27272a; --accent: #a1a1aa; --accent-hover: #71717a; }
-    .theme-pink      { --bg-body: #2a121d; --bg-card: #3b1c2b; --accent: #f472b6; --accent-hover: #ec4899; }
-    .theme-yellow    { --bg-body: #1c1917; --bg-card: #292524; --accent: #facc15; --accent-hover: #eab308; }
-    .theme-plum      { --bg-body: #18091e; --bg-card: #281033; --accent: #c084fc; --accent-hover: #a855f7; }
-    .theme-darkgreen { --bg-body: #022c22; --bg-card: #064e3b; --accent: #34d399; --accent-hover: #10b981; }
-    .theme-orange    { --bg-body: #1c0d02; --bg-card: #2e1605; --accent: #fb923c; --accent-hover: #f97316; }
-    .theme-maroon    { --bg-body: #1f0909; --bg-card: #341212; --accent: #f87171; --accent-hover: #ef4444; }
-    .theme-beige     { --bg-body: #1c1917; --bg-card: #2b2623; --accent: #f59e0b; --accent-hover: #d97706; }
+    /* --- COLOR THEMES ENGINE (Vibrant, Light, & Dark) --- */
+    
+    /* 1. Pastel Pink (Light Aesthetic with Blobs) */
+    .theme-pink {
+      --bg-body: #fce7f3; --bg-card: #ffffff; --text-main: #831843; --text-sub: #be185d;
+      --accent: #ec4899; --card-border: #fbcfe8; --blob-1: #f472b6; --blob-2: #fbcfe8; --icon-bg: #fdf2f8;
+    }
+    /* 2. Sky Blue (Fresh Light) */
+    .theme-skyblue {
+      --bg-body: #e0f2fe; --bg-card: #ffffff; --text-main: #0c4a6e; --text-sub: #0284c7;
+      --accent: #0284c7; --card-border: #bae6fd; --blob-1: #38bdf8; --blob-2: #bae6fd; --icon-bg: #f0f9ff;
+    }
+    /* 3. Warm Beige (Sosyal Soft Nude) */
+    .theme-beige {
+      --bg-body: #fef3c7; --bg-card: #ffffff; --text-main: #451a03; --text-sub: #b45309;
+      --accent: #d97706; --card-border: #fde68a; --blob-1: #fbbf24; --blob-2: #fef3c7; --icon-bg: #fffbeb;
+    }
+    /* 4. Yellow Gold (Vibrant Warm) */
+    .theme-yellow {
+      --bg-body: #fef9c3; --bg-card: #ffffff; --text-main: #713f12; --text-sub: #ca8a04;
+      --accent: #eab308; --card-border: #fef08a; --blob-1: #facc15; --blob-2: #fef08a; --icon-bg: #fefce8;
+    }
+    /* 5. Plum Purple (Rich Light/Medium Accent) */
+    .theme-plum {
+      --bg-body: #f3e8ff; --bg-card: #ffffff; --text-main: #581c87; --text-sub: #7e22ce;
+      --accent: #9333ea; --card-border: #e9d5ff; --blob-1: #c084fc; --blob-2: #f3e8ff; --icon-bg: #faf5ff;
+    }
+    
+    /* 6. Pure Black (Dark Onyx) */
+    .theme-black {
+      --bg-body: #000000; --bg-card: #121212; --text-main: #ffffff; --text-sub: #a1a1aa;
+      --accent: #ffffff; --card-border: #27272a; --blob-1: #27272a; --blob-2: #09090b; --icon-bg: #18181b;
+    }
+    /* 7. Slate Gray (Sleek Dark) */
+    .theme-gray {
+      --bg-body: #18181b; --bg-card: #27272a; --text-main: #f4f4f5; --text-sub: #a1a1aa;
+      --accent: #a1a1aa; --card-border: #3f3f46; --blob-1: #3f3f46; --blob-2: #18181b; --icon-bg: #3f3f46;
+    }
+    /* 8. Dark Emerald Green */
+    .theme-darkgreen {
+      --bg-body: #022c22; --bg-card: #064e3b; --text-main: #ecfdf5; --text-sub: #6ee7b7;
+      --accent: #10b981; --card-border: #047857; --blob-1: #059669; --blob-2: #022c22; --icon-bg: #065f46;
+    }
+    /* 9. Vibrant Orange */
+    .theme-orange {
+      --bg-body: #fff7ed; --bg-card: #ffffff; --text-main: #7c2d12; --text-sub: #ea580c;
+      --accent: #f97316; --card-border: #ffedd5; --blob-1: #fdba74; --blob-2: #ffedd5; --icon-bg: #fff7ed;
+    }
+    /* 10. Deep Maroon */
+    .theme-maroon {
+      --bg-body: #1f0909; --bg-card: #341212; --text-main: #fef2f2; --text-sub: #fca5a5;
+      --accent: #ef4444; --card-border: #451a1a; --blob-1: #991b1b; --blob-2: #1f0909; --icon-bg: #451a1a;
+    }
 
-    body { background-color: var(--bg-body); }
-    .card-bg { background-color: var(--bg-card); }
-    .btn-accent { background-color: var(--accent); }
-    .btn-accent:hover { background-color: var(--accent-hover); }
+    /* Apply Dynamic Styles */
+    body { background-color: var(--bg-body); color: var(--text-main); }
+    .card-bg { background-color: var(--bg-card); border-color: var(--card-border); }
+    .btn-accent { background-color: var(--accent); color: #ffffff; }
+    .btn-accent:hover { filter: brightness(0.9); }
     .text-accent { color: var(--accent); }
+    .text-sub { color: var(--text-sub); }
+    .text-main { color: var(--text-main); }
+    .icon-box { background-color: var(--icon-bg); color: var(--accent); }
+
+    /* Animated Organic Background Blobs */
+    .blob {
+      position: absolute;
+      filter: blur(50px);
+      opacity: 0.6;
+      border-radius: 50%;
+      z-index: 0;
+      animation: float 8s infinite alternate ease-in-out;
+    }
+    .blob-1 { background-color: var(--blob-1); width: 280px; height: 280px; top: -50px; left: -50px; }
+    .blob-2 { background-color: var(--blob-2); width: 250px; height: 250px; bottom: -50px; right: -50px; animation-delay: -4s; }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, 40px) scale(1.1); }
+    }
   </style>
 </head>
-<body id="bodyTag" class="theme-skyblue font-inter text-slate-100 min-h-screen flex flex-col justify-center items-center p-4 transition-colors duration-300">
+<body id="bodyTag" class="theme-pink font-inter min-h-screen flex flex-col justify-center items-center p-4 transition-colors duration-500 relative overflow-x-hidden">
+
+  <!-- Background Decorative Blobs -->
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
 
   <!-- Main Card Container -->
-  <div class="w-full max-w-md card-bg border border-slate-800 rounded-3xl shadow-2xl overflow-hidden relative my-8 transition-colors duration-300">
+  <div class="w-full max-w-md card-bg border rounded-3xl shadow-2xl overflow-hidden relative my-8 z-10 transition-colors duration-300">
     
     <!-- Cover Photo -->
-    <div class="h-36 relative bg-slate-800">
+    <div class="h-36 relative bg-slate-200 dark:bg-slate-800">
       <img id="coverImg" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800" alt="Cover" class="w-full h-full object-cover">
     </div>
 
@@ -65,20 +139,20 @@
     <div class="px-6 pb-6 relative text-center">
       <!-- Profile Picture -->
       <div class="relative -mt-16 mb-4 inline-block">
-        <img id="avatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400" alt="Avatar" class="w-28 h-28 rounded-full border-4 border-slate-900 object-cover shadow-lg mx-auto">
+        <img id="avatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400" alt="Avatar" class="w-28 h-28 rounded-full border-4 border-white shadow-lg mx-auto object-cover">
       </div>
 
-      <h1 id="displayName" class="text-2xl font-bold text-white">Alex Rivera</h1>
-      <p id="displayTitle" class="text-sm font-medium text-accent mt-1">Creative Director & Web Developer</p>
-      <p id="displayBio" class="text-xs text-slate-400 mt-2 px-4">Building sleek digital experiences & web solutions.</p>
+      <h1 id="displayName" class="text-2xl font-bold text-main">Alex Rivera</h1>
+      <p id="displayTitle" class="text-sm font-semibold text-accent mt-1">Creative Director & Web Developer</p>
+      <p id="displayBio" class="text-xs text-sub mt-2 px-4">Building sleek digital experiences & web solutions.</p>
 
       <!-- Action Buttons -->
       <div class="grid grid-cols-2 gap-3 mt-6">
-        <button onclick="downloadVCard()" class="btn-accent flex items-center justify-center gap-2 text-slate-950 font-bold py-2.5 px-4 rounded-xl shadow-lg transition-all active:scale-95 text-sm">
+        <button onclick="downloadVCard()" class="btn-accent flex items-center justify-center gap-2 font-bold py-2.5 px-4 rounded-xl shadow-md transition-all active:scale-95 text-sm">
           <i class="fa-solid fa-user-plus"></i>
           <span>Save Contact</span>
         </button>
-        <button onclick="shareCard()" class="flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold py-2.5 px-4 rounded-xl transition-all active:scale-95 text-sm">
+        <button onclick="shareCard()" class="flex items-center justify-center gap-2 card-bg text-main border border-slate-300 dark:border-slate-700 font-semibold py-2.5 px-4 rounded-xl transition-all active:scale-95 text-sm shadow-sm">
           <i class="fa-solid fa-share-nodes"></i>
           <span>Share</span>
         </button>
@@ -86,65 +160,65 @@
 
       <!-- Quick Social Icons Row -->
       <div class="flex justify-center items-center gap-4 mt-6" id="socialBar">
-        <a id="linkFacebook" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 text-blue-500 flex items-center justify-center border border-slate-700 transition">
+        <a id="linkFacebook" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-slate-200 dark:border-slate-800 transition shadow-sm">
           <i class="fa-brands fa-facebook-f text-lg"></i>
         </a>
-        <a id="linkInstagram" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 text-pink-500 flex items-center justify-center border border-slate-700 transition">
+        <a id="linkInstagram" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-slate-200 dark:border-slate-800 transition shadow-sm">
           <i class="fa-brands fa-instagram text-lg"></i>
         </a>
-        <a id="linkWhatsapp" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 text-green-500 flex items-center justify-center border border-slate-700 transition">
+        <a id="linkWhatsapp" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-slate-200 dark:border-slate-800 transition shadow-sm">
           <i class="fa-brands fa-whatsapp text-lg"></i>
         </a>
-        <a id="linkWechat" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 text-emerald-400 flex items-center justify-center border border-slate-700 transition">
+        <a id="linkWechat" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-slate-200 dark:border-slate-800 transition shadow-sm">
           <i class="fa-brands fa-weixin text-lg"></i>
         </a>
       </div>
 
       <!-- Primary Contact Links -->
       <div class="mt-4 space-y-3 text-left">
-        <a id="linkPhone" href="tel:+1234567890" class="flex items-center gap-4 p-3 rounded-2xl bg-slate-800/40 border border-slate-800 hover:border-slate-700 transition">
-          <div class="w-10 h-10 rounded-xl bg-slate-800 text-accent flex items-center justify-center">
+        <a id="linkPhone" href="tel:+1234567890" class="flex items-center gap-4 p-3 rounded-2xl icon-box border border-slate-200 dark:border-slate-800 hover:opacity-90 transition">
+          <div class="w-10 h-10 rounded-xl icon-box flex items-center justify-center">
             <i class="fa-solid fa-phone"></i>
           </div>
           <div class="overflow-hidden">
-            <p class="text-xs text-slate-400 font-medium">Phone</p>
-            <p id="displayPhone" class="text-sm font-semibold text-slate-200 truncate">+1 (234) 567-890</p>
+            <p class="text-xs text-sub font-medium">Phone</p>
+            <p id="displayPhone" class="text-sm font-semibold text-main truncate">+1 (234) 567-890</p>
           </div>
         </a>
 
-        <a id="linkEmail" href="mailto:alex@example.com" class="flex items-center gap-4 p-3 rounded-2xl bg-slate-800/40 border border-slate-800 hover:border-slate-700 transition">
-          <div class="w-10 h-10 rounded-xl bg-slate-800 text-accent flex items-center justify-center">
+        <a id="linkEmail" href="mailto:alex@example.com" class="flex items-center gap-4 p-3 rounded-2xl icon-box border border-slate-200 dark:border-slate-800 hover:opacity-90 transition">
+          <div class="w-10 h-10 rounded-xl icon-box flex items-center justify-center">
             <i class="fa-solid fa-envelope"></i>
           </div>
           <div class="overflow-hidden">
-            <p class="text-xs text-slate-400 font-medium">Email</p>
-            <p id="displayEmail" class="text-sm font-semibold text-slate-200 truncate">alex@example.com</p>
+            <p class="text-xs text-sub font-medium">Email</p>
+            <p id="displayEmail" class="text-sm font-semibold text-main truncate">alex@example.com</p>
           </div>
         </a>
 
-        <a id="linkWebsite" href="https://example.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 p-3 rounded-2xl bg-slate-800/40 border border-slate-800 hover:border-slate-700 transition">
-          <div class="w-10 h-10 rounded-xl bg-slate-800 text-accent flex items-center justify-center">
+        <a id="linkWebsite" href="https://example.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 p-3 rounded-2xl icon-box border border-slate-200 dark:border-slate-800 hover:opacity-90 transition">
+          <div class="w-10 h-10 rounded-xl icon-box flex items-center justify-center">
             <i class="fa-solid fa-globe"></i>
           </div>
           <div class="overflow-hidden">
-            <p class="text-xs text-slate-400 font-medium">Website</p>
-            <p id="displayWebsite" class="text-sm font-semibold text-slate-200 truncate">https://example.com</p>
+            <p class="text-xs text-sub font-medium">Website</p>
+            <p id="displayWebsite" class="text-sm font-semibold text-main truncate">https://example.com</p>
           </div>
         </a>
       </div>
     </div>
 
     <!-- Floating Edit Button -->
-    <button onclick="toggleModal(true)" class="absolute top-3 right-3 bg-slate-900/80 backdrop-blur-md border border-slate-700 text-slate-300 hover:text-white p-2.5 rounded-full shadow-md transition active:scale-95">
+    <button onclick="toggleModal(true)" class="absolute top-3 right-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:scale-105 p-2.5 rounded-full shadow-md transition active:scale-95">
       <i class="fa-solid fa-pen text-xs"></i>
     </button>
   </div>
 
   <!-- Edit Profile Modal -->
   <div id="editModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex justify-center items-center p-4 z-50">
-    <div class="bg-slate-900 border border-slate-800 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+    <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-        <h3 class="text-lg font-bold text-white">Edit Profile & Links</h3>
+        <h3 class="text-lg font-bold text-white">Edit Profile & Style</h3>
         <button onclick="toggleModal(false)" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
       </div>
 
@@ -154,37 +228,44 @@
           <div>
             <label class="text-xs text-slate-400 block mb-1">Color Theme</label>
             <select id="selectTheme" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white">
-              <option value="theme-skyblue">Sky Blue</option>
-              <option value="theme-black">Black (Onyx)</option>
-              <option value="theme-gray">Slate Gray</option>
-              <option value="theme-pink">Pastel Pink</option>
-              <option value="theme-yellow">Yellow Gold</option>
-              <option value="theme-plum">Plum Purple</option>
-              <option value="theme-darkgreen">Dark Green</option>
+              <option value="theme-pink">Pastel Pink (Aesthetic Light)</option>
+              <option value="theme-skyblue">Sky Blue (Fresh Light)</option>
+              <option value="theme-beige">Warm Beige (Nude Soft)</option>
+              <option value="theme-yellow">Yellow Gold (Warm)</option>
+              <option value="theme-plum">Plum Purple (Chic)</option>
+              <option value="theme-black">Pure Black (Dark Onyx)</option>
+              <option value="theme-gray">Slate Gray (Modern)</option>
+              <option value="theme-darkgreen">Dark Green (Emerald)</option>
               <option value="theme-orange">Vibrant Orange</option>
               <option value="theme-maroon">Deep Maroon</option>
-              <option value="theme-beige">Warm Beige</option>
             </select>
           </div>
           <div>
             <label class="text-xs text-slate-400 block mb-1">Font Style</label>
             <select id="selectFont" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white">
-              <optgroup label="Girly / Chic Fonts">
-                <option value="font-quicksand">Quicksand (Cute & Soft)</option>
-                <option value="font-pacifico">Pacifico (Fun Script)</option>
-                <option value="font-greatvibes">Great Vibes (Calligraphy)</option>
-                <option value="font-playfair">Playfair (Elegant Chic)</option>
+              <optgroup label="Girly & Sosyal Fonts (10)">
+                <option value="font-parisienne">Parisienne (Sosyal Script)</option>
+                <option value="font-alexbrush">Alex Brush (Calligraphy)</option>
+                <option value="font-cormorant">Cormorant (High Fashion)</option>
+                <option value="font-bodoni">Bodoni Moda (Vogue Style)</option>
+                <option value="font-allura">Allura (Elegant Flow)</option>
+                <option value="font-quicksand">Quicksand (Cute Soft)</option>
+                <option value="font-pacifico">Pacifico (Fun Chic)</option>
+                <option value="font-greatvibes">Great Vibes (Classic)</option>
+                <option value="font-playfair">Playfair (Luxury Serif)</option>
                 <option value="font-caveat">Caveat (Handwritten)</option>
               </optgroup>
-              <optgroup label="Men / Bold Fonts">
-                <option value="font-montserrat">Montserrat (Modern Bold)</option>
-                <option value="font-oswald">Oswald (Strong Condensed)</option>
-                <option value="font-robotomono">Roboto Mono (Tech Clean)</option>
-                <option value="font-anton">Anton (Heavy Impact)</option>
-                <option value="font-cinzel">Cinzel (Executive Serif)</option>
-              </optgroup>
-              <optgroup label="Standard">
-                <option value="font-inter">Inter (Clean Modern)</option>
+              <optgroup label="Men & Bold Fonts (10)">
+                <option value="font-bebas">Bebas Neue (Tall Bold)</option>
+                <option value="font-syne">Syne (Executive Modern)</option>
+                <option value="font-prata">Prata (Executive Serif)</option>
+                <option value="font-lora">Lora (Sophisticated)</option>
+                <option value="font-montserrat">Montserrat (Clean Bold)</option>
+                <option value="font-oswald">Oswald (Strong Impact)</option>
+                <option value="font-robotomono">Roboto Mono (Tech)</option>
+                <option value="font-anton">Anton (Heavy Punch)</option>
+                <option value="font-cinzel">Cinzel (Roman Luxe)</option>
+                <option value="font-inter">Inter (Clean Standard)</option>
               </optgroup>
             </select>
           </div>
@@ -252,7 +333,7 @@
 
       <div class="pt-2 flex justify-end gap-2">
         <button onclick="toggleModal(false)" class="px-4 py-2 text-xs font-semibold text-slate-400 hover:text-white">Cancel</button>
-        <button id="saveBtn" onclick="saveProfile()" class="px-4 py-2 btn-accent text-slate-950 text-xs font-bold rounded-lg shadow">Save Changes</button>
+        <button id="saveBtn" onclick="saveProfile()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-lg shadow">Save Changes</button>
       </div>
     </div>
   </div>
@@ -271,11 +352,10 @@
       wechat: 'wechat_id',
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400',
       cover: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800',
-      theme: 'theme-skyblue',
-      font: 'font-inter'
+      theme: 'theme-pink',
+      font: 'font-parisienne'
     };
 
-    // Helper: Auto-formats URLs so they don't break/404 on external links
     function fixUrl(url) {
       if (!url || url.trim() === '') return '#';
       let cleanUrl = url.trim();
@@ -301,11 +381,10 @@
       document.getElementById('linkEmail').href = 'mailto:' + data.email;
       document.getElementById('linkWebsite').href = fixUrl(data.website);
 
-      // Social Links Setup
+      // Social Links
       document.getElementById('linkFacebook').href = fixUrl(data.facebook);
       document.getElementById('linkInstagram').href = fixUrl(data.instagram);
 
-      // WhatsApp Handler
       if (data.whatsapp) {
         const cleanWa = data.whatsapp.replace(/[^0-9]/g, '');
         document.getElementById('linkWhatsapp').href = cleanWa ? `https://wa.me/${cleanWa}` : fixUrl(data.whatsapp);
@@ -313,16 +392,15 @@
         document.getElementById('linkWhatsapp').href = '#';
       }
 
-      // WeChat Handler
       if (data.wechat) {
         document.getElementById('linkWechat').href = data.wechat.startsWith('http') ? data.wechat : `weixin://dl/chat?${data.wechat}`;
       } else {
         document.getElementById('linkWechat').href = '#';
       }
 
-      // Apply Theme & Font
+      // Apply Dynamic Theme & Font Classes
       const body = document.getElementById('bodyTag');
-      body.className = `${data.theme || 'theme-skyblue'} ${data.font || 'font-inter'} text-slate-100 min-h-screen flex flex-col justify-center items-center p-4 transition-colors duration-300`;
+      body.className = `${data.theme || 'theme-pink'} ${data.font || 'font-parisienne'} min-h-screen flex flex-col justify-center items-center p-4 transition-colors duration-500 relative overflow-x-hidden`;
     }
 
     function toggleModal(show) {
@@ -339,8 +417,8 @@
         document.getElementById('inputInstagram').value = data.instagram || '';
         document.getElementById('inputWhatsapp').value = data.whatsapp || '';
         document.getElementById('inputWechat').value = data.wechat || '';
-        document.getElementById('selectTheme').value = data.theme || 'theme-skyblue';
-        document.getElementById('selectFont').value = data.font || 'font-inter';
+        document.getElementById('selectTheme').value = data.theme || 'theme-pink';
+        document.getElementById('selectFont').value = data.font || 'font-parisienne';
         
         document.getElementById('fileAvatar').value = '';
         document.getElementById('fileCover').value = '';
