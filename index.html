@@ -1,309 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Business Card</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Supabase JS Client (Updated CDN) -->
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        /* Themes */
-        .theme-pink { background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%); }
-        .theme-pink .card-bg { background-color: rgba(255, 255, 255, 0.85); }
-        .theme-pink .primary-btn { background-color: #ec4899; color: white; }
-        
-        .theme-black { background: linear-gradient(135deg, #111827 0%, #000000 100%); }
-        .theme-black .card-bg { background-color: rgba(31, 41, 55, 0.85); color: white; }
-        .theme-black .primary-btn { background-color: #374151; color: white; }
-
-        .theme-blue { background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); }
-        .theme-blue .card-bg { background-color: rgba(255, 255, 255, 0.85); }
-        .theme-blue .primary-btn { background-color: #0284c7; color: white; }
-
-        /* Fonts */
-        .font-sans { font-family: ui-sans-serif, system-ui, sans-serif; }
-        .font-serif { font-family: ui-serif, Georgia, serif; }
-        .font-mono { font-family: ui-monospace, SFMono-Regular, monospace; }
-        .font-whiteangelica { font-family: 'Georgia', cursive, serif; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Business Card</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Modern Supabase Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body id="bodyTag" class="theme-pink font-sans p-4 transition-colors duration-500 min-h-screen flex items-center justify-center relative">
+<body id="bodyTag" class="bg-gray-100 font-sans min-h-screen flex items-center justify-center p-4">
 
-    <!-- MAIN CARD CONTAINER -->
-    <div class="w-full max-w-md card-bg border rounded-3xl shadow-xl overflow-hidden relative z-10 p-6 transition-all duration-300">
-        
-        <!-- EDIT BUTTON (Pencil) -->
-        <button onclick="openPasscodeModal()" class="absolute top-4 right-4 bg-white/80 hover:bg-white p-2 rounded-full shadow transition cursor-pointer z-20">
-            <i class="fa-solid fa-pen text-gray-700"></i>
+  <!-- MAIN CARD CONTAINER -->
+  <div id="cardContainer" class="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden relative p-6 transition-all duration-300">
+    <div id="loading" class="text-center py-10 font-bold text-gray-500">
+      Loading digital card...
+    </div>
+    
+    <div id="cardContent" class="hidden text-center">
+      <div class="relative inline-block mb-4">
+        <img id="avatar" src="https://via.placeholder.com/150" class="w-28 h-28 rounded-full object-cover mx-auto border-4 border-white shadow">
+        <button onclick="openPasscodeModal()" class="absolute bottom-0 right-0 bg-gray-800 text-white p-2 rounded-full shadow hover:bg-black transition">
+          ✏️
         </button>
+      </div>
 
-        <!-- PROFILE HEADER -->
-        <div class="text-center mt-4">
-            <img id="uiAvatar" src="https://via.placeholder.com/150" alt="Avatar" class="w-28 h-28 rounded-full mx-auto border-4 border-white shadow-md object-cover">
-            <h2 id="uiName" class="text-2xl font-bold mt-3 text-gray-800">Loading...</h2>
-            <p id="uiTitle" class="text-sm font-medium text-gray-500">Please wait</p>
-            <p id="uiBio" class="text-xs text-gray-600 mt-2 px-4 italic"></p>
-        </div>
+      <h2 id="fullName" class="text-2xl font-bold text-gray-800 mb-1">---</h2>
+      <p id="jobTitle" class="text-sm text-gray-500 mb-6">---</p>
 
-        <!-- ACTION BUTTONS -->
-        <div class="flex gap-3 mt-6">
-            <button id="uiSaveContact" class="flex-1 primary-btn py-3 rounded-xl font-semibold shadow text-sm flex items-center justify-center gap-2">
-                <i class="fa-solid fa-user-plus"></i> Save Contact
-            </button>
-            <button onclick="shareCard()" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 rounded-xl font-semibold shadow text-sm flex items-center justify-center gap-2">
-                <i class="fa-solid fa-share-nodes"></i> Share
-            </button>
-        </div>
+      <div class="space-y-3 text-left mb-6">
+        <a id="phoneBtn" href="#" class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition">
+          📞 <span id="phoneText" class="text-gray-700 text-sm font-medium">---</span>
+        </a>
+        <a id="emailBtn" href="#" class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition">
+          ✉️ <span id="emailText" class="text-gray-700 text-sm font-medium">---</span>
+        </a>
+        <a id="websiteBtn" href="#" target="_blank" class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition">
+          🌐 <span id="websiteText" class="text-gray-700 text-sm font-medium">---</span>
+        </a>
+      </div>
 
-        <!-- CONTACT DETAILS -->
-        <div class="space-y-3 mt-6">
-            <div id="boxPhone" class="p-3 bg-white/50 rounded-xl flex items-center gap-3 shadow-sm">
-                <i class="fa-solid fa-phone text-gray-500"></i>
-                <span id="uiPhone" class="text-sm text-gray-700">---</span>
-            </div>
-            <div id="boxEmail" class="p-3 bg-white/50 rounded-xl flex items-center gap-3 shadow-sm">
-                <i class="fa-solid fa-envelope text-gray-500"></i>
-                <span id="uiEmail" class="text-sm text-gray-700">---</span>
-            </div>
-            <div id="boxWebsite" class="p-3 bg-white/50 rounded-xl flex items-center gap-3 shadow-sm">
-                <i class="fa-solid fa-globe text-gray-500"></i>
-                <span id="uiWebsite" class="text-sm text-gray-700">---</span>
-            </div>
-        </div>
+      <div class="flex gap-2">
+        <button onclick="alert('Contact Saved!')" class="flex-1 bg-pink-500 text-white font-bold py-3 rounded-xl shadow hover:bg-pink-600 transition">
+          + Save Contact
+        </button>
+        <button onclick="navigator.clipboard.writeText(window.location.href); alert('Link copied!');" class="bg-gray-200 text-gray-700 font-bold px-4 rounded-xl hover:bg-gray-300 transition">
+          Share
+        </button>
+      </div>
     </div>
+  </div>
 
-    <!-- PASSCODE MODAL -->
-    <div id="passcodeModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center p-4 z-50 hidden">
-        <div class="bg-white rounded-2xl p-6 w-full max-w-xs text-center shadow-2xl">
-            <h3 class="font-bold text-lg mb-2">Enter Passcode</h3>
-            <input type="password" id="passcodeInput" placeholder="PIN" class="border w-full p-2 rounded-lg text-center text-xl tracking-widest mb-4">
-            <div class="flex gap-2">
-                <button type="button" onclick="closeModal('passcodeModal')" class="flex-1 bg-gray-200 py-2 rounded-lg font-medium">Cancel</button>
-                <button type="button" onclick="verifyPasscode()" class="flex-1 bg-black text-white py-2 rounded-lg font-medium">Submit</button>
-            </div>
-        </div>
+  <!-- PASSCODE MODAL -->
+  <div id="passcodeModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 hidden z-50">
+    <div class="bg-white p-6 rounded-2xl w-full max-w-xs text-center shadow-2xl">
+      <h3 class="font-bold text-lg mb-3">Enter Security PIN</h3>
+      <input type="password" id="pinInput" placeholder="Enter PIN (e.g. 123456)" class="w-full border p-2 rounded-xl mb-4 text-center text-lg">
+      <div class="flex gap-2">
+        <button onclick="closePasscodeModal()" class="flex-1 bg-gray-200 py-2 rounded-xl font-semibold">Cancel</button>
+        <button onclick="verifyPin()" class="flex-1 bg-black text-white py-2 rounded-xl font-semibold">Submit</button>
+      </div>
     </div>
+  </div>
 
-    <!-- EDIT PROFILE MODAL -->
-    <div id="editModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center p-4 z-50 hidden overflow-y-auto">
-        <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl my-8 max-h-[90vh] overflow-y-auto">
-            <h3 class="font-bold text-xl mb-4">Edit Profile</h3>
-            
-            <form id="editForm" onsubmit="saveProfile(event)" class="space-y-3 text-left text-sm">
-                <div>
-                    <label class="block font-medium mb-1">Full Name</label>
-                    <input type="text" id="editName" class="w-full border p-2 rounded-lg" required>
-                </div>
-                <div>
-                    <label class="block font-medium mb-1">Title/Occupation</label>
-                    <input type="text" id="editTitle" class="w-full border p-2 rounded-lg">
-                </div>
-                <div>
-                    <label class="block font-medium mb-1">Bio</label>
-                    <textarea id="editBio" class="w-full border p-2 rounded-lg" rows="2"></textarea>
-                </div>
-                <div>
-                    <label class="block font-medium mb-1">Phone Number</label>
-                    <input type="text" id="editPhone" class="w-full border p-2 rounded-lg">
-                </div>
-                <div>
-                    <label class="block font-medium mb-1">Email</label>
-                    <input type="email" id="editEmail" class="w-full border p-2 rounded-lg">
-                </div>
-                <div>
-                    <label class="block font-medium mb-1">Website</label>
-                    <input type="text" id="editWebsite" class="w-full border p-2 rounded-lg">
-                </div>
+  <!-- EDIT MODAL -->
+  <div id="editModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 hidden z-50 overflow-y-auto">
+    <div class="bg-white p-6 rounded-2xl w-full max-w-md shadow-2xl space-y-4">
+      <h3 class="font-bold text-xl text-gray-800">Edit Profile & Theme</h3>
+      
+      <div>
+        <label class="text-xs font-bold text-gray-500 uppercase">Full Name</label>
+        <input type="text" id="editName" class="w-full border p-2 rounded-xl mt-1">
+      </div>
+      <div>
+        <label class="text-xs font-bold text-gray-500 uppercase">Phone</label>
+        <input type="text" id="editPhone" class="w-full border p-2 rounded-xl mt-1">
+      </div>
+      <div>
+        <label class="text-xs font-bold text-gray-500 uppercase">Theme Color</label>
+        <select id="editTheme" class="w-full border p-2 rounded-xl mt-1">
+          <option value="bg-gray-100">Default Gray</option>
+          <option value="bg-pink-100">Pink Theme</option>
+          <option value="bg-blue-100">Blue Theme</option>
+          <option value="bg-emerald-100">Green Theme</option>
+          <option value="bg-purple-100">Purple Theme</option>
+        </select>
+      </div>
 
-                <!-- THEME & FONT SELECTORS -->
-                <div class="grid grid-cols-2 gap-3 pt-2">
-                    <div>
-                        <label class="block font-medium mb-1">Color Theme</label>
-                        <select id="editTheme" class="w-full border p-2 rounded-lg">
-                            <option value="theme-pink">Pink Soft</option>
-                            <option value="theme-black">Pure Black</option>
-                            <option value="theme-blue">Ocean Blue</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block font-medium mb-1">Font Style</label>
-                        <select id="editFont" class="w-full border p-2 rounded-lg">
-                            <option value="font-sans">Sans-Serif</option>
-                            <option value="font-serif">Serif</option>
-                            <option value="font-mono">Monospace</option>
-                            <option value="font-whiteangelica">Angelica Cursive</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="flex gap-2 pt-4">
-                    <button type="button" onclick="closeModal('editModal')" class="flex-1 bg-gray-200 py-2.5 rounded-lg font-medium">Cancel</button>
-                    <button type="submit" class="flex-1 bg-black text-white py-2.5 rounded-lg font-medium">Save Changes</button>
-                </div>
-            </form>
-        </div>
+      <div class="flex gap-2 pt-2">
+        <button onclick="closeEditModal()" class="flex-1 bg-gray-200 py-2.5 rounded-xl font-semibold">Cancel</button>
+        <button onclick="saveProfile()" class="flex-1 bg-pink-500 text-white py-2.5 rounded-xl font-bold hover:bg-pink-600 transition">Save Changes</button>
+      </div>
     </div>
+  </div>
 
-    <!-- JAVASCRIPT LOGIC -->
-    <script>
-        // Supabase Initialization
-        const SUPABASE_URL = "https://rehsynbkacvjtjedxr.supabase.co";
-        const SUPABASE_KEY = "sb_publishable_PjdxXTNrQ6sDsC7zZ9UFNA_127f9KMG";
+  <script>
+    // 1. SUPABASE INITIALIZATION
+    const SUPABASE_URL = "https://rehsynbkacvjttjedlxr.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_PjdxXTNrQ6sDsC7zZ9UFNA_127f9a123"; // Gagamitin ang bagong Key format
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let currentCardData = null;
+
+    // 2. FETCH CARD DATA
+    async function loadCard() {
+      const urlParams = new URLSearchParams(window.location.search);
+      let cardId = urlParams.get('id');
+
+      try {
+        let query = _supabase.from('cards').select('*');
         
-        let supabaseClient = null;
-        if (window.supabase && window.supabase.createClient) {
-            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        if (cardId) {
+          query = query.eq('id', cardId);
         } else {
-            console.error("Supabase SDK failed to load.");
+          // Kung walang ID sa URL, kukunin 'yung unang card sa table bilang fallback!
+          query = query.limit(1);
         }
 
-        // Get Card ID from URL (?id=uuid)
-        const urlParams = new URLSearchParams(window.location.search);
-        const cardId = urlParams.get('id') || '022013f7-e220-4c49-8392-f14dd629a9c0';
+        const { data, error } = await query;
 
-        let currentCardData = null;
+        if (error) throw error;
 
-        // FETCH CARD DATA FROM SUPABASE
-        async function fetchCardData() {
-            if (!supabaseClient) {
-                document.getElementById('uiName').textContent = "Connection Error";
-                document.getElementById('uiTitle').textContent = "Supabase SDK Not Loaded";
-                return;
-            }
-
-            try {
-                const { data, error } = await supabaseClient
-                    .from('cards')
-                    .select('*')
-                    .eq('id', cardId)
-                    .single();
-
-                if (error) {
-                    console.error('Supabase fetch error:', error);
-                    document.getElementById('uiName').textContent = "Error Loading Card";
-                    document.getElementById('uiTitle').textContent = error.message;
-                    return;
-                }
-
-                if (data) {
-                    currentCardData = data;
-                    renderUI(data);
-                }
-            } catch (err) {
-                console.error('Fetch exception:', err);
-                document.getElementById('uiName').textContent = "Unexpected Error";
-                document.getElementById('uiTitle').textContent = err.message;
-            }
+        if (data && data.length > 0) {
+          currentCardData = data[0];
+          renderUI(currentCardData);
+        } else {
+          document.getElementById('loading').innerHTML = `<p class="text-red-500 font-bold">Card not found in database.</p>`;
         }
+      } catch (err) {
+        console.error("Fetch Error:", err);
+        document.getElementById('loading').innerHTML = `<p class="text-red-500 font-bold">Error Loading Card<br><span class="text-xs font-normal">${err.message || err}</span></p>`;
+      }
+    }
 
-        // RENDER UI ON PAGE LOAD
-        function renderUI(card) {
-            // Apply Theme & Font to <body>
-            const body = document.getElementById('bodyTag');
-            const themeClass = card.theme || 'theme-pink';
-            const fontClass = card.font || 'font-sans';
-            body.className = `${themeClass} ${fontClass} p-4 transition-colors duration-500 min-h-screen flex items-center justify-center relative`;
+    // 3. RENDER UI
+    function renderUI(card) {
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('cardContent').classList.remove('hidden');
 
-            // Populate Text Fields
-            document.getElementById('uiName').textContent = card.full_name || 'No Name';
-            document.getElementById('uiTitle').textContent = card.title || 'Digital Member';
-            document.getElementById('uiBio').textContent = card.bio || '';
+      document.getElementById('fullName').innerText = card.full_name || 'No Name';
+      document.getElementById('jobTitle').innerText = card.job_title || 'Digital Card Holder';
+      document.getElementById('phoneText').innerText = card.phone || 'N/A';
+      document.getElementById('emailText').innerText = card.email || 'N/A';
+      document.getElementById('websiteText').innerText = card.website || 'N/A';
 
-            // Contacts
-            document.getElementById('uiPhone').textContent = card.phone || 'Not provided';
-            document.getElementById('uiEmail').textContent = card.email || 'Not provided';
-            document.getElementById('uiWebsite').textContent = card.website || 'Not provided';
+      if (card.avatar_url) {
+        document.getElementById('avatar').src = card.avatar_url;
+      }
 
-            if (card.avatar_url) {
-                document.getElementById('uiAvatar').src = card.avatar_url;
-            }
+      // Apply Background Theme
+      if (card.theme) {
+        document.body.className = `${card.theme} font-sans min-h-screen flex items-center justify-center p-4 transition-colors duration-500`;
+      }
+    }
 
-            // Pre-fill Edit Modal Fields
-            document.getElementById('editName').value = card.full_name || '';
-            document.getElementById('editTitle').value = card.title || '';
-            document.getElementById('editBio').value = card.bio || '';
-            document.getElementById('editPhone').value = card.phone || '';
-            document.getElementById('editEmail').value = card.email || '';
-            document.getElementById('editWebsite').value = card.website || '';
-            document.getElementById('editTheme').value = themeClass;
-            document.getElementById('editFont').value = fontClass;
-        }
+    // 4. MODAL CONTROLS
+    function openPasscodeModal() {
+      document.getElementById('passcodeModal').classList.remove('hidden');
+    }
+    function closePasscodeModal() {
+      document.getElementById('passcodeModal').classList.add('hidden');
+      document.getElementById('pinInput').value = '';
+    }
+    function closeEditModal() {
+      document.getElementById('editModal').classList.add('hidden');
+    }
 
-        // SAVE PROFILE TO SUPABASE
-        async function saveProfile(event) {
-            event.preventDefault();
+    function verifyPin() {
+      const pin = document.getElementById('pinInput').value;
+      const correctPin = currentCardData?.pin || "123456";
 
-            if (!supabaseClient) {
-                alert("Cannot save: Supabase client is not connected.");
-                return;
-            }
+      if (pin === correctPin) {
+        closePasscodeModal();
+        // Populate edit modal fields
+        document.getElementById('editName').value = currentCardData.full_name || '';
+        document.getElementById('editPhone').value = currentCardData.phone || '';
+        document.getElementById('editTheme').value = currentCardData.theme || 'bg-gray-100';
+        document.getElementById('editModal').classList.remove('hidden');
+      } else {
+        alert("Incorrect PIN!");
+      }
+    }
 
-            const updatedData = {
-                full_name: document.getElementById('editName').value,
-                title: document.getElementById('editTitle').value,
-                bio: document.getElementById('editBio').value,
-                phone: document.getElementById('editPhone').value,
-                email: document.getElementById('editEmail').value,
-                website: document.getElementById('editWebsite').value,
-                theme: document.getElementById('editTheme').value,
-                font: document.getElementById('editFont').value
-            };
+    // 5. SAVE PROFILE TO SUPABASE
+    async function saveProfile() {
+      const newName = document.getElementById('editName').value;
+      const newPhone = document.getElementById('editPhone').value;
+      const newTheme = document.getElementById('editTheme').value;
 
-            try {
-                const { error } = await supabaseClient
-                    .from('cards')
-                    .update(updatedData)
-                    .eq('id', cardId);
+      try {
+        const { error } = await _supabase
+          .from('cards')
+          .update({ 
+            full_name: newName, 
+            phone: newPhone,
+            theme: newTheme 
+          })
+          .eq('id', currentCardData.id);
 
-                if (error) throw error;
+        if (error) throw error;
 
-                alert('Profile updated successfully!');
-                closeModal('editModal');
-                fetchCardData(); // Reload UI immediately
-            } catch (err) {
-                console.error('Error saving:', err.message);
-                alert('Failed to save changes: ' + err.message);
-            }
-        }
+        alert("Card Updated Successfully!");
+        location.reload();
+      } catch (err) {
+        alert("Failed to save: " + err.message);
+      }
+    }
 
-        // MODAL HELPERS
-        function openPasscodeModal() {
-            document.getElementById('passcodeModal').classList.remove('hidden');
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.add('hidden');
-        }
-
-        function verifyPasscode() {
-            const input = document.getElementById('passcodeInput').value;
-            const correctPin = currentCardData?.pin || '1234';
-
-            if (input === correctPin) {
-                closeModal('passcodeModal');
-                document.getElementById('passcodeInput').value = '';
-                document.getElementById('editModal').classList.remove('hidden');
-            } else {
-                alert('Incorrect PIN!');
-            }
-        }
-
-        function shareCard() {
-            if (navigator.share) {
-                navigator.share({ title: 'Digital Business Card', url: window.location.href });
-            } else {
-                navigator.clipboard.writeText(window.location.href);
-                alert('Card link copied to clipboard!');
-            }
-        }
-
-        // INITIAL LOAD
-        fetchCardData();
-    </script>
+    // Start application
+    window.addEventListener('DOMContentLoaded', loadCard);
+  </script>
 </body>
 </html>
