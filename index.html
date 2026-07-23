@@ -31,12 +31,12 @@
   <!-- CARD CONTAINER -->
   <div id="cardBox" class="bg-black text-white max-w-sm w-full min-h-screen sm:min-h-0 sm:rounded-3xl shadow-2xl overflow-hidden relative flex flex-col justify-between pb-8 border border-gray-900">
     
-    <div>
-      <!-- EDIT BUTTON (FLOATING TOP-RIGHT) -->
-      <button onclick="openEditModal()" class="absolute top-4 right-4 z-20 text-white bg-black/60 p-2.5 rounded-full backdrop-blur-md transition hover:bg-black/90">
-        <i class="fa-solid fa-pen-to-square text-lg"></i>
-      </button>
+    <!-- EDIT BUTTON (FLOATING TOP-RIGHT - Z-50 FIXED) -->
+    <button onclick="openEditModal()" type="button" class="absolute top-4 right-4 z-50 text-white bg-black/70 p-3 rounded-full backdrop-blur-md transition active:scale-95 pointer-events-auto cursor-pointer border border-white/20">
+      <i class="fa-solid fa-pen-to-square text-lg"></i>
+    </button>
 
+    <div>
       <!-- COVER BANNER HEADER -->
       <div class="h-40 bg-amber-500 relative overflow-hidden">
         <img id="bannerImg" class="w-full h-full object-cover hidden" src="" alt="Cover Banner">
@@ -123,7 +123,7 @@
   </div>
 
   <!-- EDIT MODAL (PHONE EDITOR) -->
-  <div id="editModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+  <div id="editModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-[100]">
     <div class="bg-gray-800 text-white max-w-md w-full rounded-3xl p-6 space-y-4 border border-gray-700 max-h-[90vh] overflow-y-auto">
       
       <div class="flex justify-between items-center border-b border-gray-700 pb-3">
