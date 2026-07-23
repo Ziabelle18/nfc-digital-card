@@ -808,15 +808,21 @@
       document.getElementById('passcodeModal').classList.add('hidden');
     }
 
-    // UNIVERSAL DEFAULT 1234 ACCEPTANCE FOR ALL NEW CARDS & UID
+    // STRICT CUSTOM PIN VERIFICATION LOGIC (PREVENTS 1234 BYPASS ON CUSTOM PINS)
     function verifyPasscode() {
       const enteredPin = document.getElementById('authPin').value.trim();
       const targetPin = getStoredPin();
 
-      const isMatch = (enteredPin === targetPin) || 
-                      (enteredPin === '1234') || 
-                      (targetPin === '123456' && enteredPin === '1234') ||
-                      (!targetPin || targetPin === '123456');
+      const isDefaultState = (!targetPin || targetPin === '1234' || targetPin === '123456');
+
+      let isMatch = false;
+      if (isDefaultState) {
+        // Default unedited card state accepts 1234
+        isMatch = (enteredPin === '1234' || enteredPin === targetPin);
+      } else {
+        // Customer set a custom PIN: ONLY exact match works! 1234 will NOT work anymore.
+        isMatch = (enteredPin === targetPin);
+      }
 
       if (isMatch) {
         closePasscodeModal();
