@@ -317,7 +317,7 @@
           </div>
         </div>
 
-        <!-- Custom Styled Theme & Font Selectors (In-Modal, No OS Popup) -->
+        <!-- Custom Theme & Font Selectors -->
         <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-3">
           <div class="grid grid-cols-2 gap-3">
             <div>
@@ -660,8 +660,8 @@
 
       document.getElementById('displayName').innerText = data.full_name || data.name || 'Card Holder';
       
-      // Clean Occupation Display
-      document.getElementById('displayTitle').innerText = data.title || data.job_title || '';
+      // FIX OCCUPATION DISPLAY: Safely grabs whichever key exists
+      document.getElementById('displayTitle').innerText = data.title || data.job_title || data.occupation || '';
       
       document.getElementById('displayBio').innerText = data.bio || '';
       document.getElementById('displayPhone').innerText = data.phone || 'N/A';
@@ -675,32 +675,28 @@
       document.getElementById('linkEmail').href = data.email ? 'mailto:' + data.email : '#';
       document.getElementById('linkWebsite').href = fixUrl(data.website);
 
-      // DYNAMIC SOCIAL MEDIA VISIBILITY LOGIC
+      // DYNAMIC SOCIAL MEDIA VISIBILITY
       const linkFb = document.getElementById('linkFacebook');
       const linkIg = document.getElementById('linkInstagram');
       const linkWa = document.getElementById('linkWhatsapp');
       const btnWechat = document.getElementById('btnWechat');
 
-      // Facebook
       if (data.facebook && data.facebook.trim() !== '') {
         linkFb.href = fixUrl(data.facebook);
         linkFb.classList.remove('hidden');
       } else linkFb.classList.add('hidden');
 
-      // Instagram
       if (data.instagram && data.instagram.trim() !== '') {
         linkIg.href = fixUrl(data.instagram);
         linkIg.classList.remove('hidden');
       } else linkIg.classList.add('hidden');
 
-      // WhatsApp
       if (data.whatsapp && data.whatsapp.trim() !== '') {
         const cleanWa = data.whatsapp.replace(/[^0-9]/g, '');
         linkWa.href = cleanWa ? `https://wa.me/${cleanWa}` : fixUrl(data.whatsapp);
         linkWa.classList.remove('hidden');
       } else linkWa.classList.add('hidden');
 
-      // WeChat
       if (data.wechat && data.wechat.trim() !== '' && data.wechat !== '#') {
         document.getElementById('displayWechatQr').src = data.wechat;
         btnWechat.classList.remove('hidden');
@@ -818,7 +814,10 @@
         handlePinToggleChange();
 
         document.getElementById('inputName').value = currentCard.full_name || currentCard.name || '';
-        document.getElementById('inputTitle').value = currentCard.title || currentCard.job_title || '';
+        
+        // POPULATE TITLE / OCCUPATION ACCURATELY
+        document.getElementById('inputTitle').value = currentCard.title || currentCard.job_title || currentCard.occupation || '';
+        
         document.getElementById('inputBio').value = currentCard.bio || '';
         document.getElementById('inputPhone').value = currentCard.phone || '';
         document.getElementById('inputEmail').value = currentCard.email || '';
@@ -919,8 +918,11 @@
         if (rawDbKeys.includes('full_name')) updatePayload.full_name = document.getElementById('inputName').value;
         else if (rawDbKeys.includes('name')) updatePayload.name = document.getElementById('inputName').value;
 
-        if (rawDbKeys.includes('title')) updatePayload.title = document.getElementById('inputTitle').value;
-        else if (rawDbKeys.includes('job_title')) updatePayload.job_title = document.getElementById('inputTitle').value;
+        // TITLE / OCCUPATION STRICT MULTI-KEY SAVE FIX
+        const titleValue = document.getElementById('inputTitle').value;
+        setIfColExists('title', titleValue);
+        setIfColExists('job_title', titleValue);
+        setIfColExists('occupation', titleValue);
 
         setIfColExists('enable_pin', pinEnabled);
         setIfColExists('pin', effectivePin);
@@ -936,8 +938,6 @@
         setIfColExists('facebook', document.getElementById('inputFacebook').value);
         setIfColExists('instagram', document.getElementById('inputInstagram').value);
         setIfColExists('whatsapp', document.getElementById('inputWhatsapp').value);
-        
-        // SAVE WECHAT QR CODE IMAGE DATA
         setIfColExists('wechat', newWechatQr);
         
         setIfColExists('avatar', newAvatar);
@@ -952,6 +952,10 @@
 
         if (error) throw error;
 
+        // DIRECT LOCAL MEMORY UPDATE
+        currentCard.title = titleValue;
+        currentCard.job_title = titleValue;
+        currentCard.occupation = titleValue;
         currentCard.enable_pin = pinEnabled;
         currentCard.pin = effectivePin;
         currentCard.passcode = effectivePin;
@@ -974,7 +978,7 @@
     function downloadVCard() {
       if (!currentCard) return;
       const name = currentCard.full_name || currentCard.name || 'Contact';
-      const title = currentCard.title || currentCard.job_title || '';
+      const title = currentCard.title || currentCard.job_title || currentCard.occupation || '';
       const vcardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nTITLE:${title}\nTEL;TYPE=CELL:${currentCard.phone || ''}\nEMAIL:${currentCard.email || ''}\nURL:${fixUrl(currentCard.website)}\nEND:VCARD`;
 
       const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8;' });
