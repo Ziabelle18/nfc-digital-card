@@ -8,23 +8,41 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Fonts -->
+  
+  <!-- Google Fonts (Girly + Men + Modern) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;1,400&family=Poppins:wght@300;400;600;700&family=Roboto+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@600&family=Cinzel:wght@600;700&family=Great+Vibes&family=Inter:wght@400;600;700&family=Montserrat:wght@500;700;800&family=Oswald:wght@500;700&family=Pacifico&family=Playfair+Display:ital,wght@0,600;1,400&family=Quicksand:wght@500;700&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
 
   <style>
-    /* Font Classes */
-    .font-inter { font-family: 'Inter', sans-serif; }
-    .font-poppins { font-family: 'Poppins', sans-serif; }
+    /* Girly Fonts */
+    .font-quicksand { font-family: 'Quicksand', sans-serif; }
+    .font-pacifico { font-family: 'Pacifico', cursive; }
+    .font-greatvibes { font-family: 'Great Vibes', cursive; }
     .font-playfair { font-family: 'Playfair Display', serif; }
-    .font-mono-custom { font-family: 'Roboto Mono', monospace; }
+    .font-caveat { font-family: 'Caveat', cursive; }
 
-    /* Custom Theme Colors */
-    .theme-dark { --bg-body: #020617; --bg-card: #0f172a; --accent: #6366f1; --accent-hover: #4f46e5; }
-    .theme-purple { --bg-body: #100a1c; --bg-card: #1c102b; --accent: #a855f7; --accent-hover: #9333ea; }
-    .theme-emerald { --bg-body: #022c22; --bg-card: #064e3b; --accent: #10b981; --accent-hover: #059669; }
-    .theme-sunset { --bg-body: #1c120c; --bg-card: #2b1b12; --accent: #f97316; --accent-hover: #ea580c; }
+    /* Men / Masculine Fonts */
+    .font-montserrat { font-family: 'Montserrat', sans-serif; }
+    .font-oswald { font-family: 'Oswald', sans-serif; }
+    .font-robotomono { font-family: 'Roboto Mono', monospace; }
+    .font-anton { font-family: 'Anton', sans-serif; }
+    .font-cinzel { font-family: 'Cinzel', serif; }
+    
+    /* Modern Default */
+    .font-inter { font-family: 'Inter', sans-serif; }
+
+    /* 10 Color Themes */
+    .theme-skyblue   { --bg-body: #0b192c; --bg-card: #1e293b; --accent: #38bdf8; --accent-hover: #0284c7; }
+    .theme-black     { --bg-body: #000000; --bg-card: #121212; --accent: #ffffff; --accent-hover: #d1d5db; }
+    .theme-gray      { --bg-body: #18181b; --bg-card: #27272a; --accent: #a1a1aa; --accent-hover: #71717a; }
+    .theme-pink      { --bg-body: #2a121d; --bg-card: #3b1c2b; --accent: #f472b6; --accent-hover: #ec4899; }
+    .theme-yellow    { --bg-body: #1c1917; --bg-card: #292524; --accent: #facc15; --accent-hover: #eab308; }
+    .theme-plum      { --bg-body: #18091e; --bg-card: #281033; --accent: #c084fc; --accent-hover: #a855f7; }
+    .theme-darkgreen { --bg-body: #022c22; --bg-card: #064e3b; --accent: #34d399; --accent-hover: #10b981; }
+    .theme-orange    { --bg-body: #1c0d02; --bg-card: #2e1605; --accent: #fb923c; --accent-hover: #f97316; }
+    .theme-maroon    { --bg-body: #1f0909; --bg-card: #341212; --accent: #f87171; --accent-hover: #ef4444; }
+    .theme-beige     { --bg-body: #1c1917; --bg-card: #2b2623; --accent: #f59e0b; --accent-hover: #d97706; }
 
     body { background-color: var(--bg-body); }
     .card-bg { background-color: var(--bg-card); }
@@ -33,7 +51,7 @@
     .text-accent { color: var(--accent); }
   </style>
 </head>
-<body id="bodyTag" class="theme-dark font-inter text-slate-100 min-h-screen flex flex-col justify-center items-center p-4 transition-colors duration-300">
+<body id="bodyTag" class="theme-skyblue font-inter text-slate-100 min-h-screen flex flex-col justify-center items-center p-4 transition-colors duration-300">
 
   <!-- Main Card Container -->
   <div class="w-full max-w-md card-bg border border-slate-800 rounded-3xl shadow-2xl overflow-hidden relative my-8 transition-colors duration-300">
@@ -56,7 +74,7 @@
 
       <!-- Action Buttons -->
       <div class="grid grid-cols-2 gap-3 mt-6">
-        <button onclick="downloadVCard()" class="btn-accent flex items-center justify-center gap-2 text-white font-semibold py-2.5 px-4 rounded-xl shadow-lg transition-all active:scale-95 text-sm">
+        <button onclick="downloadVCard()" class="btn-accent flex items-center justify-center gap-2 text-slate-950 font-bold py-2.5 px-4 rounded-xl shadow-lg transition-all active:scale-95 text-sm">
           <i class="fa-solid fa-user-plus"></i>
           <span>Save Contact</span>
         </button>
@@ -110,41 +128,60 @@
   <div id="editModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex justify-center items-center p-4 z-50">
     <div class="bg-slate-900 border border-slate-800 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-        <h3 class="text-lg font-bold text-white">Edit Profile & Style</h3>
+        <h3 class="text-lg font-bold text-white">Edit Profile & Styles</h3>
         <button onclick="toggleModal(false)" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
       </div>
 
       <div class="space-y-3">
-        <!-- Styling Customization -->
+        <!-- Theme & Font Selection -->
         <div class="grid grid-cols-2 gap-3 bg-slate-950 p-3 rounded-xl border border-slate-800">
           <div>
-            <label class="text-xs text-slate-400 block mb-1">Theme Color</label>
+            <label class="text-xs text-slate-400 block mb-1">Color Theme</label>
             <select id="selectTheme" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white">
-              <option value="theme-dark">Dark Slate</option>
-              <option value="theme-purple">Purple Neon</option>
-              <option value="theme-emerald">Emerald Green</option>
-              <option value="theme-sunset">Sunset Gold</option>
+              <option value="theme-skyblue">Sky Blue</option>
+              <option value="theme-black">Black (Onyx)</option>
+              <option value="theme-gray">Slate Gray</option>
+              <option value="theme-pink">Pastel Pink</option>
+              <option value="theme-yellow">Yellow Gold</option>
+              <option value="theme-plum">Plum Purple</option>
+              <option value="theme-darkgreen">Dark Green</option>
+              <option value="theme-orange">Vibrant Orange</option>
+              <option value="theme-maroon">Deep Maroon</option>
+              <option value="theme-beige">Warm Beige</option>
             </select>
           </div>
           <div>
             <label class="text-xs text-slate-400 block mb-1">Font Style</label>
             <select id="selectFont" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white">
-              <option value="font-inter">Inter (Modern)</option>
-              <option value="font-poppins">Poppins (Clean)</option>
-              <option value="font-playfair">Playfair (Elegant)</option>
-              <option value="font-mono-custom">Roboto (Tech)</option>
+              <optgroup label="Girly / Chic Fonts">
+                <option value="font-quicksand">Quicksand (Cute & Soft)</option>
+                <option value="font-pacifico">Pacifico (Fun Script)</option>
+                <option value="font-greatvibes">Great Vibes (Calligraphy)</option>
+                <option value="font-playfair">Playfair (Elegant Chic)</option>
+                <option value="font-caveat">Caveat (Handwritten)</option>
+              </optgroup>
+              <optgroup label="Men / Bold Fonts">
+                <option value="font-montserrat">Montserrat (Modern Bold)</option>
+                <option value="font-oswald">Oswald (Strong Condensed)</option>
+                <option value="font-robotomono">Roboto Mono (Tech Clean)</option>
+                <option value="font-anton">Anton (Heavy Impact)</option>
+                <option value="font-cinzel">Cinzel (Executive Serif)</option>
+              </optgroup>
+              <optgroup label="Standard">
+                <option value="font-inter">Inter (Clean Modern)</option>
+              </optgroup>
             </select>
           </div>
         </div>
 
-        <!-- Image Upload Inputs -->
+        <!-- Image Uploads -->
         <div>
-          <label class="text-xs text-slate-400">Profile Photo (Upload file)</label>
+          <label class="text-xs text-slate-400">Profile Photo (Upload File)</label>
           <input type="file" id="fileAvatar" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-slate-700 file:text-xs file:text-white">
         </div>
 
         <div>
-          <label class="text-xs text-slate-400">Cover Photo (Upload file)</label>
+          <label class="text-xs text-slate-400">Cover Photo (Upload File)</label>
           <input type="file" id="fileCover" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-slate-700 file:text-xs file:text-white">
         </div>
 
@@ -179,7 +216,7 @@
 
       <div class="pt-2 flex justify-end gap-2">
         <button onclick="toggleModal(false)" class="px-4 py-2 text-xs font-semibold text-slate-400 hover:text-white">Cancel</button>
-        <button onclick="saveProfile()" class="px-4 py-2 btn-accent text-white text-xs font-semibold rounded-lg shadow">Save Changes</button>
+        <button id="saveBtn" onclick="saveProfile()" class="px-4 py-2 btn-accent text-slate-950 text-xs font-bold rounded-lg shadow">Save Changes</button>
       </div>
     </div>
   </div>
@@ -194,7 +231,7 @@
       website: 'https://example.com',
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400',
       cover: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800',
-      theme: 'theme-dark',
+      theme: 'theme-skyblue',
       font: 'font-inter'
     };
 
@@ -216,7 +253,7 @@
 
       // Apply Theme & Font
       const body = document.getElementById('bodyTag');
-      body.className = `${data.theme || 'theme-dark'} ${data.font || 'font-inter'} text-slate-100 min-h-screen flex flex-col justify-center items-center p-4 transition-colors duration-300`;
+      body.className = `${data.theme || 'theme-skyblue'} ${data.font || 'font-inter'} text-slate-100 min-h-screen flex flex-col justify-center items-center p-4 transition-colors duration-300`;
     }
 
     function toggleModal(show) {
@@ -229,56 +266,95 @@
         document.getElementById('inputPhone').value = data.phone;
         document.getElementById('inputEmail').value = data.email;
         document.getElementById('inputWebsite').value = data.website;
-        document.getElementById('selectTheme').value = data.theme || 'theme-dark';
+        document.getElementById('selectTheme').value = data.theme || 'theme-skyblue';
         document.getElementById('selectFont').value = data.font || 'font-inter';
+        
+        // Reset file inputs
+        document.getElementById('fileAvatar').value = '';
+        document.getElementById('fileCover').value = '';
+
         modal.classList.remove('hidden');
       } else {
         modal.classList.add('hidden');
       }
     }
 
-    // Helper Function to Convert Image File to Base64 String
-    function fileToBase64(file) {
+    // Helper: Resizes and Compresses Images to Prevent Storage Overflows
+    function compressImage(file, maxWidth = 500, quality = 0.75) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
+        reader.onload = (event) => {
+          const img = new Image();
+          img.src = event.target.result;
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            let width = img.width;
+            let height = img.height;
+
+            if (width > maxWidth) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.onerror = (err) => reject(err);
+        };
+        reader.onerror = (err) => reject(err);
       });
     }
 
     async function saveProfile() {
-      const currentData = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
+      const saveBtn = document.getElementById('saveBtn');
+      saveBtn.innerText = 'Saving...';
+      saveBtn.disabled = true;
 
-      const avatarFile = document.getElementById('fileAvatar').files[0];
-      const coverFile = document.getElementById('fileCover').files[0];
+      try {
+        const currentData = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
 
-      let newAvatar = currentData.avatar;
-      let newCover = currentData.cover;
+        const avatarFile = document.getElementById('fileAvatar').files[0];
+        const coverFile = document.getElementById('fileCover').files[0];
 
-      if (avatarFile) {
-        newAvatar = await fileToBase64(avatarFile);
+        let newAvatar = currentData.avatar;
+        let newCover = currentData.cover;
+
+        if (avatarFile) {
+          newAvatar = await compressImage(avatarFile, 400, 0.8);
+        }
+        if (coverFile) {
+          newCover = await compressImage(coverFile, 800, 0.75);
+        }
+
+        const updatedData = {
+          name: document.getElementById('inputName').value,
+          title: document.getElementById('inputTitle').value,
+          bio: document.getElementById('inputBio').value,
+          phone: document.getElementById('inputPhone').value,
+          email: document.getElementById('inputEmail').value,
+          website: document.getElementById('inputWebsite').value,
+          avatar: newAvatar,
+          cover: newCover,
+          theme: document.getElementById('selectTheme').value,
+          font: document.getElementById('selectFont').value
+        };
+
+        localStorage.setItem('nfcCardData', JSON.stringify(updatedData));
+        loadProfile();
+        toggleModal(false);
+      } catch (err) {
+        alert('An error occurred while saving. Please try again!');
+        console.error(err);
+      } finally {
+        saveBtn.innerText = 'Save Changes';
+        saveBtn.disabled = false;
       }
-      if (coverFile) {
-        newCover = await fileToBase64(coverFile);
-      }
-
-      const updatedData = {
-        name: document.getElementById('inputName').value,
-        title: document.getElementById('inputTitle').value,
-        bio: document.getElementById('inputBio').value,
-        phone: document.getElementById('inputPhone').value,
-        email: document.getElementById('inputEmail').value,
-        website: document.getElementById('inputWebsite').value,
-        avatar: newAvatar,
-        cover: newCover,
-        theme: document.getElementById('selectTheme').value,
-        font: document.getElementById('selectFont').value
-      };
-
-      localStorage.setItem('nfcCardData', JSON.stringify(updatedData));
-      loadProfile();
-      toggleModal(false);
     }
 
     function downloadVCard() {
