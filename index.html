@@ -154,22 +154,22 @@
       </div>
     </div>
 
-    <!-- SLEEK SILVER & ELEGANT INITIAL TAP PREVIEW / LOADING CONTAINER -->
-    <div id="loadingBox" class="p-8 text-center flex flex-col items-center justify-center min-h-[260px] space-y-4">
-      <div class="relative group">
-        <!-- Metallic Silver Glowing Ring -->
-        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-slate-300 via-slate-100 to-slate-400 p-[1.5px] shadow-xl animate-pulse">
-          <div class="w-full h-full bg-slate-900/90 rounded-2xl flex items-center justify-center border border-slate-400/30 backdrop-blur-md">
+    <!-- ULTRA-SLEEK SILVER, GRAY & BLACK INITIAL TAP PREVIEW / LOADING CONTAINER -->
+    <div id="loadingBox" class="p-8 text-center flex flex-col items-center justify-center min-h-[260px] bg-gradient-to-b from-slate-900 via-slate-950 to-black text-slate-100 border-t border-slate-800 space-y-4">
+      <div class="relative">
+        <!-- Silver Metallic Glowing Ring Badge -->
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-slate-400 via-slate-100 to-slate-500 p-[1.5px] shadow-2xl animate-pulse">
+          <div class="w-full h-full bg-slate-950 rounded-2xl flex items-center justify-center border border-slate-700/60 shadow-inner">
             <i class="fa-solid fa-wifi text-slate-200 text-2xl animate-bounce"></i>
           </div>
         </div>
       </div>
 
-      <div class="space-y-1.5">
-        <h2 class="text-xs font-black tracking-[0.25em] text-transparent bg-clip-text bg-gradient-to-r from-slate-100 via-slate-300 to-slate-400 uppercase font-sans">
+      <div class="space-y-2">
+        <h2 class="text-xs font-black tracking-[0.22em] text-transparent bg-clip-text bg-gradient-to-r from-slate-100 via-slate-300 to-slate-400 uppercase font-sans">
           ZD NFC Digital Business Card
         </h2>
-        <p class="text-[10px] font-bold text-slate-400 tracking-wider flex items-center justify-center gap-2 font-sans">
+        <p class="text-[10px] font-semibold text-slate-400 tracking-wider flex items-center justify-center gap-2 font-sans">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
           <span>Connecting Digital Profile...</span>
         </p>
@@ -692,7 +692,7 @@
         } else {
           loadingBox.innerHTML = `
             <div class="py-6 px-4 text-center">
-              <p class="text-red-500 font-bold text-sm">Card Not Found</p>
+              <p class="text-red-400 font-bold text-sm">Card Not Found</p>
               <p class="text-xs text-slate-400 mt-1">Walang nahanap na record sa database.</p>
             </div>
           `;
@@ -701,7 +701,7 @@
         console.error("Load Error:", err);
         loadingBox.innerHTML = `
           <div class="py-6 px-4 text-center">
-            <p class="text-red-500 font-bold text-sm">Failed to Load Profile</p>
+            <p class="text-red-400 font-bold text-sm">Failed to Load Profile</p>
             <p class="text-[11px] text-slate-400 mt-1">${err.message || 'Please check connection'}</p>
           </div>
         `;
