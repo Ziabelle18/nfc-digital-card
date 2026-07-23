@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Business Card</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+  <div class="bg-white max-w-sm w-full rounded-2xl shadow-xl overflow-hidden text-center p-6 space-y-4">
+    <div class="w-24 h-24 bg-indigo-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto shadow-md" id="avatar">
+      ZD
+    </div>
+    
+    <div>
+      <h1 class="text-2xl font-bold text-gray-800" id="name">Zialink Digital</h1>
+      <p class="text-sm text-gray-500" id="phone">Tap to connect</p>
+    </div>
+
+    <div class="space-y-2 pt-2" id="links">
+      <a href="tel:" id="callBtn" class="block w-full py-2.5 bg-indigo-600 text-white font-medium rounded-xl shadow hover:bg-indigo-700 transition">Call Me</a>
+    </div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = "https://rehsynbkacvjttjedlxr.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_PjdxXTNrQ6sDsC7zZ9UFNA_127f9KMG";
+
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function loadCardData() {
+      const { data, error } = await supabase.from('cards').select('*').limit(1).single();
+      if (data && data.full_name) {
+        document.getElementById('name').innerText = data.full_name;
+        document.getElementById('phone').innerText = data.phone || '';
+        document.getElementById('callBtn').href = 'tel:' + (data.phone || '');
+        document.getElementById('avatar').innerText = data.full_name.charAt(0).toUpperCase();
+      }
+    }
+    loadCardData();
+  </script>
+</body>
+</html>
