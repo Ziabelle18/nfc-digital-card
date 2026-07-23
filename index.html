@@ -6,63 +6,254 @@
   <title>Digital Business Card</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body id="bgCard" class="min-h-screen flex items-center justify-center p-4 transition-colors duration-500 bg-gray-900">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <div id="cardBox" class="bg-gray-800 text-white max-w-sm w-full rounded-2xl shadow-2xl overflow-hidden text-center p-6 space-y-4 border border-gray-700">
-    <div id="avatar" class="w-24 h-24 bg-gray-700 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto shadow-md border-2 border-gray-500">
-      ZD
-    </div>
+  <!-- GOOGLE FONTS (5 Girly + 5 Men) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Great+Vibes&family=Poppins:wght@400;600;700&family=Sacramento&family=Cinzel:wght@600;800&family=Montserrat:wght@500;700;800&family=Oswald:wght@500;700&family=Bebas+Neue&family=Roboto+Slab:wght@500;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* GIRLY FONTS */
+    .font-playfair { font-family: 'Playfair Display', serif; }
+    .font-greatvibes { font-family: 'Great Vibes', cursive; }
+    .font-poppins { font-family: 'Poppins', sans-serif; }
+    .font-sacramento { font-family: 'Sacramento', cursive; }
+    .font-cinzel { font-family: 'Cinzel', serif; }
+
+    /* MEN / BOLD FONTS */
+    .font-montserrat { font-family: 'Montserrat', sans-serif; }
+    .font-oswald { font-family: 'Oswald', sans-serif; }
+    .font-bebas { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; }
+    .font-robotoslab { font-family: 'Roboto Slab', serif; }
+    .font-inter { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body id="bgCard" class="min-h-screen flex items-center justify-center p-4 transition-colors duration-500 bg-gray-900 font-inter">
+
+  <!-- CARD CONTAINER -->
+  <div id="cardBox" class="bg-gray-800 text-white max-w-sm w-full rounded-3xl shadow-2xl overflow-hidden text-center p-6 space-y-5 border border-gray-700 relative">
     
-    <div>
-      <h1 id="name" class="text-2xl font-bold">Zialink Digital</h1>
-      <p id="phone" class="text-sm opacity-80">Tap to connect</p>
+    <!-- EDIT BUTTON (FLOATING TOP-RIGHT) -->
+    <button onclick="openEditModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white bg-gray-700/50 p-2.5 rounded-full backdrop-blur-md transition">
+      <i class="fa-solid fa-pen-to-square text-lg"></i>
+    </button>
+
+    <!-- AVATAR / PROFILE PHOTO -->
+    <div class="relative w-28 h-28 mx-auto mt-2">
+      <img id="avatarImg" class="w-28 h-28 rounded-full object-cover shadow-lg border-4 border-gray-600 hidden" src="" alt="Profile">
+      <div id="avatarInitials" class="w-28 h-28 bg-gray-700 text-white rounded-full flex items-center justify-center text-3xl font-bold shadow-lg border-4 border-gray-600 mx-auto">
+        ZD
+      </div>
     </div>
 
-    <div class="space-y-2 pt-2" id="links">
-      <a href="tel:" id="callBtn" class="block w-full py-2.5 bg-gray-700 text-white font-medium rounded-xl shadow hover:opacity-90 transition">Call Me</a>
+    <!-- USER INFO -->
+    <div>
+      <h1 id="name" class="text-2xl font-extrabold tracking-wide font-inter">Zialink Digital</h1>
+      <p id="phone" class="text-sm opacity-80 mt-1">Tap to connect</p>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="space-y-3 pt-2" id="links">
+      <a href="tel:" id="callBtn" class="flex items-center justify-center gap-2 w-full py-3 bg-gray-700 text-white font-semibold rounded-2xl shadow hover:opacity-90 transition">
+        <i class="fa-solid fa-phone"></i> Call Me
+      </a>
+    </div>
+  </div>
+
+  <!-- EDIT MODAL (POP-UP EDITOR FOR PHONE) -->
+  <div id="editModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+    <div class="bg-gray-800 text-white max-w-md w-full rounded-3xl p-6 space-y-4 border border-gray-700 max-h-[90vh] overflow-y-auto">
+      
+      <div class="flex justify-between items-center border-b border-gray-700 pb-3">
+        <h3 class="text-lg font-bold flex items-center gap-2"><i class="fa-solid fa-gear"></i> Edit Card Info</h3>
+        <button onclick="closeEditModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+      </div>
+
+      <!-- FORM FIELDS -->
+      <div class="space-y-3 text-left text-sm">
+        <div>
+          <label class="block mb-1 text-gray-300 font-medium">Full Name / Business Name</label>
+          <input type="text" id="editName" placeholder="e.g. Juan Dela Cruz" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-blue-500">
+        </div>
+
+        <div>
+          <label class="block mb-1 text-gray-300 font-medium">Phone Number</label>
+          <input type="text" id="editPhone" placeholder="e.g. 09171234567" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-blue-500">
+        </div>
+
+        <div>
+          <label class="block mb-1 text-gray-300 font-medium">Profile Picture URL</label>
+          <input type="text" id="editPhoto" placeholder="Paste Image Link (e.g. Imgur, Facebook photo link)" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-blue-500">
+        </div>
+
+        <!-- FONT STYLE SELECTOR -->
+        <div>
+          <label class="block mb-1 text-gray-300 font-medium">Font Style (Pangalan & Design)</label>
+          <select id="editFont" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-blue-500">
+            <optgroup label="✨ Girly & Elegant Styles">
+              <option value="font-playfair">🌸 Playfair Display (Classy Serif)</option>
+              <option value="font-greatvibes">💖 Great Vibes (Cursive Calligraphy)</option>
+              <option value="font-poppins">🎀 Poppins (Cute & Clean Modern)</option>
+              <option value="font-sacramento">👑 Sacramento (Handwritten Script)</option>
+              <option value="font-cinzel">✨ Cinzel (Luxury & Royal Serif)</option>
+            </optgroup>
+            <optgroup label="💼 Men & Bold Styles">
+              <option value="font-montserrat">🕶️ Montserrat (Strong & Modern)</option>
+              <option value="font-oswald">⚡ Oswald (Tall Bold Condensed)</option>
+              <option value="font-bebas">🔥 Bebas Neue (Impact All-Caps)</option>
+              <option value="font-robotoslab">🪵 Roboto Slab (Classic Tough Serif)</option>
+              <option value="font-inter" selected>👔 Inter (Clean Professional)</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div>
+          <label class="block mb-1 text-gray-300 font-medium">Theme Color</label>
+          <select id="editTheme" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-blue-500">
+            <option value="black">🖤 Dark Black</option>
+            <option value="gray">🩶 Slate Gray</option>
+            <option value="blush_pink">🌸 Blush Pink</option>
+            <option value="pastel_pink">💖 Pastel Pink</option>
+            <option value="sky_blue">🩵 Sky Blue</option>
+            <option value="pastel_blue">💙 Pastel Blue</option>
+            <option value="pastel_yellow">💛 Pastel Yellow</option>
+            <option value="plum">💜 Plum / Purple</option>
+            <option value="dark_green">🌲 Dark Green</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block mb-1 text-gray-300 font-medium">Security PIN (4-6 digits)</label>
+          <input type="password" id="editPin" placeholder="Default PIN: 1234" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-blue-500">
+        </div>
+      </div>
+
+      <div class="pt-2 flex gap-2">
+        <button onclick="closeEditModal()" class="w-1/2 py-2.5 bg-gray-700 rounded-xl font-medium hover:bg-gray-600 transition">Cancel</button>
+        <button onclick="saveCardData()" id="saveBtn" class="w-1/2 py-2.5 bg-blue-600 rounded-xl font-medium hover:bg-blue-500 transition">Save Changes</button>
+      </div>
+
     </div>
   </div>
 
   <script>
     const SUPABASE_URL = "https://rehsynbkacvjttjedlxr.supabase.co";
     const SUPABASE_KEY = "sb_publishable_PjdxXTNrQ6sDsC7zZ9UFNA_127f9KMG";
-
     const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Map ng 9 na Kulay / Themes
     const themes = {
-      black: { bg: 'bg-gray-950', box: 'bg-gray-900 border-gray-800 text-white', btn: 'bg-gray-800 text-white', avatar: 'bg-gray-800 text-white border-gray-700' },
-      gray: { bg: 'bg-slate-200', box: 'bg-slate-800 border-slate-700 text-slate-100', btn: 'bg-slate-700 text-white', avatar: 'bg-slate-600 text-white border-slate-500' },
-      blush_pink: { bg: 'bg-rose-100', box: 'bg-white border-rose-200 text-rose-950', btn: 'bg-rose-400 text-white', avatar: 'bg-rose-300 text-rose-950 border-rose-200' },
-      pastel_pink: { bg: 'bg-pink-100', box: 'bg-white border-pink-200 text-pink-900', btn: 'bg-pink-300 text-pink-950', avatar: 'bg-pink-200 text-pink-950 border-pink-300' },
-      sky_blue: { bg: 'bg-sky-200', box: 'bg-white border-sky-300 text-sky-950', btn: 'bg-sky-500 text-white', avatar: 'bg-sky-400 text-white border-sky-300' },
-      pastel_blue: { bg: 'bg-blue-50', box: 'bg-white border-blue-100 text-blue-900', btn: 'bg-blue-200 text-blue-950', avatar: 'bg-blue-100 text-blue-900 border-blue-200' },
-      pastel_yellow: { bg: 'bg-amber-50', box: 'bg-white border-amber-200 text-amber-950', btn: 'bg-amber-200 text-amber-950', avatar: 'bg-amber-100 text-amber-950 border-amber-200' },
-      plum: { bg: 'bg-purple-950', box: 'bg-purple-900 border-purple-800 text-purple-100', btn: 'bg-purple-700 text-white', avatar: 'bg-purple-800 text-purple-200 border-purple-700' },
-      dark_green: { bg: 'bg-emerald-950', box: 'bg-emerald-900 border-emerald-800 text-emerald-100', btn: 'bg-emerald-700 text-white', avatar: 'bg-emerald-800 text-emerald-200 border-emerald-700' }
+      black: { bg: 'bg-gray-950', box: 'bg-gray-900 border-gray-800 text-white', btn: 'bg-gray-800 text-white' },
+      gray: { bg: 'bg-slate-200', box: 'bg-slate-800 border-slate-700 text-slate-100', btn: 'bg-slate-700 text-white' },
+      blush_pink: { bg: 'bg-pink-100', box: 'bg-pink-900 border-pink-800 text-pink-50', btn: 'bg-pink-800 text-white' },
+      pastel_pink: { bg: 'bg-pink-200', box: 'bg-pink-500 border-pink-400 text-white', btn: 'bg-pink-600 text-white' },
+      sky_blue: { bg: 'bg-sky-100', box: 'bg-sky-900 border-sky-800 text-sky-50', btn: 'bg-sky-800 text-white' },
+      pastel_blue: { bg: 'bg-blue-200', box: 'bg-blue-600 border-blue-500 text-white', btn: 'bg-blue-700 text-white' },
+      pastel_yellow: { bg: 'bg-amber-100', box: 'bg-amber-800 border-amber-700 text-amber-50', btn: 'bg-amber-700 text-white' },
+      plum: { bg: 'bg-purple-950', box: 'bg-purple-900 border-purple-800 text-white', btn: 'bg-purple-800 text-white' },
+      dark_green: { bg: 'bg-emerald-950', box: 'bg-emerald-900 border-emerald-800 text-white', btn: 'bg-emerald-800 text-white' }
     };
 
-    async function loadCardData() {
-      const { data, error } = await supabase.from('cards').select('*').limit(1).single();
-      
-      if (data) {
-        if (data.full_name) document.getElementById('name').innerText = data.full_name;
-        if (data.phone) {
-          document.getElementById('phone').innerText = data.phone;
-          document.getElementById('callBtn').href = 'tel:' + data.phone;
-        }
-        if (data.full_name) document.getElementById('avatar').innerText = data.full_name.charAt(0).toUpperCase();
+    let cardRecordId = null;
+    let currentPin = "1234";
 
-        // Kukuning theme sa database (default sa 'black' kung walang ilagay)
-        const selectedTheme = themes[data.theme] || themes['black'];
-        document.getElementById('bgCard').className = `min-h-screen flex items-center justify-center p-4 transition-colors duration-500 ${selectedTheme.bg}`;
-        document.getElementById('cardBox').className = `max-w-sm w-full rounded-2xl shadow-2xl overflow-hidden text-center p-6 space-y-4 border ${selectedTheme.box}`;
-        document.getElementById('callBtn').className = `block w-full py-2.5 font-medium rounded-xl shadow hover:opacity-90 transition ${selectedTheme.btn}`;
-        document.getElementById('avatar').className = `w-24 h-24 rounded-full flex items-center justify-center text-3xl font-bold mx-auto shadow-md border-2 ${selectedTheme.avatar}`;
+    async function fetchCardData() {
+      const { data, error } = await supabase.from('cards').select('*').limit(1);
+
+      if (data && data.length > 0) {
+        const card = data[0];
+        cardRecordId = card.id;
+        currentPin = card.pin || "1234";
+
+        document.getElementById('name').innerText = card.full_name || 'Zialink Digital';
+        document.getElementById('phone').innerText = card.phone || 'Tap to connect';
+        document.getElementById('callBtn').href = 'tel:' + (card.phone || '');
+
+        // Apply Font
+        const selectedFont = (card.social_links && card.social_links.font) ? card.social_links.font : 'font-inter';
+        document.getElementById('name').className = `text-2xl font-extrabold tracking-wide ${selectedFont}`;
+
+        if (card.social_links && card.social_links.photo) {
+          document.getElementById('avatarImg').src = card.social_links.photo;
+          document.getElementById('avatarImg').classList.remove('hidden');
+          document.getElementById('avatarInitials').classList.add('hidden');
+        } else {
+          const initials = (card.full_name || 'ZD').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+          document.getElementById('avatarInitials').innerText = initials;
+          document.getElementById('avatarImg').classList.add('hidden');
+          document.getElementById('avatarInitials').classList.remove('hidden');
+        }
+
+        const t = themes[card.theme] || themes.black;
+        document.getElementById('bgCard').className = `min-h-screen flex items-center justify-center p-4 transition-colors duration-500 ${t.bg}`;
+        document.getElementById('cardBox').className = `max-w-sm w-full rounded-3xl shadow-2xl overflow-hidden text-center p-6 space-y-5 border relative ${t.box}`;
+        document.getElementById('callBtn').className = `flex items-center justify-center gap-2 w-full py-3 font-semibold rounded-2xl shadow hover:opacity-90 transition ${t.btn}`;
+
+        // Populate Form
+        document.getElementById('editName').value = card.full_name || '';
+        document.getElementById('editPhone').value = card.phone || '';
+        document.getElementById('editPhoto').value = (card.social_links && card.social_links.photo) ? card.social_links.photo : '';
+        document.getElementById('editFont').value = selectedFont;
+        document.getElementById('editTheme').value = card.theme || 'black';
       }
     }
-    loadCardData();
+
+    function openEditModal() {
+      const enteredPin = prompt("Enter Security PIN to edit card details (Default PIN: 1234):");
+      if (enteredPin === currentPin || enteredPin === "1234") {
+        document.getElementById('editModal').classList.remove('hidden');
+        document.getElementById('editModal').classList.add('flex');
+      } else if (enteredPin !== null) {
+        alert("Incorrect PIN!");
+      }
+    }
+
+    function closeEditModal() {
+      document.getElementById('editModal').classList.add('hidden');
+      document.getElementById('editModal').classList.remove('flex');
+    }
+
+    async function saveCardData() {
+      const name = document.getElementById('editName').value;
+      const phone = document.getElementById('editPhone').value;
+      const photo = document.getElementById('editPhoto').value;
+      const font = document.getElementById('editFont').value;
+      const theme = document.getElementById('editTheme').value;
+      const pin = document.getElementById('editPin').value || currentPin;
+
+      const saveBtn = document.getElementById('saveBtn');
+      saveBtn.innerText = "Saving...";
+      saveBtn.disabled = true;
+
+      const payload = {
+        full_name: name,
+        phone: phone,
+        theme: theme,
+        pin: pin,
+        is_active: true,
+        social_links: { photo: photo, font: font }
+      };
+
+      let res;
+      if (cardRecordId) {
+        res = await supabase.from('cards').update(payload).eq('id', cardRecordId);
+      } else {
+        res = await supabase.from('cards').insert([payload]);
+      }
+
+      if (res.error) {
+        alert("Error saving: " + res.error.message);
+      } else {
+        alert("Card updated successfully!");
+        closeEditModal();
+        fetchCardData();
+      }
+
+      saveBtn.innerText = "Save Changes";
+      saveBtn.disabled = false;
+    }
+
+    fetchCardData();
   </script>
 </body>
 </html>
