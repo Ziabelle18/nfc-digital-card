@@ -8,19 +8,39 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;1,400&family=Poppins:wght@300;400;600;700&family=Roboto+Mono:wght@400;600&display=swap" rel="stylesheet">
+
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-    body { font-family: 'Inter', sans-serif; }
+    /* Font Classes */
+    .font-inter { font-family: 'Inter', sans-serif; }
+    .font-poppins { font-family: 'Poppins', sans-serif; }
+    .font-playfair { font-family: 'Playfair Display', serif; }
+    .font-mono-custom { font-family: 'Roboto Mono', monospace; }
+
+    /* Custom Theme Colors */
+    .theme-dark { --bg-body: #020617; --bg-card: #0f172a; --accent: #6366f1; --accent-hover: #4f46e5; }
+    .theme-purple { --bg-body: #100a1c; --bg-card: #1c102b; --accent: #a855f7; --accent-hover: #9333ea; }
+    .theme-emerald { --bg-body: #022c22; --bg-card: #064e3b; --accent: #10b981; --accent-hover: #059669; }
+    .theme-sunset { --bg-body: #1c120c; --bg-card: #2b1b12; --accent: #f97316; --accent-hover: #ea580c; }
+
+    body { background-color: var(--bg-body); }
+    .card-bg { background-color: var(--bg-card); }
+    .btn-accent { background-color: var(--accent); }
+    .btn-accent:hover { background-color: var(--accent-hover); }
+    .text-accent { color: var(--accent); }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-center items-center p-4">
+<body id="bodyTag" class="theme-dark font-inter text-slate-100 min-h-screen flex flex-col justify-center items-center p-4 transition-colors duration-300">
 
   <!-- Main Card Container -->
-  <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden relative my-8">
+  <div class="w-full max-w-md card-bg border border-slate-800 rounded-3xl shadow-2xl overflow-hidden relative my-8 transition-colors duration-300">
     
     <!-- Cover Photo -->
-    <div class="h-36 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 relative">
-      <img id="coverImg" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800" alt="Cover" class="w-full h-full object-cover opacity-60">
+    <div class="h-36 relative bg-slate-800">
+      <img id="coverImg" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800" alt="Cover" class="w-full h-full object-cover">
     </div>
 
     <!-- Profile Header Section -->
@@ -31,12 +51,12 @@
       </div>
 
       <h1 id="displayName" class="text-2xl font-bold text-white">Alex Rivera</h1>
-      <p id="displayTitle" class="text-sm font-medium text-indigo-400 mt-1">Creative Director & Web Developer</p>
+      <p id="displayTitle" class="text-sm font-medium text-accent mt-1">Creative Director & Web Developer</p>
       <p id="displayBio" class="text-xs text-slate-400 mt-2 px-4">Building sleek digital experiences & web solutions.</p>
 
-      <!-- Action Buttons (Save Contact & Share) -->
+      <!-- Action Buttons -->
       <div class="grid grid-cols-2 gap-3 mt-6">
-        <button onclick="downloadVCard()" class="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 px-4 rounded-xl shadow-lg transition-all active:scale-95 text-sm">
+        <button onclick="downloadVCard()" class="btn-accent flex items-center justify-center gap-2 text-white font-semibold py-2.5 px-4 rounded-xl shadow-lg transition-all active:scale-95 text-sm">
           <i class="fa-solid fa-user-plus"></i>
           <span>Save Contact</span>
         </button>
@@ -47,9 +67,9 @@
       </div>
 
       <!-- Contact Links -->
-      <div class="mt-6 space-y-3 text-left" id="socialLinks">
-        <a id="linkPhone" href="tel:+1234567890" class="flex items-center gap-4 p-3 rounded-2xl bg-slate-800/60 border border-slate-800 hover:border-slate-700 transition">
-          <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
+      <div class="mt-6 space-y-3 text-left">
+        <a id="linkPhone" href="tel:+1234567890" class="flex items-center gap-4 p-3 rounded-2xl bg-slate-800/40 border border-slate-800 hover:border-slate-700 transition">
+          <div class="w-10 h-10 rounded-xl bg-slate-800 text-accent flex items-center justify-center">
             <i class="fa-solid fa-phone"></i>
           </div>
           <div class="overflow-hidden">
@@ -58,8 +78,8 @@
           </div>
         </a>
 
-        <a id="linkEmail" href="mailto:alex@example.com" class="flex items-center gap-4 p-3 rounded-2xl bg-slate-800/60 border border-slate-800 hover:border-slate-700 transition">
-          <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center">
+        <a id="linkEmail" href="mailto:alex@example.com" class="flex items-center gap-4 p-3 rounded-2xl bg-slate-800/40 border border-slate-800 hover:border-slate-700 transition">
+          <div class="w-10 h-10 rounded-xl bg-slate-800 text-accent flex items-center justify-center">
             <i class="fa-solid fa-envelope"></i>
           </div>
           <div class="overflow-hidden">
@@ -68,8 +88,8 @@
           </div>
         </a>
 
-        <a id="linkWebsite" href="https://example.com" target="_blank" class="flex items-center gap-4 p-3 rounded-2xl bg-slate-800/60 border border-slate-800 hover:border-slate-700 transition">
-          <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center">
+        <a id="linkWebsite" href="https://example.com" target="_blank" class="flex items-center gap-4 p-3 rounded-2xl bg-slate-800/40 border border-slate-800 hover:border-slate-700 transition">
+          <div class="w-10 h-10 rounded-xl bg-slate-800 text-accent flex items-center justify-center">
             <i class="fa-solid fa-globe"></i>
           </div>
           <div class="overflow-hidden">
@@ -90,50 +110,81 @@
   <div id="editModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex justify-center items-center p-4 z-50">
     <div class="bg-slate-900 border border-slate-800 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-        <h3 class="text-lg font-bold text-white">Edit Profile Details</h3>
+        <h3 class="text-lg font-bold text-white">Edit Profile & Style</h3>
         <button onclick="toggleModal(false)" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
       </div>
 
       <div class="space-y-3">
+        <!-- Styling Customization -->
+        <div class="grid grid-cols-2 gap-3 bg-slate-950 p-3 rounded-xl border border-slate-800">
+          <div>
+            <label class="text-xs text-slate-400 block mb-1">Theme Color</label>
+            <select id="selectTheme" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white">
+              <option value="theme-dark">Dark Slate</option>
+              <option value="theme-purple">Purple Neon</option>
+              <option value="theme-emerald">Emerald Green</option>
+              <option value="theme-sunset">Sunset Gold</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs text-slate-400 block mb-1">Font Style</label>
+            <select id="selectFont" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white">
+              <option value="font-inter">Inter (Modern)</option>
+              <option value="font-poppins">Poppins (Clean)</option>
+              <option value="font-playfair">Playfair (Elegant)</option>
+              <option value="font-mono-custom">Roboto (Tech)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Image Upload Inputs -->
+        <div>
+          <label class="text-xs text-slate-400">Profile Photo (Upload file)</label>
+          <input type="file" id="fileAvatar" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-slate-700 file:text-xs file:text-white">
+        </div>
+
+        <div>
+          <label class="text-xs text-slate-400">Cover Photo (Upload file)</label>
+          <input type="file" id="fileCover" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-slate-700 file:text-xs file:text-white">
+        </div>
+
+        <hr class="border-slate-800">
+
+        <!-- Info Inputs -->
         <div>
           <label class="text-xs text-slate-400">Full Name</label>
-          <input type="text" id="inputName" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
+          <input type="text" id="inputName" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
         </div>
         <div>
           <label class="text-xs text-slate-400">Title / Occupation</label>
-          <input type="text" id="inputTitle" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
+          <input type="text" id="inputTitle" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
         </div>
         <div>
           <label class="text-xs text-slate-400">Bio</label>
-          <input type="text" id="inputBio" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
+          <input type="text" id="inputBio" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
         </div>
         <div>
           <label class="text-xs text-slate-400">Phone</label>
-          <input type="text" id="inputPhone" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
+          <input type="text" id="inputPhone" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
         </div>
         <div>
           <label class="text-xs text-slate-400">Email</label>
-          <input type="email" id="inputEmail" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
+          <input type="email" id="inputEmail" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
         </div>
         <div>
           <label class="text-xs text-slate-400">Website URL</label>
-          <input type="url" id="inputWebsite" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
-        </div>
-        <div>
-          <label class="text-xs text-slate-400">Avatar Image URL</label>
-          <input type="url" id="inputAvatar" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
+          <input type="url" id="inputWebsite" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
         </div>
       </div>
 
       <div class="pt-2 flex justify-end gap-2">
         <button onclick="toggleModal(false)" class="px-4 py-2 text-xs font-semibold text-slate-400 hover:text-white">Cancel</button>
-        <button onclick="saveProfile()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-lg shadow">Save Changes</button>
+        <button onclick="saveProfile()" class="px-4 py-2 btn-accent text-white text-xs font-semibold rounded-lg shadow">Save Changes</button>
       </div>
     </div>
   </div>
 
   <script>
-    // Profile State Management
     const defaultData = {
       name: 'Alex Rivera',
       title: 'Creative Director & Web Developer',
@@ -141,7 +192,10 @@
       phone: '+1 (234) 567-890',
       email: 'alex@example.com',
       website: 'https://example.com',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400'
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400',
+      cover: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800',
+      theme: 'theme-dark',
+      font: 'font-inter'
     };
 
     function loadProfile() {
@@ -154,10 +208,15 @@
       document.getElementById('displayEmail').innerText = data.email;
       document.getElementById('displayWebsite').innerText = data.website;
       document.getElementById('avatarImg').src = data.avatar;
+      document.getElementById('coverImg').src = data.cover || defaultData.cover;
 
       document.getElementById('linkPhone').href = 'tel:' + data.phone;
       document.getElementById('linkEmail').href = 'mailto:' + data.email;
       document.getElementById('linkWebsite').href = data.website;
+
+      // Apply Theme & Font
+      const body = document.getElementById('bodyTag');
+      body.className = `${data.theme || 'theme-dark'} ${data.font || 'font-inter'} text-slate-100 min-h-screen flex flex-col justify-center items-center p-4 transition-colors duration-300`;
     }
 
     function toggleModal(show) {
@@ -165,19 +224,45 @@
       if (show) {
         const data = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
         document.getElementById('inputName').value = data.name;
-        document.getElementById('inputTitle').value = data.value || data.title;
+        document.getElementById('inputTitle').value = data.title;
         document.getElementById('inputBio').value = data.bio;
         document.getElementById('inputPhone').value = data.phone;
         document.getElementById('inputEmail').value = data.email;
         document.getElementById('inputWebsite').value = data.website;
-        document.getElementById('inputAvatar').value = data.avatar;
+        document.getElementById('selectTheme').value = data.theme || 'theme-dark';
+        document.getElementById('selectFont').value = data.font || 'font-inter';
         modal.classList.remove('hidden');
       } else {
         modal.classList.add('hidden');
       }
     }
 
-    function saveProfile() {
+    // Helper Function to Convert Image File to Base64 String
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+    }
+
+    async function saveProfile() {
+      const currentData = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
+
+      const avatarFile = document.getElementById('fileAvatar').files[0];
+      const coverFile = document.getElementById('fileCover').files[0];
+
+      let newAvatar = currentData.avatar;
+      let newCover = currentData.cover;
+
+      if (avatarFile) {
+        newAvatar = await fileToBase64(avatarFile);
+      }
+      if (coverFile) {
+        newCover = await fileToBase64(coverFile);
+      }
+
       const updatedData = {
         name: document.getElementById('inputName').value,
         title: document.getElementById('inputTitle').value,
@@ -185,7 +270,10 @@
         phone: document.getElementById('inputPhone').value,
         email: document.getElementById('inputEmail').value,
         website: document.getElementById('inputWebsite').value,
-        avatar: document.getElementById('inputAvatar').value
+        avatar: newAvatar,
+        cover: newCover,
+        theme: document.getElementById('selectTheme').value,
+        font: document.getElementById('selectFont').value
       };
 
       localStorage.setItem('nfcCardData', JSON.stringify(updatedData));
@@ -193,17 +281,9 @@
       toggleModal(false);
     }
 
-    // Dynamic vCard Export
     function downloadVCard() {
       const data = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
-      const vcardData = `BEGIN:VCARD
-VERSION:3.0
-FN:${data.name}
-TITLE:${data.title}
-TEL;TYPE=CELL:${data.phone}
-EMAIL:${data.email}
-URL:${data.website}
-END:VCARD`;
+      const vcardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${data.name}\nTITLE:${data.title}\nTEL;TYPE=CELL:${data.phone}\nEMAIL:${data.email}\nURL:${data.website}\nEND:VCARD`;
 
       const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
@@ -215,7 +295,6 @@ END:VCARD`;
       document.body.removeChild(link);
     }
 
-    // Web Share API with Clipboard Fallback
     async function shareCard() {
       const data = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
       if (navigator.share) {
@@ -225,16 +304,13 @@ END:VCARD`;
             text: `${data.name} - ${data.title}`,
             url: window.location.href
           });
-        } catch (err) {
-          console.log('Share canceled');
-        }
+        } catch (err) {}
       } else {
         navigator.clipboard.writeText(window.location.href);
         alert('Link copied to clipboard!');
       }
     }
 
-    // Initial Load
     loadProfile();
   </script>
 </body>
