@@ -134,7 +134,7 @@
   <div class="w-full max-w-md card-bg border rounded-3xl shadow-xl overflow-hidden relative z-10 mx-auto">
     <!-- STYLED HEADER BANNER -->
     <div class="h-40 relative bg-slate-200 dark:bg-slate-800 overflow-hidden">
-      <img id="coverImg" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800" alt="Cover" class="w-full h-full object-cover opacity-90" crossorigin="anonymous">
+      <img id="coverImg" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800" alt="Cover" class="w-full h-full object-cover opacity-90 transition-all duration-150" crossorigin="anonymous">
       
       <!-- Glowing Mood Accents on Banner -->
       <div class="header-circle-1"></div>
@@ -391,9 +391,24 @@
           <input type="file" id="fileAvatar" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-slate-700 file:text-xs file:text-white">
         </div>
 
-        <div>
+        <!-- COVER PHOTO UPLOAD + REPOSITIONING CONTROL -->
+        <div class="space-y-2">
           <label class="text-xs text-slate-400">Cover Photo (Upload File)</label>
           <input type="file" id="fileCover" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-slate-700 file:text-xs file:text-white">
+          
+          <!-- COVER PHOTO VERTICAL ALIGNMENT SLIDER -->
+          <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-[11px] font-semibold text-slate-300">Reposition Cover Photo</span>
+              <span id="coverPosLabel" class="text-[10px] text-pink-400 font-bold">Center (50%)</span>
+            </div>
+            <input type="range" id="inputCoverPosition" min="0" max="100" value="50" oninput="previewCoverPosition(this.value)" class="w-full h-1 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-pink-500">
+            <div class="flex justify-between text-[9px] text-slate-400 mt-1">
+              <span>Top</span>
+              <span>Center</span>
+              <span>Bottom</span>
+            </div>
+          </div>
         </div>
 
         <hr class="border-slate-800">
@@ -462,6 +477,16 @@
     const MASTER_RECOVERY_CODE = 'ZD2026';
     let currentCard = null;
     let rawDbKeys = []; 
+
+    // LIVE PREVIEW COVER POSITION FUNCTION
+    function previewCoverPosition(val) {
+      document.getElementById('coverImg').style.objectPosition = `center ${val}%`;
+      const label = document.getElementById('coverPosLabel');
+      if (val == 0) label.innerText = 'Top (0%)';
+      else if (val == 50) label.innerText = 'Center (50%)';
+      else if (val == 100) label.innerText = 'Bottom (100%)';
+      else label.innerText = `${val}% Vertical`;
+    }
 
     // EXTRACT PIN VALUE SAFELY
     function getStoredPin() {
@@ -638,7 +663,6 @@
         if (cardId) {
           response = await _supabase.from('cards').select('*').eq('id', cardId).maybeSingle();
         } else {
-          // CONSISTENT CARD LOADING ORDER ACROSS ALL BROWSERS & DEVICES
           response = await _supabase.from('cards').select('*').order('created_at', { ascending: true }).limit(1).maybeSingle();
         }
 
@@ -685,6 +709,10 @@
       
       if (data.avatar) document.getElementById('avatarImg').src = data.avatar;
       if (data.cover) document.getElementById('coverImg').src = data.cover;
+
+      // APPLY SAVED COVER POSITION (VERTICAL ALIGNMENT)
+      const savedCoverPos = data.cover_position || data.coverPosition || '50';
+      document.getElementById('coverImg').style.objectPosition = `center ${savedCoverPos}%`;
 
       document.getElementById('linkPhone').href = data.phone ? 'tel:' + data.phone : '#';
       document.getElementById('linkEmail').href = data.email ? 'mailto:' + data.email : '#';
@@ -763,7 +791,6 @@
       document.getElementById('passcodeModal').classList.add('hidden');
     }
 
-    // ACCURATE PIN VERIFICATION MATCHING SAVED CUSTOM PIN PERMANENTLY
     function verifyPasscode() {
       const enteredPin = document.getElementById('authPin').value.trim();
       const targetPin = getStoredPin();
@@ -833,6 +860,11 @@
         document.getElementById('inputInstagram').value = currentCard.instagram || '';
         document.getElementById('inputWhatsapp').value = currentCard.whatsapp || '';
         
+        // POPULATE COVER POSITION SLIDER
+        const currentCoverPos = currentCard.cover_position || currentCard.coverPosition || '50';
+        document.getElementById('inputCoverPosition').value = currentCoverPos;
+        previewCoverPosition(currentCoverPos);
+
         document.getElementById('selectTheme').value = currentCard.theme || 'theme-pink';
         document.getElementById('inputCustomColor').value = currentCard.custom_color || currentCard.customColor || '#ec4899';
         document.getElementById('selectFont').value = currentCard.font || 'font-greatvibes';
@@ -889,9 +921,9 @@
         return;
       }
 
-      // PERMANENT CROSS-BROWSER PIN & STATE SAVE
       const cleanPin = typedPin || getStoredPin() || '1234';
       const dbPinValue = pinEnabled ? cleanPin : ('OFF:' + cleanPin);
+      const coverPosVal = document.getElementById('inputCoverPosition').value;
 
       const saveBtn = document.getElementById('saveBtn');
       saveBtn.innerText = 'Saving...';
@@ -938,6 +970,10 @@
         setIfColExists('pin', dbPinValue);
         setIfColExists('passcode', dbPinValue);
 
+        // COVER POSITION SAVE
+        setIfColExists('cover_position', coverPosVal);
+        setIfColExists('coverPosition', coverPosVal);
+
         setIfColExists('custom_color', document.getElementById('inputCustomColor').value);
         setIfColExists('customColor', document.getElementById('inputCustomColor').value);
 
@@ -969,6 +1005,8 @@
         currentCard.enable_pin = pinEnabled;
         currentCard.pin = dbPinValue;
         currentCard.passcode = dbPinValue;
+        currentCard.cover_position = coverPosVal;
+        currentCard.coverPosition = coverPosVal;
         Object.assign(currentCard, updatePayload);
 
         renderUI(currentCard);
