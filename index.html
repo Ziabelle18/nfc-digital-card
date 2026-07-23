@@ -1,4 +1,423 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital NFC Business Card</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Allura&family=Bebas+Neue&family=Caveat:wght@600&family=Clicker+Script&family=Great+Vibes&family=Inter:wght@400;600;700&family=Josefin+Sans:wght@400;600;700&family=Montserrat:wght@500;700&family=Oswald:wght@500;700&family=Pacifico&family=Parisienne&family=Playfair+Display:ital,wght@0,600&family=Quicksand:wght@500;700&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Official Supabase JS SDK v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    /* --- 10 WOMEN / GIRLY / ELEGANT FONTS --- */
+    .font-whiteangelica { font-family: 'White Angelica', 'Great Vibes', cursive; }
+    .font-quentin       { font-family: 'Quentin', 'Playfair Display', serif; }
+    .font-quicksand     { font-family: 'Quicksand', sans-serif; }
+    .font-clickerscript { font-family: 'Clicker Script', cursive; }
+    .font-amarieta      { font-family: 'Amarieta', 'Parisienne', cursive; }
+    .font-alexbrush     { font-family: 'Alex Brush', cursive; }
+    .font-moonlight     { font-family: 'Moonlight', 'Caveat', cursive; }
+    .font-josefinsans   { font-family: 'Josefin Sans', sans-serif; }
+    .font-nickainley    { font-family: 'Nickainley', 'Allura', cursive; }
+    .font-conjiote      { font-family: 'Conjiote', 'Quicksand', sans-serif; }
+
+    /* --- 10 MEN / BOLD / EXECUTIVE FONTS --- */
+    .font-bebas         { font-family: 'Bebas Neue', sans-serif; }
+    .font-helvetica     { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    .font-futura        { font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif; }
+    .font-concrete     { font-family: 'Concrete Forge', 'Impact', sans-serif; }
+    .font-backcountry   { font-family: 'Backcountry', 'Oswald', sans-serif; }
+    .font-gatore        { font-family: 'Gatore', 'Arial Black', sans-serif; }
+    .font-altaca        { font-family: 'Altaca', 'Montserrat', sans-serif; }
+    .font-proxima       { font-family: 'Proxima Nova', 'Inter', sans-serif; }
+    .font-heartstrong   { font-family: 'Heartstrong', 'Caveat', cursive; }
+    .font-taldose       { font-family: 'Taldose', 'Roboto Mono', monospace; }
+
+    /* PASTEL & SOFT DYNAMIC COLOR THEMES */
+    .theme-pink { --bg-body: #fdf2f8; --bg-card: #fce7f3; --text-main: #701a75; --text-sub: #a21caf; --accent-btn: #ec4899; --accent-text: #ffffff; --sec-btn-bg: #fbcfe8; --sec-btn-text: #701a75; --card-border: #fbcfe8; --blob-1: #fbcfe8; --blob-2: #f472b6; --blob-3: #fef08a; --blob-4: #f87171; --icon-bg: #fbcfe8; --icon-color: #701a75; --header-glow: rgba(236, 72, 153, 0.25); }
+    .theme-plum { --bg-body: #faf5ff; --bg-card: #f3e8ff; --text-main: #581c87; --text-sub: #7e22ce; --accent-btn: #a855f7; --accent-text: #ffffff; --sec-btn-bg: #e9d5ff; --sec-btn-text: #581c87; --card-border: #e9d5ff; --blob-1: #e9d5ff; --blob-2: #c084fc; --blob-3: #fbcfe8; --blob-4: #818cf8; --icon-bg: #e9d5ff; --icon-color: #581c87; --header-glow: rgba(168, 85, 247, 0.25); }
+    .theme-skyblue { --bg-body: #f0f9ff; --bg-card: #e0f2fe; --text-main: #0c4a6e; --text-sub: #0369a1; --accent-btn: #0284c7; --accent-text: #ffffff; --sec-btn-bg: #bae6fd; --sec-btn-text: #0c4a6e; --card-border: #bae6fd; --blob-1: #bae6fd; --blob-2: #38bdf8; --blob-3: #e0e7ff; --blob-4: #67e8f9; --icon-bg: #bae6fd; --icon-color: #0c4a6e; --header-glow: rgba(2, 132, 199, 0.25); }
+    .theme-beige { --bg-body: #fffbeb; --bg-card: #fef3c7; --text-main: #451a03; --text-sub: #92400e; --accent-btn: #d97706; --accent-text: #ffffff; --sec-btn-bg: #fde68a; --sec-btn-text: #451a03; --card-border: #fde68a; --blob-1: #fde68a; --blob-2: #fbbf24; --blob-3: #ffedd5; --blob-4: #fef08a; --icon-bg: #fde68a; --icon-color: #451a03; --header-glow: rgba(217, 119, 6, 0.25); }
+    .theme-yellow { --bg-body: #fefce8; --bg-card: #fef9c3; --text-main: #713f12; --text-sub: #a16207; --accent-btn: #ca8a04; --accent-text: #ffffff; --sec-btn-bg: #fef08a; --sec-btn-text: #713f12; --card-border: #fef08a; --blob-1: #fef08a; --blob-2: #facc15; --blob-3: #fed7aa; --blob-4: #fde68a; --icon-bg: #fef08a; --icon-color: #713f12; --header-glow: rgba(202, 138, 4, 0.25); }
+    .theme-mint { --bg-body: #f0fdf4; --bg-card: #dcfce7; --text-main: #064e3b; --text-sub: #047857; --accent-btn: #10b981; --accent-text: #ffffff; --sec-btn-bg: #bbf7d0; --sec-btn-text: #064e3b; --card-border: #bbf7d0; --blob-1: #bbf7d0; --blob-2: #6ee7b7; --blob-3: #bae6fd; --blob-4: #a7f3d0; --icon-bg: #bbf7d0; --icon-color: #064e3b; --header-glow: rgba(16, 185, 129, 0.25); }
+    .theme-peach { --bg-body: #fff7ed; --bg-card: #ffedd5; --text-main: #7c2d12; --text-sub: #c2410c; --accent-btn: #f97316; --accent-text: #ffffff; --sec-btn-bg: #fed7aa; --sec-btn-text: #7c2d12; --card-border: #fed7aa; --blob-1: #fed7aa; --blob-2: #fdba74; --blob-3: #fef08a; --blob-4: #fbcfe8; --icon-bg: #fed7aa; --icon-color: #7c2d12; --header-glow: rgba(249, 115, 22, 0.25); }
+    .theme-lavender { --bg-body: #f8fafc; --bg-card: #e2e8f0; --text-main: #1e293b; --text-sub: #475569; --accent-btn: #64748b; --accent-text: #ffffff; --sec-btn-bg: #cbd5e1; --sec-btn-text: #1e293b; --card-border: #cbd5e1; --blob-1: #cbd5e1; --blob-2: #94a3b8; --blob-3: #e2e8f0; --blob-4: #cbd5e1; --icon-bg: #cbd5e1; --icon-color: #1e293b; --header-glow: rgba(100, 116, 139, 0.25); }
+    .theme-black { --bg-body: #09090b; --bg-card: #18181b; --text-main: #ffffff; --text-sub: #a1a1aa; --accent-btn: #52525b; --accent-text: #ffffff; --sec-btn-bg: #27272a; --sec-btn-text: #ffffff; --card-border: #27272a; --blob-1: #27272a; --blob-2: #3f3f46; --blob-3: #18181b; --blob-4: #3f3f46; --icon-bg: #27272a; --icon-color: #ffffff; --header-glow: rgba(255, 255, 255, 0.15); }
+    .theme-maroon { --bg-body: #1a0505; --bg-card: #2e0d0d; --text-main: #fef2f2; --text-sub: #fca5a5; --accent-btn: #dc2626; --accent-text: #ffffff; --sec-btn-bg: #451a1a; --sec-btn-text: #ffffff; --card-border: #451a1a; --blob-1: #451a1a; --blob-2: #7f1d1d; --blob-3: #341212; --blob-4: #991b1b; --icon-bg: #451a1a; --icon-color: #ffffff; --header-glow: rgba(220, 38, 38, 0.25); }
+
+    html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
+    body { background-color: var(--bg-body); color: var(--text-main); display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; transition: background-color 0.5s ease, color 0.5s ease; }
+    
+    /* SMOOTH CARD ANIMATIONS */
+    .card-bg { background-color: var(--bg-card); border-color: var(--card-border); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+    .btn-save { background-color: var(--accent-btn); color: var(--accent-text) !important; transition: all 0.3s ease; }
+    .btn-save:hover { filter: brightness(0.95); transform: translateY(-1px); }
+    .btn-share { background-color: var(--sec-btn-bg); color: var(--sec-btn-text) !important; transition: all 0.3s ease; }
+    .btn-share:hover { filter: brightness(0.95); transform: translateY(-1px); }
+    .text-accent { color: var(--accent-btn); transition: color 0.5s ease; }
+    .text-sub { color: var(--text-sub); transition: color 0.5s ease; }
+    .text-main { color: var(--text-main); transition: color 0.5s ease; }
+    .icon-box { background-color: var(--icon-bg); color: var(--icon-color); transition: all 0.5s ease; }
+
+    .modal-btn-accent { background-color: var(--accent-btn); color: var(--accent-text); }
+    .modal-btn-accent:hover { filter: brightness(0.92); }
+    .modal-icon-bg { background-color: var(--icon-bg); color: var(--accent-btn); border-color: var(--card-border); }
+
+    /* HEADER STYLING ACCENTS */
+    .header-wave { fill: var(--bg-card); transition: fill 0.5s ease; }
+    .header-circle-1 { position: absolute; width: 110px; height: 110px; border-radius: 50%; background: var(--header-glow); filter: blur(20px); top: -20px; left: -20px; pointer-events: none; transition: background 0.5s ease; }
+    .header-circle-2 { position: absolute; width: 90px; height: 90px; border-radius: 50%; background: var(--header-glow); filter: blur(15px); bottom: 10px; right: 20px; pointer-events: none; transition: background 0.5s ease; }
+
+    /* ELEGANT ORGANIC BACKGROUND BLOBS */
+    .blob-wrapper { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+    .blob { position: absolute; filter: blur(65px); opacity: 0.55; border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transition: background-color 0.8s ease; }
+    
+    .blob-1 { background-color: var(--blob-1); width: 360px; height: 360px; top: -100px; left: -90px; animation: float1 10s infinite alternate ease-in-out; }
+    .blob-2 { background-color: var(--blob-2); width: 340px; height: 340px; bottom: -90px; right: -90px; animation: float2 12s infinite alternate ease-in-out; }
+    .blob-3 { background-color: var(--blob-3); width: 280px; height: 280px; top: 35%; right: -70px; animation: float3 9s infinite alternate ease-in-out; }
+    .blob-4 { background-color: var(--blob-4); width: 260px; height: 260px; bottom: 15%; left: -60px; animation: float1 11s infinite alternate ease-in-out; }
+
+    @keyframes float1 { 0% { transform: translate(0, 0) rotate(0deg) scale(1); } 100% { transform: translate(45px, 50px) rotate(45deg) scale(1.15); } }
+    @keyframes float2 { 0% { transform: translate(0, 0) rotate(0deg) scale(1); } 100% { transform: translate(-40px, -45px) rotate(-35deg) scale(1.1); } }
+    @keyframes float3 { 0% { transform: translate(0, 0) rotate(0deg) scale(1); } 100% { transform: translate(-30px, 40px) rotate(25deg) scale(1.2); } }
+  </style>
+</head>
+<body id="bodyTag" class="theme-pink font-whiteangelica p-4 transition-colors duration-500 relative">
+
+  <!-- ELEGANT CUSTOM TOAST NOTIFICATION -->
+  <div id="toastNotification" class="fixed top-5 left-1/2 -translate-x-1/2 z-[100] hidden transition-all duration-500 ease-out transform -translate-y-10 opacity-0">
+    <div class="bg-slate-900/90 backdrop-blur-md text-white border border-slate-700/60 px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3">
+      <div id="toastIcon" class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <div>
+        <p id="toastTitle" class="text-xs font-bold text-white">Success</p>
+        <p id="toastMessage" class="text-[11px] text-slate-300">Profile updated successfully!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background Blobs -->
+  <div class="blob-wrapper">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+  </div>
+
+  <div class="w-full max-w-md card-bg border rounded-3xl shadow-xl overflow-hidden relative z-10 transition-colors duration-300 mx-auto">
+    <!-- STYLED HEADER BANNER -->
+    <div class="h-40 relative bg-slate-200 dark:bg-slate-800 overflow-hidden">
+      <img id="coverImg" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800" alt="Cover" class="w-full h-full object-cover opacity-90 transition-opacity duration-300" crossorigin="anonymous">
+      
+      <!-- Glowing Mood Accents on Banner -->
+      <div class="header-circle-1"></div>
+      <div class="header-circle-2"></div>
+
+      <!-- Glassmorphism NFC Badge -->
+      <div class="absolute top-3 left-3 bg-white/30 dark:bg-black/30 backdrop-blur-md border border-white/40 text-xs px-3 py-1 rounded-full text-white font-semibold flex items-center gap-1.5 shadow-sm">
+        <i class="fa-solid fa-wifi text-[10px]"></i>
+        <span class="tracking-wider text-[10px] uppercase">NFC Card</span>
+      </div>
+
+      <!-- Organic Wave Curve Overlay at Bottom of Banner -->
+      <div class="absolute bottom-0 left-0 right-0 leading-none z-10">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="relative block w-full h-7 header-wave">
+          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.2,130.83,121.3,200,115.8,241.1,112.5,281.8,92.8,321.39,56.44Z"></path>
+        </svg>
+      </div>
+    </div>
+
+    <!-- LOADING SPINNER / CONTAINER -->
+    <div id="loadingBox" class="p-8 text-center font-bold text-gray-500">
+      Loading digital card...
+    </div>
+
+    <div id="cardContent" class="px-6 pb-6 relative text-center hidden">
+      <div class="relative -mt-16 mb-4 inline-block z-20">
+        <img id="avatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400" alt="Avatar" class="w-28 h-28 rounded-full border-4 border-white shadow-lg mx-auto object-cover transition-all duration-300" crossorigin="anonymous">
+      </div>
+
+      <h1 id="displayName" class="text-2xl font-bold text-main">Loading...</h1>
+      <p id="displayTitle" class="text-sm font-semibold text-sub mt-1">---</p>
+      <p id="displayBio" class="text-xs text-sub opacity-90 mt-2 px-4">---</p>
+
+      <div class="grid grid-cols-2 gap-3 mt-6">
+        <button onclick="downloadVCard()" class="btn-save flex items-center justify-center gap-2 font-bold py-2.5 px-4 rounded-xl shadow-md transition-all active:scale-95 text-sm">
+          <i class="fa-solid fa-user-plus"></i>
+          <span>Save Contact</span>
+        </button>
+        <button onclick="shareCard()" class="btn-share flex items-center justify-center gap-2 font-semibold py-2.5 px-4 rounded-xl transition-all active:scale-95 text-sm shadow-sm">
+          <i class="fa-solid fa-share-nodes"></i>
+          <span>Share</span>
+        </button>
+      </div>
+
+      <div class="flex justify-center items-center gap-4 mt-6" id="socialBar">
+        <a id="linkFacebook" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/50 transition shadow-sm">
+          <i class="fa-brands fa-facebook-f text-lg"></i>
+        </a>
+        <a id="linkInstagram" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/50 transition shadow-sm">
+          <i class="fa-brands fa-instagram text-lg"></i>
+        </a>
+        <a id="linkWhatsapp" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/50 transition shadow-sm">
+          <i class="fa-brands fa-whatsapp text-lg"></i>
+        </a>
+        <a id="linkWechat" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/50 transition shadow-sm">
+          <i class="fa-brands fa-weixin text-lg"></i>
+        </a>
+      </div>
+
+      <div class="mt-4 space-y-3 text-left">
+        <a id="linkPhone" href="tel:" class="flex items-center gap-4 p-3 rounded-2xl icon-box border border-white/50 hover:opacity-90 transition shadow-sm">
+          <div class="w-10 h-10 rounded-xl icon-box flex items-center justify-center">
+            <i class="fa-solid fa-phone"></i>
+          </div>
+          <div class="overflow-hidden">
+            <p class="text-xs text-sub font-medium opacity-80">Phone</p>
+            <p id="displayPhone" class="text-sm font-semibold text-main truncate">---</p>
+          </div>
+        </a>
+
+        <a id="linkEmail" href="mailto:" class="flex items-center gap-4 p-3 rounded-2xl icon-box border border-white/50 hover:opacity-90 transition shadow-sm">
+          <div class="w-10 h-10 rounded-xl icon-box flex items-center justify-center">
+            <i class="fa-solid fa-envelope"></i>
+          </div>
+          <div class="overflow-hidden">
+            <p class="text-xs text-sub font-medium opacity-80">Email</p>
+            <p id="displayEmail" class="text-sm font-semibold text-main truncate">---</p>
+          </div>
+        </a>
+
+        <a id="linkWebsite" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 p-3 rounded-2xl icon-box border border-white/50 hover:opacity-90 transition shadow-sm">
+          <div class="w-10 h-10 rounded-xl icon-box flex items-center justify-center">
+            <i class="fa-solid fa-globe"></i>
+          </div>
+          <div class="overflow-hidden">
+            <p class="text-xs text-sub font-medium opacity-80">Website</p>
+            <p id="displayWebsite" class="text-sm font-semibold text-main truncate">---</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Edit Button -->
+    <button onclick="openPasscodeModal()" class="absolute top-3 right-3 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:scale-105 p-2.5 rounded-full shadow-md transition active:scale-95">
+      <i class="fa-solid fa-pen text-xs"></i>
+    </button>
+  </div>
+
+  <!-- PASSCODE MODAL -->
+  <div id="passcodeModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden flex justify-center items-center p-4 z-[60] transition-opacity duration-300">
+    <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-xs rounded-2xl p-5 shadow-2xl space-y-4 text-center">
+      <div class="w-12 h-12 modal-icon-bg rounded-full flex items-center justify-center mx-auto text-xl border">
+        <i class="fa-solid fa-lock"></i>
+      </div>
+      <div>
+        <h3 class="text-base font-bold text-white">Security PIN</h3>
+        <p class="text-xs text-slate-400 mt-1">Enter 4-digit PIN to unlock editor.</p>
+      </div>
+
+      <div>
+        <input type="password" id="authPin" maxlength="4" placeholder="Default PIN: 1234" class="w-full text-center bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-base text-white focus:outline-none tracking-widest">
+        <p id="pinError" class="text-xs text-red-400 mt-2 hidden font-semibold">Invalid Passcode!</p>
+      </div>
+
+      <div class="space-y-2">
+        <div class="flex gap-2">
+          <button onclick="closePasscodeModal()" class="w-1/2 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg">Cancel</button>
+          <button onclick="verifyPasscode()" class="w-1/2 py-2 modal-btn-accent text-xs font-bold rounded-lg shadow">Unlock</button>
+        </div>
+        <button onclick="openRecoveryModal()" class="text-[11px] text-accent hover:underline block mx-auto pt-1">Forgot Passcode?</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECOVERY / FORGOT PASSCODE MODAL -->
+  <div id="recoveryModal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden flex justify-center items-center p-4 z-[70] transition-opacity duration-300">
+    <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-xs rounded-2xl p-5 shadow-2xl space-y-4 text-center">
+      <div class="w-12 h-12 modal-icon-bg rounded-full flex items-center justify-center mx-auto text-xl border">
+        <i class="fa-solid fa-key"></i>
+      </div>
+      <div>
+        <h3 class="text-base font-bold text-white">Reset Passcode</h3>
+        <p class="text-xs text-slate-400 mt-1">Enter Master Recovery Code to reset PIN to default (<strong class="text-white">1234</strong>).</p>
+      </div>
+
+      <div>
+        <input type="text" id="recoveryKey" placeholder="Enter Recovery Code" class="w-full text-center bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-sm text-white focus:outline-none">
+        <p id="recoveryError" class="text-xs text-red-400 mt-2 hidden font-semibold">Invalid Recovery Code!</p>
+      </div>
+
+      <div class="flex gap-2">
+        <button onclick="closeRecoveryModal()" class="w-1/2 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg">Cancel</button>
+        <button onclick="resetPasscode()" class="w-1/2 py-2 modal-btn-accent text-xs font-bold rounded-lg shadow">Reset PIN</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT PROFILE MODAL -->
+  <div id="editModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex justify-center items-center p-4 z-50 transition-opacity duration-300">
+    <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+        <h3 class="text-lg font-bold text-white">Edit Profile & Style</h3>
+        <button onclick="toggleModal(false)" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <div class="space-y-3">
+        <!-- Passcode Setting -->
+        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+          <label class="text-xs font-semibold text-slate-300 block mb-1">Security PIN (4 Digits)</label>
+          <input type="password" id="inputPasscode" maxlength="4" placeholder="Default: 1234" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm text-white focus:outline-none tracking-widest">
+          <p class="text-[10px] text-slate-400 mt-1">Set a 4-digit custom PIN to restrict editing access.</p>
+        </div>
+
+        <!-- Theme Selection & Custom Color Extractor -->
+        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-3">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="text-xs text-slate-400 block mb-1">Color Theme</label>
+              <select id="selectTheme" onchange="handleThemeChange()" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white">
+                <option value="theme-pink">Pastel Pink (Soft Chic)</option>
+                <option value="theme-plum">Pastel Purple (Soft Chic)</option>
+                <option value="theme-skyblue">Pastel Blue (Fresh)</option>
+                <option value="theme-beige">Pastel Beige (Warm Nude)</option>
+                <option value="theme-yellow">Pastel Yellow (Soft Warm)</option>
+                <option value="theme-mint">Pastel Mint (Fresh Green)</option>
+                <option value="theme-peach">Pastel Peach (Warm Soft)</option>
+                <option value="theme-lavender">Pastel Gray (Modern Minimal)</option>
+                <option value="theme-black">Pure Black (Dark Onyx)</option>
+                <option value="theme-maroon">Deep Maroon (Rich Dark)</option>
+                <option value="theme-custom">🎨 Custom Photo Match Color</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-xs text-slate-400 block mb-1">Font Style</label>
+              <select id="selectFont" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white">
+                <optgroup label="Feminine & Chic Fonts (10)">
+                  <option value="font-whiteangelica">White Angelica (Elegant Script)</option>
+                  <option value="font-quentin">Quentin (Modern Chic Serif)</option>
+                  <option value="font-quicksand">Quicksand (Friendly Rounded)</option>
+                  <option value="font-clickerscript">Clicker Script (Playful Vintage)</option>
+                  <option value="font-amarieta">Amarieta (Romantic Flow)</option>
+                  <option value="font-alexbrush">Alex Brush (Flowing Brush)</option>
+                  <option value="font-moonlight">Moonlight (Whimsical Script)</option>
+                  <option value="font-josefinsans">Josefin Sans (Vintage Geometric)</option>
+                  <option value="font-nickainley">Nickainley (Monoline Script)</option>
+                  <option value="font-conjiote">Conjiote (Structured Soft)</option>
+                </optgroup>
+                <optgroup label="Masculine & Bold Fonts (10)">
+                  <option value="font-bebas">Bebas Neue (Athletic Punch)</option>
+                  <option value="font-helvetica">Helvetica Neue (Minimal Clean)</option>
+                  <option value="font-futura">Futura (Bold Geometric)</option>
+                  <option value="font-concrete">Concrete Forge (Resilient Geometric)</option>
+                  <option value="font-backcountry">Backcountry (Rugged Outdoor)</option>
+                  <option value="font-gatore">Gatore (Thick Raw Power)</option>
+                  <option value="font-altaca">Altaca (Contemporary Edge)</option>
+                  <option value="font-proxima">Proxima Nova (Modern Digital)</option>
+                  <option value="font-heartstrong">Heartstrong (Handcrafted Script)</option>
+                  <option value="font-taldose">Taldose (Rugged Sleek)</option>
+                </optgroup>
+              </select>
+            </div>
+          </div>
+
+          <!-- AUTOMATIC PHOTO COLOR EXTRACTOR BOX -->
+          <div id="customColorBox" class="hidden border-t border-slate-800 pt-2 space-y-2">
+            <div class="flex items-center justify-between">
+              <label class="text-xs text-slate-300 font-semibold">Matched Color</label>
+              <input type="color" id="inputCustomColor" value="#ec4899" class="w-8 h-8 rounded border-0 cursor-pointer bg-transparent">
+            </div>
+            <div class="grid grid-cols-2 gap-2 pt-1">
+              <button type="button" onclick="extractColorFromImg('coverImg')" class="py-2 px-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-[11px] text-slate-200 flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-wand-magic-sparkles text-pink-400"></i>
+                <span>Match Cover</span>
+              </button>
+              <button type="button" onclick="extractColorFromImg('avatarImg')" class="py-2 px-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-[11px] text-slate-200 flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-wand-magic-sparkles text-purple-400"></i>
+                <span>Match Profile</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs text-slate-400">Profile Photo (Upload File)</label>
+          <input type="file" id="fileAvatar" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-slate-700 file:text-xs file:text-white">
+        </div>
+
+        <div>
+          <label class="text-xs text-slate-400">Cover Photo (Upload File)</label>
+          <input type="file" id="fileCover" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-slate-700 file:text-xs file:text-white">
+        </div>
+
+        <hr class="border-slate-800">
+
+        <div>
+          <label class="text-xs text-slate-400">Full Name</label>
+          <input type="text" id="inputName" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400">Title / Occupation</label>
+          <input type="text" id="inputTitle" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400">Bio</label>
+          <input type="text" id="inputBio" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400">Phone</label>
+          <input type="text" id="inputPhone" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400">Email</label>
+          <input type="email" id="inputEmail" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400">Website URL</label>
+          <input type="text" id="inputWebsite" placeholder="e.g. google.com" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
+        </div>
+
+        <hr class="border-slate-800">
+        <p class="text-xs font-semibold text-slate-300">Social Media Links</p>
+
+        <div>
+          <label class="text-xs text-slate-400">Facebook URL</label>
+          <input type="text" id="inputFacebook" placeholder="facebook.com/yourprofile" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400">Instagram URL</label>
+          <input type="text" id="inputInstagram" placeholder="instagram.com/yourhandle" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400">WhatsApp Number or Link</label>
+          <input type="text" id="inputWhatsapp" placeholder="+1234567890" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400">WeChat ID or Link</label>
+          <input type="text" id="inputWechat" placeholder="Your WeChat ID" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
+        </div>
+      </div>
+
+      <div class="pt-2 flex justify-end gap-2">
+        <button onclick="toggleModal(false)" class="px-4 py-2 text-xs font-semibold text-slate-400 hover:text-white">Cancel</button>
+        <button id="saveBtn" onclick="saveProfile()" class="px-4 py-2 modal-btn-accent text-xs font-bold rounded-lg shadow">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
     // --- SUPABASE CONFIGURATION ---
     const SUPABASE_URL = "https://rehsynbkacvjttjedlxr.supabase.co";
     const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJlaHN5bmJrYWN2anR0amVkbHhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3NzUyNDcsImV4cCI6MjEwMDM1MTI0N30.MB7yeMhv_Rz7h44gwCH5NyXGJMm6xU16N3KvjHJhf4o";
@@ -440,3 +859,5 @@
 
     window.addEventListener('DOMContentLoaded', loadProfile);
   </script>
+</body>
+</html>
