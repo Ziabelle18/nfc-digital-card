@@ -20,7 +20,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    /* --- 10 FEMININE / ELEGANT FONTS (REAL GOOGLE FONTS) --- */
+    /* --- 10 FEMININE / ELEGANT FONTS --- */
     .font-greatvibes    { font-family: 'Great Vibes', cursive; }
     .font-playfair      { font-family: 'Playfair Display', serif; }
     .font-quicksand     { font-family: 'Quicksand', sans-serif; }
@@ -32,7 +32,7 @@
     .font-allura        { font-family: 'Allura', cursive; }
     .font-pacifico      { font-family: 'Pacifico', cursive; }
 
-    /* --- 10 MASCULINE / BOLD / EXECUTIVE FONTS (REAL GOOGLE FONTS) --- */
+    /* --- 10 MASCULINE / BOLD / EXECUTIVE FONTS --- */
     .font-bebas         { font-family: 'Bebas Neue', sans-serif; }
     .font-montserrat    { font-family: 'Montserrat', sans-serif; }
     .font-oswald        { font-family: 'Oswald', sans-serif; }
@@ -45,16 +45,19 @@
     .font-firacode      { font-family: 'Fira Code', monospace; }
 
     /* PASTEL & SOFT DYNAMIC COLOR THEMES */
-    .theme-pink { --bg-body: #fdf2f8; --bg-card: #fce7f3; --text-main: #701a75; --text-sub: #a21caf; --accent-btn: #ec4899; --accent-text: #ffffff; --sec-btn-bg: #fbcfe8; --sec-btn-text: #701a75; --card-border: #fbcfe8; --blob-1: #fbcfe8; --blob-2: #f472b6; --blob-3: #fef08a; --blob-4: #f87171; --icon-bg: #fbcfe8; --icon-color: #701a75; --header-glow: rgba(236, 72, 153, 0.25); }
-    .theme-plum { --bg-body: #faf5ff; --bg-card: #f3e8ff; --text-main: #581c87; --text-sub: #7e22ce; --accent-btn: #a855f7; --accent-text: #ffffff; --sec-btn-bg: #e9d5ff; --sec-btn-text: #581c87; --card-border: #e9d5ff; --blob-1: #e9d5ff; --blob-2: #c084fc; --blob-3: #fbcfe8; --blob-4: #818cf8; --icon-bg: #e9d5ff; --icon-color: #581c87; --header-glow: rgba(168, 85, 247, 0.25); }
-    .theme-skyblue { --bg-body: #f0f9ff; --bg-card: #e0f2fe; --text-main: #0c4a6e; --text-sub: #0369a1; --accent-btn: #0284c7; --accent-text: #ffffff; --sec-btn-bg: #bae6fd; --sec-btn-text: #0c4a6e; --card-border: #bae6fd; --blob-1: #bae6fd; --blob-2: #38bdf8; --blob-3: #e0e7ff; --blob-4: #67e8f9; --icon-bg: #bae6fd; --icon-color: #0c4a6e; --header-glow: rgba(2, 132, 199, 0.25); }
-    .theme-beige { --bg-body: #fffbeb; --bg-card: #fef3c7; --text-main: #451a03; --text-sub: #92400e; --accent-btn: #d97706; --accent-text: #ffffff; --sec-btn-bg: #fde68a; --sec-btn-text: #451a03; --card-border: #fde68a; --blob-1: #fde68a; --blob-2: #fbbf24; --blob-3: #ffedd5; --blob-4: #fef08a; --icon-bg: #fde68a; --icon-color: #451a03; --header-glow: rgba(217, 119, 6, 0.25); }
-    .theme-yellow { --bg-body: #fefce8; --bg-card: #fef9c3; --text-main: #713f12; --text-sub: #a16207; --accent-btn: #ca8a04; --accent-text: #ffffff; --sec-btn-bg: #fef08a; --sec-btn-text: #713f12; --card-border: #fef08a; --blob-1: #fef08a; --blob-2: #facc15; --blob-3: #fed7aa; --blob-4: #fde68a; --icon-bg: #fef08a; --icon-color: #713f12; --header-glow: rgba(202, 138, 4, 0.25); }
-    .theme-mint { --bg-body: #f0fdf4; --bg-card: #dcfce7; --text-main: #064e3b; --text-sub: #047857; --accent-btn: #10b981; --accent-text: #ffffff; --sec-btn-bg: #bbf7d0; --sec-btn-text: #064e3b; --card-border: #bbf7d0; --blob-1: #bbf7d0; --blob-2: #6ee7b7; --blob-3: #bae6fd; --blob-4: #a7f3d0; --icon-bg: #bbf7d0; --icon-color: #064e3b; --header-glow: rgba(16, 185, 129, 0.25); }
-    .theme-peach { --bg-body: #fff7ed; --bg-card: #ffedd5; --text-main: #7c2d12; --text-sub: #c2410c; --accent-btn: #f97316; --accent-text: #ffffff; --sec-btn-bg: #fed7aa; --sec-btn-text: #7c2d12; --card-border: #fed7aa; --blob-1: #fed7aa; --blob-2: #fdba74; --blob-3: #fef08a; --blob-4: #fbcfe8; --icon-bg: #fed7aa; --icon-color: #7c2d12; --header-glow: rgba(249, 115, 22, 0.25); }
+    .theme-pink     { --bg-body: #fdf2f8; --bg-card: #fce7f3; --text-main: #701a75; --text-sub: #a21caf; --accent-btn: #ec4899; --accent-text: #ffffff; --sec-btn-bg: #fbcfe8; --sec-btn-text: #701a75; --card-border: #fbcfe8; --blob-1: #fbcfe8; --blob-2: #f472b6; --blob-3: #fef08a; --blob-4: #f87171; --icon-bg: #fbcfe8; --icon-color: #701a75; --header-glow: rgba(236, 72, 153, 0.25); }
+    .theme-plum     { --bg-body: #faf5ff; --bg-card: #f3e8ff; --text-main: #581c87; --text-sub: #7e22ce; --accent-btn: #a855f7; --accent-text: #ffffff; --sec-btn-bg: #e9d5ff; --sec-btn-text: #581c87; --card-border: #e9d5ff; --blob-1: #e9d5ff; --blob-2: #c084fc; --blob-3: #fbcfe8; --blob-4: #818cf8; --icon-bg: #e9d5ff; --icon-color: #581c87; --header-glow: rgba(168, 85, 247, 0.25); }
+    .theme-skyblue  { --bg-body: #f0f9ff; --bg-card: #e0f2fe; --text-main: #0c4a6e; --text-sub: #0369a1; --accent-btn: #0284c7; --accent-text: #ffffff; --sec-btn-bg: #bae6fd; --sec-btn-text: #0c4a6e; --card-border: #bae6fd; --blob-1: #bae6fd; --blob-2: #38bdf8; --blob-3: #e0e7ff; --blob-4: #67e8f9; --icon-bg: #bae6fd; --icon-color: #0c4a6e; --header-glow: rgba(2, 132, 199, 0.25); }
+    
+    /* ACCURATE WARM NUDE BEIGE THEME (DISTINCT FROM YELLOW) */
+    .theme-beige    { --bg-body: #fdfbf7; --bg-card: #f5ebe0; --text-main: #4a3b32; --text-sub: #7a685a; --accent-btn: #c3a995; --accent-text: #ffffff; --sec-btn-bg: #e3d5ca; --sec-btn-text: #4a3b32; --card-border: #e3d5ca; --blob-1: #e3d5ca; --blob-2: #d5bdaf; --blob-3: #f5ebe0; --blob-4: #edead0; --icon-bg: #e3d5ca; --icon-color: #4a3b32; --header-glow: rgba(195, 169, 149, 0.25); }
+    
+    .theme-yellow   { --bg-body: #fefce8; --bg-card: #fef9c3; --text-main: #713f12; --text-sub: #a16207; --accent-btn: #ca8a04; --accent-text: #ffffff; --sec-btn-bg: #fef08a; --sec-btn-text: #713f12; --card-border: #fef08a; --blob-1: #fef08a; --blob-2: #facc15; --blob-3: #fed7aa; --blob-4: #fde68a; --icon-bg: #fef08a; --icon-color: #713f12; --header-glow: rgba(202, 138, 4, 0.25); }
+    .theme-mint     { --bg-body: #f0fdf4; --bg-card: #dcfce7; --text-main: #064e3b; --text-sub: #047857; --accent-btn: #10b981; --accent-text: #ffffff; --sec-btn-bg: #bbf7d0; --sec-btn-text: #064e3b; --card-border: #bbf7d0; --blob-1: #bbf7d0; --blob-2: #6ee7b7; --blob-3: #bae6fd; --blob-4: #a7f3d0; --icon-bg: #bbf7d0; --icon-color: #064e3b; --header-glow: rgba(16, 185, 129, 0.25); }
+    .theme-peach    { --bg-body: #fff7ed; --bg-card: #ffedd5; --text-main: #7c2d12; --text-sub: #c2410c; --accent-btn: #f97316; --accent-text: #ffffff; --sec-btn-bg: #fed7aa; --sec-btn-text: #7c2d12; --card-border: #fed7aa; --blob-1: #fed7aa; --blob-2: #fdba74; --blob-3: #fef08a; --blob-4: #fbcfe8; --icon-bg: #fed7aa; --icon-color: #7c2d12; --header-glow: rgba(249, 115, 22, 0.25); }
     .theme-lavender { --bg-body: #f8fafc; --bg-card: #e2e8f0; --text-main: #1e293b; --text-sub: #475569; --accent-btn: #64748b; --accent-text: #ffffff; --sec-btn-bg: #cbd5e1; --sec-btn-text: #1e293b; --card-border: #cbd5e1; --blob-1: #cbd5e1; --blob-2: #94a3b8; --blob-3: #e2e8f0; --blob-4: #cbd5e1; --icon-bg: #cbd5e1; --icon-color: #1e293b; --header-glow: rgba(100, 116, 139, 0.25); }
-    .theme-black { --bg-body: #09090b; --bg-card: #18181b; --text-main: #ffffff; --text-sub: #a1a1aa; --accent-btn: #52525b; --accent-text: #ffffff; --sec-btn-bg: #27272a; --sec-btn-text: #ffffff; --card-border: #27272a; --blob-1: #27272a; --blob-2: #3f3f46; --blob-3: #18181b; --blob-4: #3f3f46; --icon-bg: #27272a; --icon-color: #ffffff; --header-glow: rgba(255, 255, 255, 0.15); }
-    .theme-maroon { --bg-body: #1a0505; --bg-card: #2e0d0d; --text-main: #fef2f2; --text-sub: #fca5a5; --accent-btn: #dc2626; --accent-text: #ffffff; --sec-btn-bg: #451a1a; --sec-btn-text: #ffffff; --card-border: #451a1a; --blob-1: #451a1a; --blob-2: #7f1d1d; --blob-3: #341212; --blob-4: #991b1b; --icon-bg: #451a1a; --icon-color: #ffffff; --header-glow: rgba(220, 38, 38, 0.25); }
+    .theme-black    { --bg-body: #09090b; --bg-card: #18181b; --text-main: #ffffff; --text-sub: #a1a1aa; --accent-btn: #52525b; --accent-text: #ffffff; --sec-btn-bg: #27272a; --sec-btn-text: #ffffff; --card-border: #27272a; --blob-1: #27272a; --blob-2: #3f3f46; --blob-3: #18181b; --blob-4: #3f3f46; --icon-bg: #27272a; --icon-color: #ffffff; --header-glow: rgba(255, 255, 255, 0.15); }
+    .theme-maroon   { --bg-body: #1a0505; --bg-card: #2e0d0d; --text-main: #fef2f2; --text-sub: #fca5a5; --accent-btn: #dc2626; --accent-text: #ffffff; --sec-btn-bg: #451a1a; --sec-btn-text: #ffffff; --card-border: #451a1a; --blob-1: #451a1a; --blob-2: #7f1d1d; --blob-3: #341212; --blob-4: #991b1b; --icon-bg: #451a1a; --icon-color: #ffffff; --header-glow: rgba(220, 38, 38, 0.25); }
 
     html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
     body { background-color: var(--bg-body); color: var(--text-main); display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
@@ -444,12 +447,10 @@
     let currentCard = null;
     let rawDbKeys = []; 
 
+    // CHECK IF PIN IS REQUIRED STRICTLY
     function isPinRequired() {
       if (!currentCard) return false;
       if (currentCard.enable_pin === false || currentCard.enable_pin === 'false') return false;
-      const p = currentCard.pin || currentCard.passcode;
-      if (p === null || p === undefined) return true;
-      if (String(p).trim() === '') return false;
       return true;
     }
 
@@ -679,6 +680,7 @@
         body.className = `${data.font || 'font-greatvibes'} p-4 relative`;
         applyDynamicCustomColor(customCol);
       } else {
+        document.documentElement.removeAttribute('style');
         body.className = `${data.theme || 'theme-pink'} ${data.font || 'font-greatvibes'} p-4 relative`;
       }
     }
@@ -703,13 +705,12 @@
       document.getElementById('passcodeModal').classList.add('hidden');
     }
 
-    // UNCONDITIONAL MASTER DEFAULT PIN VERIFICATION FIX
+    // UNCONDITIONAL MASTER PIN VERIFICATION (ALLOWS 1234 & 123456 ALWAYS)
     function verifyPasscode() {
       const enteredPin = document.getElementById('authPin').value.trim();
       const rawDbPin = (currentCard?.pin ?? currentCard?.passcode);
       const dbPin = (rawDbPin !== null && rawDbPin !== undefined) ? String(rawDbPin).trim() : '';
 
-      // Unconditionally allow '1234' or '123456' OR matching DB PIN OR empty DB PIN
       const isMatch = (enteredPin === dbPin) || 
                       (enteredPin === '1234') || 
                       (enteredPin === '123456') || 
@@ -750,6 +751,7 @@
           showToast('PIN reset to default: 1234', false, 'PIN Reset');
           currentCard.pin = '1234';
           currentCard.passcode = '1234';
+          currentCard.enable_pin = true;
 
           closeRecoveryModal();
           toggleModal(true);
@@ -868,6 +870,7 @@
         if (rawDbKeys.includes('title')) updatePayload.title = document.getElementById('inputTitle').value;
         else if (rawDbKeys.includes('job_title')) updatePayload.job_title = document.getElementById('inputTitle').value;
 
+        // DYNAMIC SAFE DB UPDATES FOR PIN PROTECTION
         setIfColExists('enable_pin', pinEnabled);
         setIfColExists('pin', effectivePin);
         setIfColExists('passcode', effectivePin);
@@ -895,7 +898,12 @@
 
         if (error) throw error;
 
+        // Update local object accurately
+        currentCard.enable_pin = pinEnabled;
+        currentCard.pin = effectivePin;
+        currentCard.passcode = effectivePin;
         Object.assign(currentCard, updatePayload);
+
         renderUI(currentCard);
         
         toggleModal(false);
