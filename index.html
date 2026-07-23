@@ -9,13 +9,13 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Google Fonts (20+ Sosyal & Elegant Fonts) -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Allura&family=Anton&family=Bebas+Neue&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Caveat:wght@600&family=Cinzel:wght@600;700&family=Cormorant+Garamond:ital,wght@0,600;1,400&family=Great+Vibes&family=Inter:wght@400;600;700&family=Italianno&family=Lora:ital,wght@0,500;1,400&family=Montserrat:wght@500;700;800&family=Oswald:wght@500;700&family=Pacifico&family=Parisienne&family=Playfair+Display:ital,wght@0,600;1,400&family=Prata&family=Quicksand:wght@500;700&family=Roboto+Mono:wght@500;700&family=Syne:wght@600;800&display=swap" rel="stylesheet">
 
   <style>
-    /* --- GIRLY / ELEGANT / SOSYAL FONTS --- */
+    /* FONTS */
     .font-quicksand { font-family: 'Quicksand', sans-serif; }
     .font-pacifico { font-family: 'Pacifico', cursive; }
     .font-greatvibes { font-family: 'Great Vibes', cursive; }
@@ -26,8 +26,6 @@
     .font-cormorant { font-family: 'Cormorant Garamond', serif; }
     .font-bodoni { font-family: 'Bodoni Moda', serif; }
     .font-allura { font-family: 'Allura', cursive; }
-
-    /* --- MEN / EXECUTIVE / BOLD FONTS --- */
     .font-montserrat { font-family: 'Montserrat', sans-serif; }
     .font-oswald { font-family: 'Oswald', sans-serif; }
     .font-robotomono { font-family: 'Roboto Mono', monospace; }
@@ -39,257 +37,50 @@
     .font-lora { font-family: 'Lora', serif; }
     .font-inter { font-family: 'Inter', sans-serif; }
 
-    /* --- COLOR THEMES WITH VIBRANT CARD COLORS & ACCENTS --- */
-    .theme-pink {
-      --bg-body: #fce7f3; 
-      --bg-card: #fbcfe8; 
-      --text-main: #831843; 
-      --text-sub: #be185d; 
-      --accent-btn: #db2777;
-      --accent-text: #ffffff;
-      --sec-btn-bg: #f472b6;
-      --sec-btn-text: #831843;
-      --card-border: #f472b6; 
-      --blob-1: #f472b6; 
-      --blob-2: #f472b6; 
-      --icon-bg: #f9a8d4;
-      --icon-color: #831843;
-    }
-    .theme-skyblue {
-      --bg-body: #e0f2fe; 
-      --bg-card: #bae6fd; 
-      --text-main: #0c4a6e; 
-      --text-sub: #0284c7; 
-      --accent-btn: #0284c7;
-      --accent-text: #ffffff;
-      --sec-btn-bg: #38bdf8;
-      --sec-btn-text: #0c4a6e;
-      --card-border: #7dd3fc; 
-      --blob-1: #38bdf8; 
-      --blob-2: #0284c7; 
-      --icon-bg: #7dd3fc;
-      --icon-color: #0c4a6e;
-    }
-    .theme-beige {
-      --bg-body: #fef3c7; 
-      --bg-card: #fde68a; 
-      --text-main: #451a03; 
-      --text-sub: #b45309; 
-      --accent-btn: #d97706; 
-      --accent-text: #ffffff;
-      --sec-btn-bg: #fcd34d;
-      --sec-btn-text: #451a03;
-      --card-border: #fcd34d; 
-      --blob-1: #fbbf24; 
-      --blob-2: #d97706; 
-      --icon-bg: #fcd34d;
-      --icon-color: #451a03;
-    }
-    .theme-yellow {
-      --bg-body: #fef9c3; 
-      --bg-card: #fef08a; 
-      --text-main: #713f12; 
-      --text-sub: #ca8a04; 
-      --accent-btn: #ca8a04; 
-      --accent-text: #ffffff;
-      --sec-btn-bg: #fde047;
-      --sec-btn-text: #713f12;
-      --card-border: #fde047; 
-      --blob-1: #facc15; 
-      --blob-2: #eab308; 
-      --icon-bg: #fde047;
-      --icon-color: #713f12;
-    }
-    .theme-plum {
-      --bg-body: #f3e8ff; 
-      --bg-card: #e9d5ff; 
-      --text-main: #581c87; 
-      --text-sub: #7e22ce; 
-      --accent-btn: #9333ea; 
-      --accent-text: #ffffff;
-      --sec-btn-bg: #c084fc;
-      --sec-btn-text: #581c87;
-      --card-border: #c084fc; 
-      --blob-1: #c084fc; 
-      --blob-2: #9333ea; 
-      --icon-bg: #d8b4fe;
-      --icon-color: #581c87;
-    }
-    .theme-black {
-      --bg-body: #000000; 
-      --bg-card: #18181b; 
-      --text-main: #ffffff; 
-      --text-sub: #a1a1aa; 
-      --accent-btn: #27272a; 
-      --accent-text: #ffffff;
-      --sec-btn-bg: #3f3f46;
-      --sec-btn-text: #ffffff;
-      --card-border: #3f3f46; 
-      --blob-1: #27272a; 
-      --blob-2: #3f3f46; 
-      --icon-bg: #27272a;
-      --icon-color: #ffffff;
-    }
-    .theme-gray {
-      --bg-body: #18181b; 
-      --bg-card: #27272a; 
-      --text-main: #f4f4f5; 
-      --text-sub: #a1a1aa; 
-      --accent-btn: #3f3f46; 
-      --accent-text: #ffffff;
-      --sec-btn-bg: #52525b;
-      --sec-btn-text: #ffffff;
-      --card-border: #52525b; 
-      --blob-1: #3f3f46; 
-      --blob-2: #52525b; 
-      --icon-bg: #3f3f46;
-      --icon-color: #ffffff;
-    }
-    .theme-darkgreen {
-      --bg-body: #022c22; 
-      --bg-card: #064e3b; 
-      --text-main: #ecfdf5; 
-      --text-sub: #6ee7b7; 
-      --accent-btn: #047857; 
-      --accent-text: #ffffff;
-      --sec-btn-bg: #059669;
-      --sec-btn-text: #ffffff;
-      --card-border: #059669; 
-      --blob-1: #059669; 
-      --blob-2: #047857; 
-      --icon-bg: #047857;
-      --icon-color: #ffffff;
-    }
-    .theme-orange {
-      --bg-body: #fff7ed; 
-      --bg-card: #ffedd5; 
-      --text-main: #7c2d12; 
-      --text-sub: #ea580c; 
-      --accent-btn: #ea580c; 
-      --accent-text: #ffffff;
-      --sec-btn-bg: #fdba74;
-      --sec-btn-text: #7c2d12;
-      --card-border: #fdba74; 
-      --blob-1: #fdba74; 
-      --blob-2: #ea580c; 
-      --icon-bg: #fed7aa;
-      --icon-color: #7c2d12;
-    }
-    .theme-maroon {
-      --bg-body: #1f0909; 
-      --bg-card: #341212; 
-      --text-main: #fef2f2; 
-      --text-sub: #fca5a5; 
-      --accent-btn: #991b1b; 
-      --accent-text: #ffffff;
-      --sec-btn-bg: #b91c1c;
-      --sec-btn-text: #ffffff;
-      --card-border: #991b1b; 
-      --blob-1: #991b1b; 
-      --blob-2: #7f1d1d; 
-      --icon-bg: #451a1a;
-      --icon-color: #ffffff;
-    }
+    /* COLOR THEMES */
+    .theme-pink { --bg-body: #fce7f3; --bg-card: #fbcfe8; --text-main: #831843; --text-sub: #be185d; --accent-btn: #db2777; --accent-text: #ffffff; --sec-btn-bg: #f472b6; --sec-btn-text: #831843; --card-border: #f472b6; --blob-1: #f472b6; --blob-2: #f472b6; --icon-bg: #f9a8d4; --icon-color: #831843; }
+    .theme-skyblue { --bg-body: #e0f2fe; --bg-card: #bae6fd; --text-main: #0c4a6e; --text-sub: #0284c7; --accent-btn: #0284c7; --accent-text: #ffffff; --sec-btn-bg: #38bdf8; --sec-btn-text: #0c4a6e; --card-border: #7dd3fc; --blob-1: #38bdf8; --blob-2: #0284c7; --icon-bg: #7dd3fc; --icon-color: #0c4a6e; }
+    .theme-beige { --bg-body: #fef3c7; --bg-card: #fde68a; --text-main: #451a03; --text-sub: #b45309; --accent-btn: #d97706; --accent-text: #ffffff; --sec-btn-bg: #fcd34d; --sec-btn-text: #451a03; --card-border: #fcd34d; --blob-1: #fbbf24; --blob-2: #d97706; --icon-bg: #fcd34d; --icon-color: #451a03; }
+    .theme-yellow { --bg-body: #fef9c3; --bg-card: #fef08a; --text-main: #713f12; --text-sub: #ca8a04; --accent-btn: #ca8a04; --accent-text: #ffffff; --sec-btn-bg: #fde047; --sec-btn-text: #713f12; --card-border: #fde047; --blob-1: #facc15; --blob-2: #eab308; --icon-bg: #fde047; --icon-color: #713f12; }
+    .theme-plum { --bg-body: #f3e8ff; --bg-card: #e9d5ff; --text-main: #581c87; --text-sub: #7e22ce; --accent-btn: #9333ea; --accent-text: #ffffff; --sec-btn-bg: #c084fc; --sec-btn-text: #581c87; --card-border: #c084fc; --blob-1: #c084fc; --blob-2: #9333ea; --icon-bg: #d8b4fe; --icon-color: #581c87; }
+    .theme-black { --bg-body: #000000; --bg-card: #18181b; --text-main: #ffffff; --text-sub: #a1a1aa; --accent-btn: #27272a; --accent-text: #ffffff; --sec-btn-bg: #3f3f46; --sec-btn-text: #ffffff; --card-border: #3f3f46; --blob-1: #27272a; --blob-2: #3f3f46; --icon-bg: #27272a; --icon-color: #ffffff; }
+    .theme-gray { --bg-body: #18181b; --bg-card: #27272a; --text-main: #f4f4f5; --text-sub: #a1a1aa; --accent-btn: #3f3f46; --accent-text: #ffffff; --sec-btn-bg: #52525b; --sec-btn-text: #ffffff; --card-border: #52525b; --blob-1: #3f3f46; --blob-2: #52525b; --icon-bg: #3f3f46; --icon-color: #ffffff; }
+    .theme-darkgreen { --bg-body: #022c22; --bg-card: #064e3b; --text-main: #ecfdf5; --text-sub: #6ee7b7; --accent-btn: #047857; --accent-text: #ffffff; --sec-btn-bg: #059669; --sec-btn-text: #ffffff; --card-border: #059669; --blob-1: #059669; --blob-2: #047857; --icon-bg: #047857; --icon-color: #ffffff; }
+    .theme-orange { --bg-body: #fff7ed; --bg-card: #ffedd5; --text-main: #7c2d12; --text-sub: #ea580c; --accent-btn: #ea580c; --accent-text: #ffffff; --sec-btn-bg: #fdba74; --sec-btn-text: #7c2d12; --card-border: #fdba74; --blob-1: #fdba74; --blob-2: #ea580c; --icon-bg: #fed7aa; --icon-color: #7c2d12; }
+    .theme-maroon { --bg-body: #1f0909; --bg-card: #341212; --text-main: #fef2f2; --text-sub: #fca5a5; --accent-btn: #991b1b; --accent-text: #ffffff; --sec-btn-bg: #b91c1c; --sec-btn-text: #ffffff; --card-border: #991b1b; --blob-1: #991b1b; --blob-2: #7f1d1d; --icon-bg: #451a1a; --icon-color: #ffffff; }
 
-    /* Page Layout Fix for Absolute Centering (Even on Full Zoom Out) */
-    html, body {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-
-    body { 
-      background-color: var(--bg-body); 
-      color: var(--text-main); 
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      box-sizing: border-box;
-    }
-
-    .card-bg { 
-      background-color: var(--bg-card); 
-      border-color: var(--card-border); 
-    }
-
-    .btn-save { 
-      background-color: var(--accent-btn); 
-      color: var(--accent-text) !important; 
-    }
+    html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
+    body { background-color: var(--bg-body); color: var(--text-main); display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
+    .card-bg { background-color: var(--bg-card); border-color: var(--card-border); }
+    .btn-save { background-color: var(--accent-btn); color: var(--accent-text) !important; }
     .btn-save:hover { filter: brightness(0.95); }
-
-    .btn-share {
-      background-color: var(--sec-btn-bg);
-      color: var(--sec-btn-text) !important;
-    }
+    .btn-share { background-color: var(--sec-btn-bg); color: var(--sec-btn-text) !important; }
     .btn-share:hover { filter: brightness(0.95); }
-
     .text-accent { color: var(--accent-btn); }
     .text-sub { color: var(--text-sub); }
     .text-main { color: var(--text-main); }
     .icon-box { background-color: var(--icon-bg); color: var(--icon-color); }
 
-    /* Animated Organic Background Blobs */
-    .blob-wrapper {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 0;
-    }
-
-    .blob {
-      position: absolute;
-      filter: blur(50px);
-      opacity: 0.75;
-      border-radius: 50%;
-      animation: float 8s infinite alternate ease-in-out;
-    }
-
-    .blob-1 { 
-      background-color: var(--blob-1); 
-      width: 320px; 
-      height: 320px; 
-      top: -60px; 
-      left: -60px; 
-    }
-
-    .blob-2 { 
-      background-color: var(--blob-2); 
-      width: 300px; 
-      height: 300px; 
-      bottom: -60px; 
-      right: -60px; 
-      animation-delay: -4s; 
-    }
-
-    @keyframes float {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(35px, 45px) scale(1.15); }
-    }
+    .blob-wrapper { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+    .blob { position: absolute; filter: blur(50px); opacity: 0.75; border-radius: 50%; animation: float 8s infinite alternate ease-in-out; }
+    .blob-1 { background-color: var(--blob-1); width: 320px; height: 320px; top: -60px; left: -60px; }
+    .blob-2 { background-color: var(--blob-2); width: 300px; height: 300px; bottom: -60px; right: -60px; animation-delay: -4s; }
+    @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(35px, 45px) scale(1.15); } }
   </style>
 </head>
 <body id="bodyTag" class="theme-plum font-parisienne p-4 transition-colors duration-500 relative">
 
-  <!-- Background Decorative Blobs -->
   <div class="blob-wrapper">
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
   </div>
 
-  <!-- Main Card Container (Strictly Centered Always) -->
   <div class="w-full max-w-md card-bg border rounded-3xl shadow-2xl overflow-hidden relative z-10 transition-colors duration-300 mx-auto">
-    
-    <!-- Cover Photo -->
     <div class="h-36 relative bg-slate-200 dark:bg-slate-800">
       <img id="coverImg" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800" alt="Cover" class="w-full h-full object-cover">
     </div>
 
-    <!-- Profile Header Section -->
     <div class="px-6 pb-6 relative text-center">
-      <!-- Profile Picture -->
       <div class="relative -mt-16 mb-4 inline-block">
         <img id="avatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400" alt="Avatar" class="w-28 h-28 rounded-full border-4 border-white shadow-lg mx-auto object-cover">
       </div>
@@ -298,7 +89,6 @@
       <p id="displayTitle" class="text-sm font-semibold text-accent mt-1">Digital Creator</p>
       <p id="displayBio" class="text-xs text-sub mt-2 px-4">Crafting nfc</p>
 
-      <!-- Action Buttons -->
       <div class="grid grid-cols-2 gap-3 mt-6">
         <button onclick="downloadVCard()" class="btn-save flex items-center justify-center gap-2 font-bold py-2.5 px-4 rounded-xl shadow-md transition-all active:scale-95 text-sm">
           <i class="fa-solid fa-user-plus"></i>
@@ -310,7 +100,6 @@
         </button>
       </div>
 
-      <!-- Quick Social Icons Row -->
       <div class="flex justify-center items-center gap-4 mt-6" id="socialBar">
         <a id="linkFacebook" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/40 transition shadow-sm">
           <i class="fa-brands fa-facebook-f text-lg"></i>
@@ -326,7 +115,6 @@
         </a>
       </div>
 
-      <!-- Primary Contact Links -->
       <div class="mt-4 space-y-3 text-left">
         <a id="linkPhone" href="tel:+1234567890" class="flex items-center gap-4 p-3 rounded-2xl icon-box border border-white/40 hover:opacity-90 transition shadow-sm">
           <div class="w-10 h-10 rounded-xl icon-box flex items-center justify-center">
@@ -360,8 +148,8 @@
       </div>
     </div>
 
-    <!-- Floating Edit Button -->
-    <button onclick="toggleModal(true)" class="absolute top-3 right-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:scale-105 p-2.5 rounded-full shadow-md transition active:scale-95">
+    <!-- Edit Button (Triggers Passcode Check) -->
+    <button onclick="checkPasscode()" class="absolute top-3 right-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:scale-105 p-2.5 rounded-full shadow-md transition active:scale-95">
       <i class="fa-solid fa-pen text-xs"></i>
     </button>
   </div>
@@ -375,7 +163,13 @@
       </div>
 
       <div class="space-y-3">
-        <!-- Theme & Font Selection -->
+        <!-- Passcode Field -->
+        <div class="bg-indigo-950/60 p-3 rounded-xl border border-indigo-800/80">
+          <label class="text-xs font-semibold text-indigo-300 block mb-1">Security Passcode (PIN)</label>
+          <input type="password" id="inputPasscode" placeholder="Default: 1234" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm text-white focus:outline-none">
+          <p class="text-[10px] text-slate-400 mt-1">Ikaw at ang buyer lang ang nakakaalam nito para protektado ang profile.</p>
+        </div>
+
         <div class="grid grid-cols-2 gap-3 bg-slate-950 p-3 rounded-xl border border-slate-800">
           <div>
             <label class="text-xs text-slate-400 block mb-1">Color Theme</label>
@@ -423,7 +217,6 @@
           </div>
         </div>
 
-        <!-- Image Uploads -->
         <div>
           <label class="text-xs text-slate-400">Profile Photo (Upload File)</label>
           <input type="file" id="fileAvatar" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-slate-700 file:text-xs file:text-white">
@@ -436,7 +229,6 @@
 
         <hr class="border-slate-800">
 
-        <!-- Info Inputs -->
         <div>
           <label class="text-xs text-slate-400">Full Name</label>
           <input type="text" id="inputName" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
@@ -492,6 +284,7 @@
 
   <script>
     const defaultData = {
+      passcode: '1234',
       name: 'Rose Anne Perez',
       title: 'Digital Creator',
       bio: 'Crafting nfc',
@@ -533,7 +326,6 @@
       document.getElementById('linkEmail').href = 'mailto:' + data.email;
       document.getElementById('linkWebsite').href = fixUrl(data.website);
 
-      // Social Links
       document.getElementById('linkFacebook').href = fixUrl(data.facebook);
       document.getElementById('linkInstagram').href = fixUrl(data.instagram);
 
@@ -550,15 +342,27 @@
         document.getElementById('linkWechat').href = '#';
       }
 
-      // Apply Dynamic Theme & Font Classes
       const body = document.getElementById('bodyTag');
       body.className = `${data.theme || 'theme-plum'} ${data.font || 'font-parisienne'} p-4 transition-colors duration-500 relative`;
+    }
+
+    function checkPasscode() {
+      const data = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
+      const currentPin = data.passcode || '1234';
+
+      const userPin = prompt("Enter Passcode to Edit Profile:");
+      if (userPin === currentPin) {
+        toggleModal(true);
+      } else if (userPin !== null) {
+        alert("Incorrect Passcode!");
+      }
     }
 
     function toggleModal(show) {
       const modal = document.getElementById('editModal');
       if (show) {
         const data = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
+        document.getElementById('inputPasscode').value = data.passcode || '1234';
         document.getElementById('inputName').value = data.name;
         document.getElementById('inputTitle').value = data.title;
         document.getElementById('inputBio').value = data.bio;
@@ -634,6 +438,7 @@
         }
 
         const updatedData = {
+          passcode: document.getElementById('inputPasscode').value || '1234',
           name: document.getElementById('inputName').value,
           title: document.getElementById('inputTitle').value,
           bio: document.getElementById('inputBio').value,
@@ -664,14 +469,7 @@
 
     function downloadVCard() {
       const data = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
-      const vcardData = `BEGIN:VCARD
-VERSION:3.0
-FN:${data.name}
-TITLE:${data.title}
-TEL;TYPE=CELL:${data.phone}
-EMAIL:${data.email}
-URL:${fixUrl(data.website)}
-END:VCARD`;
+      const vcardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${data.name}\nTITLE:${data.title}\nTEL;TYPE=CELL:${data.phone}\nEMAIL:${data.email}\nURL:${fixUrl(data.website)}\nEND:VCARD`;
 
       const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
