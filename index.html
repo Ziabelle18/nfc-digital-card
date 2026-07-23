@@ -8,20 +8,17 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- GOOGLE FONTS (5 Girly + 5 Men) -->
+  <!-- GOOGLE FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Great+Vibes&family=Poppins:wght@400;600;700&family=Sacramento&family=Cinzel:wght@600;800&family=Montserrat:wght@500;700;800&family=Oswald:wght@500;700&family=Bebas+Neue&family=Roboto+Slab:wght@500;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
   <style>
-    /* GIRLY FONTS */
     .font-playfair { font-family: 'Playfair Display', serif; }
     .font-greatvibes { font-family: 'Great Vibes', cursive; }
     .font-poppins { font-family: 'Poppins', sans-serif; }
     .font-sacramento { font-family: 'Sacramento', cursive; }
     .font-cinzel { font-family: 'Cinzel', serif; }
-
-    /* MEN / BOLD FONTS */
     .font-montserrat { font-family: 'Montserrat', sans-serif; }
     .font-oswald { font-family: 'Oswald', sans-serif; }
     .font-bebas { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; }
@@ -29,103 +26,186 @@
     .font-inter { font-family: 'Inter', sans-serif; }
   </style>
 </head>
-<body id="bgCard" class="min-h-screen flex items-center justify-center p-4 transition-colors duration-500 bg-gray-900 font-inter">
+<body id="bgCard" class="min-h-screen flex items-center justify-center sm:p-4 bg-black font-inter transition-colors duration-500">
 
   <!-- CARD CONTAINER -->
-  <div id="cardBox" class="bg-gray-800 text-white max-w-sm w-full rounded-3xl shadow-2xl overflow-hidden text-center p-6 space-y-5 border border-gray-700 relative">
+  <div id="cardBox" class="bg-black text-white max-w-sm w-full min-h-screen sm:min-h-0 sm:rounded-3xl shadow-2xl overflow-hidden relative flex flex-col justify-between pb-8 border border-gray-900">
     
-    <!-- EDIT BUTTON (FLOATING TOP-RIGHT) -->
-    <button onclick="openEditModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white bg-gray-700/50 p-2.5 rounded-full backdrop-blur-md transition">
-      <i class="fa-solid fa-pen-to-square text-lg"></i>
-    </button>
+    <div>
+      <!-- EDIT BUTTON (FLOATING TOP-RIGHT) -->
+      <button onclick="openEditModal()" class="absolute top-4 right-4 z-20 text-white bg-black/60 p-2.5 rounded-full backdrop-blur-md transition hover:bg-black/90">
+        <i class="fa-solid fa-pen-to-square text-lg"></i>
+      </button>
 
-    <!-- AVATAR / PROFILE PHOTO -->
-    <div class="relative w-28 h-28 mx-auto mt-2">
-      <img id="avatarImg" class="w-28 h-28 rounded-full object-cover shadow-lg border-4 border-gray-600 hidden" src="" alt="Profile">
-      <div id="avatarInitials" class="w-28 h-28 bg-gray-700 text-white rounded-full flex items-center justify-center text-3xl font-bold shadow-lg border-4 border-gray-600 mx-auto">
-        ZD
+      <!-- COVER BANNER HEADER -->
+      <div class="h-40 bg-amber-500 relative overflow-hidden">
+        <img id="bannerImg" class="w-full h-full object-cover hidden" src="" alt="Cover Banner">
+      </div>
+
+      <!-- PROFILE PHOTO OVERLAY -->
+      <div class="px-6 relative">
+        <div class="relative -mt-20 mb-3 inline-block">
+          <div class="w-32 h-32 rounded-full border-4 border-black overflow-hidden bg-gray-800 flex items-center justify-center text-3xl font-bold shadow-2xl">
+            <img id="avatarImg" class="w-full h-full object-cover hidden" src="" alt="Profile">
+            <span id="avatarInitials">ZD</span>
+          </div>
+        </div>
+
+        <!-- USER NAME & TITLE -->
+        <h1 id="name" class="text-3xl font-bold tracking-tight">Your Name</h1>
+        <p id="jobTitle" class="text-gray-400 text-base mt-1 font-medium">Business Title / Position</p>
+
+        <!-- FULL CONTACT LIST -->
+        <div class="mt-8 space-y-4 text-left" id="links">
+          
+          <!-- COMPANY -->
+          <div id="rowCompany" class="flex items-center gap-4 p-1 rounded-xl">
+            <div class="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center text-xl shrink-0 font-bold">
+              <i class="fa-solid fa-city"></i>
+            </div>
+            <span id="textCompany" class="font-semibold text-lg truncate">Your Company</span>
+          </div>
+
+          <!-- PHONE 1 -->
+          <div id="rowPhone1" class="flex items-center gap-4 p-1 rounded-xl">
+            <div class="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center text-xl shrink-0 font-bold">
+              <i class="fa-solid fa-phone"></i>
+            </div>
+            <a id="linkPhone1" href="#" class="font-semibold text-lg hover:underline truncate">+63 917 000 0000</a>
+          </div>
+
+          <!-- PHONE 2 / MOBILE -->
+          <div id="rowPhone2" class="flex items-center gap-4 p-1 rounded-xl">
+            <div class="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center text-xl shrink-0 font-bold">
+              <i class="fa-solid fa-mobile-screen"></i>
+            </div>
+            <a id="linkPhone2" href="#" class="font-semibold text-lg hover:underline truncate">+63 918 000 0000</a>
+          </div>
+
+          <!-- WHATSAPP -->
+          <div id="rowWhatsapp" class="flex items-center gap-4 p-1 rounded-xl">
+            <div class="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center text-xl shrink-0 font-bold">
+              <i class="fa-brands fa-whatsapp text-2xl"></i>
+            </div>
+            <a id="linkWhatsapp" href="#" class="font-semibold text-lg text-blue-400 hover:underline truncate">+63 917 000 0000 (whatsapp)</a>
+          </div>
+
+          <!-- EMAIL -->
+          <div id="rowEmail" class="flex items-center gap-4 p-1 rounded-xl">
+            <div class="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center text-xl shrink-0 font-bold">
+              <i class="fa-regular fa-envelope"></i>
+            </div>
+            <a id="linkEmail" href="#" class="font-semibold text-lg hover:underline truncate">yourname@email.com</a>
+          </div>
+
+          <!-- LINKEDIN -->
+          <div id="rowLinkedin" class="flex items-center gap-4 p-1 rounded-xl">
+            <div class="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center text-xl shrink-0 font-bold">
+              <i class="fa-brands fa-linkedin-in"></i>
+            </div>
+            <a id="linkLinkedin" href="#" target="_blank" class="font-semibold text-lg hover:underline truncate">LinkedIn Profile</a>
+          </div>
+
+        </div>
       </div>
     </div>
 
-    <!-- USER INFO -->
-    <div>
-      <h1 id="name" class="text-2xl font-extrabold tracking-wide font-inter">Zialink Digital</h1>
-      <p id="phone" class="text-sm opacity-80 mt-1">Tap to connect</p>
+    <!-- BOTTOM ACTION BUTTONS -->
+    <div class="px-6 mt-8 space-y-3">
+      <button onclick="downloadVCard()" class="w-full py-3.5 px-4 border border-white/30 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-white/10 transition">
+        <i class="fa-solid fa-download"></i> Add to Phone Book
+      </button>
+      <button onclick="shareCard()" class="w-full py-3.5 px-4 border border-white/30 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-white/10 transition">
+        <i class="fa-solid fa-share-nodes"></i> Share My vCard
+      </button>
     </div>
 
-    <!-- ACTION BUTTONS -->
-    <div class="space-y-3 pt-2" id="links">
-      <a href="tel:" id="callBtn" class="flex items-center justify-center gap-2 w-full py-3 bg-gray-700 text-white font-semibold rounded-2xl shadow hover:opacity-90 transition">
-        <i class="fa-solid fa-phone"></i> Call Me
-      </a>
-    </div>
   </div>
 
-  <!-- EDIT MODAL (POP-UP EDITOR FOR PHONE) -->
+  <!-- EDIT MODAL (PHONE EDITOR) -->
   <div id="editModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
     <div class="bg-gray-800 text-white max-w-md w-full rounded-3xl p-6 space-y-4 border border-gray-700 max-h-[90vh] overflow-y-auto">
       
       <div class="flex justify-between items-center border-b border-gray-700 pb-3">
-        <h3 class="text-lg font-bold flex items-center gap-2"><i class="fa-solid fa-gear"></i> Edit Card Info</h3>
+        <h3 class="text-lg font-bold flex items-center gap-2"><i class="fa-solid fa-gear"></i> Edit Business Profile</h3>
         <button onclick="closeEditModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
       </div>
 
       <!-- FORM FIELDS -->
       <div class="space-y-3 text-left text-sm">
         <div>
-          <label class="block mb-1 text-gray-300 font-medium">Full Name / Business Name</label>
-          <input type="text" id="editName" placeholder="e.g. Juan Dela Cruz" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-blue-500">
+          <label class="block mb-1 text-gray-300 font-medium">Full Name</label>
+          <input type="text" id="editName" placeholder="e.g. Juan Dela Cruz" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
         </div>
 
         <div>
-          <label class="block mb-1 text-gray-300 font-medium">Phone Number</label>
-          <input type="text" id="editPhone" placeholder="e.g. 09171234567" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-blue-500">
+          <label class="block mb-1 text-gray-300 font-medium">Job Title</label>
+          <input type="text" id="editTitle" placeholder="e.g. Sales Director / Manager" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
         </div>
 
         <div>
-          <label class="block mb-1 text-gray-300 font-medium">Profile Picture URL</label>
-          <input type="text" id="editPhoto" placeholder="Paste Image Link (e.g. Imgur, Facebook photo link)" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-blue-500">
+          <label class="block mb-1 text-gray-300 font-medium">Company Name</label>
+          <input type="text" id="editCompany" placeholder="e.g. Company Name" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
         </div>
 
-        <!-- FONT STYLE SELECTOR -->
         <div>
-          <label class="block mb-1 text-gray-300 font-medium">Font Style (Pangalan & Design)</label>
-          <select id="editFont" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-blue-500">
+          <label class="block mb-1 text-gray-300 font-medium">Primary Phone</label>
+          <input type="text" id="editPhone1" placeholder="e.g. +63 917 000 0000" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
+        </div>
+
+        <div>
+          <label class="block mb-1 text-gray-300 font-medium">Secondary Phone / Mobile</label>
+          <input type="text" id="editPhone2" placeholder="e.g. +63 918 000 0000" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
+        </div>
+
+        <div>
+          <label class="block mb-1 text-gray-300 font-medium">WhatsApp Number</label>
+          <input type="text" id="editWhatsapp" placeholder="e.g. +63 917 000 0000" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
+        </div>
+
+        <div>
+          <label class="block mb-1 text-gray-300 font-medium">Email Address</label>
+          <input type="email" id="editEmail" placeholder="e.g. juan@domain.com" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
+        </div>
+
+        <div>
+          <label class="block mb-1 text-gray-300 font-medium">LinkedIn URL</label>
+          <input type="text" id="editLinkedin" placeholder="Paste LinkedIn link" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
+        </div>
+
+        <div>
+          <label class="block mb-1 text-gray-300 font-medium">Header / Cover Banner Image URL</label>
+          <input type="text" id="editBanner" placeholder="Paste Header Image Link" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
+        </div>
+
+        <div>
+          <label class="block mb-1 text-gray-300 font-medium">Profile Photo URL</label>
+          <input type="text" id="editPhoto" placeholder="Paste Profile Image Link" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
+        </div>
+
+        <div>
+          <label class="block mb-1 text-gray-300 font-medium">Font Style</label>
+          <select id="editFont" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
             <optgroup label="✨ Girly & Elegant Styles">
-              <option value="font-playfair">🌸 Playfair Display (Classy Serif)</option>
-              <option value="font-greatvibes">💖 Great Vibes (Cursive Calligraphy)</option>
-              <option value="font-poppins">🎀 Poppins (Cute & Clean Modern)</option>
-              <option value="font-sacramento">👑 Sacramento (Handwritten Script)</option>
-              <option value="font-cinzel">✨ Cinzel (Luxury & Royal Serif)</option>
+              <option value="font-playfair">🌸 Playfair Display</option>
+              <option value="font-greatvibes">💖 Great Vibes</option>
+              <option value="font-poppins">🎀 Poppins</option>
+              <option value="font-sacramento">👑 Sacramento</option>
+              <option value="font-cinzel">✨ Cinzel</option>
             </optgroup>
             <optgroup label="💼 Men & Bold Styles">
-              <option value="font-montserrat">🕶️ Montserrat (Strong & Modern)</option>
-              <option value="font-oswald">⚡ Oswald (Tall Bold Condensed)</option>
-              <option value="font-bebas">🔥 Bebas Neue (Impact All-Caps)</option>
-              <option value="font-robotoslab">🪵 Roboto Slab (Classic Tough Serif)</option>
-              <option value="font-inter" selected>👔 Inter (Clean Professional)</option>
+              <option value="font-montserrat">🕶️ Montserrat</option>
+              <option value="font-oswald">⚡ Oswald</option>
+              <option value="font-bebas">🔥 Bebas Neue</option>
+              <option value="font-robotoslab">🪵 Roboto Slab</option>
+              <option value="font-inter" selected>👔 Inter</option>
             </optgroup>
           </select>
         </div>
 
         <div>
-          <label class="block mb-1 text-gray-300 font-medium">Theme Color</label>
-          <select id="editTheme" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-blue-500">
-            <option value="black">🖤 Dark Black</option>
-            <option value="gray">🩶 Slate Gray</option>
-            <option value="blush_pink">🌸 Blush Pink</option>
-            <option value="pastel_pink">💖 Pastel Pink</option>
-            <option value="sky_blue">🩵 Sky Blue</option>
-            <option value="pastel_blue">💙 Pastel Blue</option>
-            <option value="pastel_yellow">💛 Pastel Yellow</option>
-            <option value="plum">💜 Plum / Purple</option>
-            <option value="dark_green">🌲 Dark Green</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block mb-1 text-gray-300 font-medium">Security PIN (4-6 digits)</label>
-          <input type="password" id="editPin" placeholder="Default PIN: 1234" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white focus:outline-none focus:border-blue-500">
+          <label class="block mb-1 text-gray-300 font-medium">Security PIN (4 digits)</label>
+          <input type="password" id="editPin" placeholder="Default PIN: 1234" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
         </div>
       </div>
 
@@ -142,59 +222,70 @@
     const SUPABASE_KEY = "sb_publishable_PjdxXTNrQ6sDsC7zZ9UFNA_127f9KMG";
     const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    const themes = {
-      black: { bg: 'bg-gray-950', box: 'bg-gray-900 border-gray-800 text-white', btn: 'bg-gray-800 text-white' },
-      gray: { bg: 'bg-slate-200', box: 'bg-slate-800 border-slate-700 text-slate-100', btn: 'bg-slate-700 text-white' },
-      blush_pink: { bg: 'bg-pink-100', box: 'bg-pink-900 border-pink-800 text-pink-50', btn: 'bg-pink-800 text-white' },
-      pastel_pink: { bg: 'bg-pink-200', box: 'bg-pink-500 border-pink-400 text-white', btn: 'bg-pink-600 text-white' },
-      sky_blue: { bg: 'bg-sky-100', box: 'bg-sky-900 border-sky-800 text-sky-50', btn: 'bg-sky-800 text-white' },
-      pastel_blue: { bg: 'bg-blue-200', box: 'bg-blue-600 border-blue-500 text-white', btn: 'bg-blue-700 text-white' },
-      pastel_yellow: { bg: 'bg-amber-100', box: 'bg-amber-800 border-amber-700 text-amber-50', btn: 'bg-amber-700 text-white' },
-      plum: { bg: 'bg-purple-950', box: 'bg-purple-900 border-purple-800 text-white', btn: 'bg-purple-800 text-white' },
-      dark_green: { bg: 'bg-emerald-950', box: 'bg-emerald-900 border-emerald-800 text-white', btn: 'bg-emerald-800 text-white' }
-    };
-
     let cardRecordId = null;
     let currentPin = "1234";
 
     async function fetchCardData() {
-      const { data, error } = await supabase.from('cards').select('*').limit(1);
+      const { data } = await supabase.from('cards').select('*').limit(1);
 
       if (data && data.length > 0) {
         const card = data[0];
         cardRecordId = card.id;
         currentPin = card.pin || "1234";
+        const links = card.social_links || {};
 
-        document.getElementById('name').innerText = card.full_name || 'Zialink Digital';
-        document.getElementById('phone').innerText = card.phone || 'Tap to connect';
-        document.getElementById('callBtn').href = 'tel:' + (card.phone || '');
+        document.getElementById('name').innerText = card.full_name || 'Your Name';
+        document.getElementById('jobTitle').innerText = links.title || 'Business Title / Position';
+        
+        document.getElementById('textCompany').innerText = links.company || 'Your Company';
+        document.getElementById('linkPhone1').innerText = card.phone || '+63 917 000 0000';
+        document.getElementById('linkPhone1').href = 'tel:' + (card.phone || '');
+        
+        document.getElementById('linkPhone2').innerText = links.phone2 || '+63 918 000 0000';
+        document.getElementById('linkPhone2').href = 'tel:' + (links.phone2 || '');
+
+        document.getElementById('linkWhatsapp').innerText = (links.whatsapp || '+63 917 000 0000') + ' (whatsapp)';
+        document.getElementById('linkWhatsapp').href = 'https://wa.me/' + (links.whatsapp || '').replace(/[^0-9]/g, '');
+
+        document.getElementById('linkEmail').innerText = links.email || 'yourname@email.com';
+        document.getElementById('linkEmail').href = 'mailto:' + (links.email || '');
+
+        document.getElementById('linkLinkedin').href = links.linkedin || '#';
 
         // Apply Font
-        const selectedFont = (card.social_links && card.social_links.font) ? card.social_links.font : 'font-inter';
-        document.getElementById('name').className = `text-2xl font-extrabold tracking-wide ${selectedFont}`;
+        const selectedFont = links.font || 'font-inter';
+        document.getElementById('name').className = `text-3xl font-bold tracking-tight ${selectedFont}`;
 
-        if (card.social_links && card.social_links.photo) {
-          document.getElementById('avatarImg').src = card.social_links.photo;
+        // Header Banner
+        if (links.banner) {
+          document.getElementById('bannerImg').src = links.banner;
+          document.getElementById('bannerImg').classList.remove('hidden');
+        }
+
+        // Profile Photo
+        if (links.photo) {
+          document.getElementById('avatarImg').src = links.photo;
           document.getElementById('avatarImg').classList.remove('hidden');
           document.getElementById('avatarInitials').classList.add('hidden');
         } else {
-          const initials = (card.full_name || 'ZD').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+          const initials = (card.full_name || 'YN').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
           document.getElementById('avatarInitials').innerText = initials;
           document.getElementById('avatarImg').classList.add('hidden');
           document.getElementById('avatarInitials').classList.remove('hidden');
         }
 
-        const t = themes[card.theme] || themes.black;
-        document.getElementById('bgCard').className = `min-h-screen flex items-center justify-center p-4 transition-colors duration-500 ${t.bg}`;
-        document.getElementById('cardBox').className = `max-w-sm w-full rounded-3xl shadow-2xl overflow-hidden text-center p-6 space-y-5 border relative ${t.box}`;
-        document.getElementById('callBtn').className = `flex items-center justify-center gap-2 w-full py-3 font-semibold rounded-2xl shadow hover:opacity-90 transition ${t.btn}`;
-
         // Populate Form
         document.getElementById('editName').value = card.full_name || '';
-        document.getElementById('editPhone').value = card.phone || '';
-        document.getElementById('editPhoto').value = (card.social_links && card.social_links.photo) ? card.social_links.photo : '';
+        document.getElementById('editTitle').value = links.title || '';
+        document.getElementById('editCompany').value = links.company || '';
+        document.getElementById('editPhone1').value = card.phone || '';
+        document.getElementById('editPhone2').value = links.phone2 || '';
+        document.getElementById('editWhatsapp').value = links.whatsapp || '';
+        document.getElementById('editEmail').value = links.email || '';
+        document.getElementById('editLinkedin').value = links.linkedin || '';
+        document.getElementById('editBanner').value = links.banner || '';
+        document.getElementById('editPhoto').value = links.photo || '';
         document.getElementById('editFont').value = selectedFont;
-        document.getElementById('editTheme').value = card.theme || 'black';
       }
     }
 
@@ -215,10 +306,16 @@
 
     async function saveCardData() {
       const name = document.getElementById('editName').value;
-      const phone = document.getElementById('editPhone').value;
+      const title = document.getElementById('editTitle').value;
+      const company = document.getElementById('editCompany').value;
+      const phone1 = document.getElementById('editPhone1').value;
+      const phone2 = document.getElementById('editPhone2').value;
+      const whatsapp = document.getElementById('editWhatsapp').value;
+      const email = document.getElementById('editEmail').value;
+      const linkedin = document.getElementById('editLinkedin').value;
+      const banner = document.getElementById('editBanner').value;
       const photo = document.getElementById('editPhoto').value;
       const font = document.getElementById('editFont').value;
-      const theme = document.getElementById('editTheme').value;
       const pin = document.getElementById('editPin').value || currentPin;
 
       const saveBtn = document.getElementById('saveBtn');
@@ -227,11 +324,20 @@
 
       const payload = {
         full_name: name,
-        phone: phone,
-        theme: theme,
+        phone: phone1,
         pin: pin,
         is_active: true,
-        social_links: { photo: photo, font: font }
+        social_links: { 
+          photo: photo, 
+          banner: banner, 
+          font: font, 
+          title: title, 
+          company: company,
+          phone2: phone2,
+          whatsapp: whatsapp,
+          email: email,
+          linkedin: linkedin
+        }
       };
 
       let res;
@@ -251,6 +357,28 @@
 
       saveBtn.innerText = "Save Changes";
       saveBtn.disabled = false;
+    }
+
+    function downloadVCard() {
+      const name = document.getElementById('name').innerText;
+      const phone = document.getElementById('linkPhone1').innerText;
+      const email = document.getElementById('linkEmail').innerText;
+      const vcardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nTEL:${phone}\nEMAIL:${email}\nEND:VCARD`;
+      const blob = new Blob([vcardData], { type: 'text/vcard' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${name}.vcf`;
+      a.click();
+    }
+
+    function shareCard() {
+      if (navigator.share) {
+        navigator.share({ title: document.title, url: window.location.href });
+      } else {
+        navigator.clipboard.writeText(window.location.href);
+        alert('Link copied to clipboard!');
+      }
     }
 
     fetchCardData();
