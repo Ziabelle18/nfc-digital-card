@@ -39,93 +39,248 @@
     .font-lora { font-family: 'Lora', serif; }
     .font-inter { font-family: 'Inter', sans-serif; }
 
-    /* --- COLOR THEMES WITH SOFT CARD TINTS --- */
+    /* --- COLOR THEMES WITH VIBRANT CARD COLORS & ACCENTS --- */
     .theme-pink {
-      --bg-body: #fce7f3; --bg-card: linear-gradient(180deg, #ffffff 0%, #fdf2f8 100%); 
-      --text-main: #831843; --text-sub: #be185d; --accent: #ec4899; 
-      --card-border: #fbcfe8; --blob-1: #f472b6; --blob-2: #fbcfe8; --icon-bg: #fce7f3;
+      --bg-body: #fce7f3; 
+      --bg-card: #fbcfe8; 
+      --text-main: #831843; 
+      --text-sub: #be185d; 
+      --accent-btn: #db2777;
+      --accent-text: #ffffff;
+      --sec-btn-bg: #f472b6;
+      --sec-btn-text: #831843;
+      --card-border: #f472b6; 
+      --blob-1: #f472b6; 
+      --blob-2: #f472b6; 
+      --icon-bg: #f9a8d4;
+      --icon-color: #831843;
     }
     .theme-skyblue {
-      --bg-body: #e0f2fe; --bg-card: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%); 
-      --text-main: #0c4a6e; --text-sub: #0284c7; --accent: #0284c7; 
-      --card-border: #bae6fd; --blob-1: #38bdf8; --blob-2: #bae6fd; --icon-bg: #e0f2fe;
+      --bg-body: #e0f2fe; 
+      --bg-card: #bae6fd; 
+      --text-main: #0c4a6e; 
+      --text-sub: #0284c7; 
+      --accent-btn: #0284c7;
+      --accent-text: #ffffff;
+      --sec-btn-bg: #38bdf8;
+      --sec-btn-text: #0c4a6e;
+      --card-border: #7dd3fc; 
+      --blob-1: #38bdf8; 
+      --blob-2: #0284c7; 
+      --icon-bg: #7dd3fc;
+      --icon-color: #0c4a6e;
     }
     .theme-beige {
-      --bg-body: #fef3c7; --bg-card: linear-gradient(180deg, #ffffff 0%, #fffbeb 100%); 
-      --text-main: #451a03; --text-sub: #b45309; --accent: #d97706; 
-      --card-border: #fde68a; --blob-1: #fbbf24; --blob-2: #fef3c7; --icon-bg: #fef3c7;
+      --bg-body: #fef3c7; 
+      --bg-card: #fde68a; 
+      --text-main: #451a03; 
+      --text-sub: #b45309; 
+      --accent-btn: #d97706; 
+      --accent-text: #ffffff;
+      --sec-btn-bg: #fcd34d;
+      --sec-btn-text: #451a03;
+      --card-border: #fcd34d; 
+      --blob-1: #fbbf24; 
+      --blob-2: #d97706; 
+      --icon-bg: #fcd34d;
+      --icon-color: #451a03;
     }
     .theme-yellow {
-      --bg-body: #fef9c3; --bg-card: linear-gradient(180deg, #ffffff 0%, #fefce8 100%); 
-      --text-main: #713f12; --text-sub: #ca8a04; --accent: #eab308; 
-      --card-border: #fef08a; --blob-1: #facc15; --blob-2: #fef08a; --icon-bg: #fef9c3;
+      --bg-body: #fef9c3; 
+      --bg-card: #fef08a; 
+      --text-main: #713f12; 
+      --text-sub: #ca8a04; 
+      --accent-btn: #ca8a04; 
+      --accent-text: #ffffff;
+      --sec-btn-bg: #fde047;
+      --sec-btn-text: #713f12;
+      --card-border: #fde047; 
+      --blob-1: #facc15; 
+      --blob-2: #eab308; 
+      --icon-bg: #fde047;
+      --icon-color: #713f12;
     }
     .theme-plum {
-      --bg-body: #f3e8ff; --bg-card: linear-gradient(180deg, #ffffff 0%, #faf5ff 100%); 
-      --text-main: #581c87; --text-sub: #7e22ce; --accent: #9333ea; 
-      --card-border: #e9d5ff; --blob-1: #c084fc; --blob-2: #f3e8ff; --icon-bg: #f3e8ff;
+      --bg-body: #f3e8ff; 
+      --bg-card: #e9d5ff; 
+      --text-main: #581c87; 
+      --text-sub: #7e22ce; 
+      --accent-btn: #9333ea; 
+      --accent-text: #ffffff;
+      --sec-btn-bg: #c084fc;
+      --sec-btn-text: #581c87;
+      --card-border: #c084fc; 
+      --blob-1: #c084fc; 
+      --blob-2: #9333ea; 
+      --icon-bg: #d8b4fe;
+      --icon-color: #581c87;
     }
     .theme-black {
-      --bg-body: #000000; --bg-card: linear-gradient(180deg, #18181b 0%, #09090b 100%); 
-      --text-main: #ffffff; --text-sub: #a1a1aa; --accent: #ffffff; 
-      --card-border: #27272a; --blob-1: #27272a; --blob-2: #09090b; --icon-bg: #27272a;
+      --bg-body: #000000; 
+      --bg-card: #18181b; 
+      --text-main: #ffffff; 
+      --text-sub: #a1a1aa; 
+      --accent-btn: #27272a; 
+      --accent-text: #ffffff;
+      --sec-btn-bg: #3f3f46;
+      --sec-btn-text: #ffffff;
+      --card-border: #3f3f46; 
+      --blob-1: #27272a; 
+      --blob-2: #3f3f46; 
+      --icon-bg: #27272a;
+      --icon-color: #ffffff;
     }
     .theme-gray {
-      --bg-body: #18181b; --bg-card: linear-gradient(180deg, #27272a 0%, #18181b 100%); 
-      --text-main: #f4f4f5; --text-sub: #a1a1aa; --accent: #a1a1aa; 
-      --card-border: #3f3f46; --blob-1: #3f3f46; --blob-2: #18181b; --icon-bg: #3f3f46;
+      --bg-body: #18181b; 
+      --bg-card: #27272a; 
+      --text-main: #f4f4f5; 
+      --text-sub: #a1a1aa; 
+      --accent-btn: #3f3f46; 
+      --accent-text: #ffffff;
+      --sec-btn-bg: #52525b;
+      --sec-btn-text: #ffffff;
+      --card-border: #52525b; 
+      --blob-1: #3f3f46; 
+      --blob-2: #52525b; 
+      --icon-bg: #3f3f46;
+      --icon-color: #ffffff;
     }
     .theme-darkgreen {
-      --bg-body: #022c22; --bg-card: linear-gradient(180deg, #064e3b 0%, #022c22 100%); 
-      --text-main: #ecfdf5; --text-sub: #6ee7b7; --accent: #10b981; 
-      --card-border: #047857; --blob-1: #059669; --blob-2: #022c22; --icon-bg: #065f46;
+      --bg-body: #022c22; 
+      --bg-card: #064e3b; 
+      --text-main: #ecfdf5; 
+      --text-sub: #6ee7b7; 
+      --accent-btn: #047857; 
+      --accent-text: #ffffff;
+      --sec-btn-bg: #059669;
+      --sec-btn-text: #ffffff;
+      --card-border: #059669; 
+      --blob-1: #059669; 
+      --blob-2: #047857; 
+      --icon-bg: #047857;
+      --icon-color: #ffffff;
     }
     .theme-orange {
-      --bg-body: #fff7ed; --bg-card: linear-gradient(180deg, #ffffff 0%, #fff7ed 100%); 
-      --text-main: #7c2d12; --text-sub: #ea580c; --accent: #f97316; 
-      --card-border: #ffedd5; --blob-1: #fdba74; --blob-2: #ffedd5; --icon-bg: #ffedd5;
+      --bg-body: #fff7ed; 
+      --bg-card: #ffedd5; 
+      --text-main: #7c2d12; 
+      --text-sub: #ea580c; 
+      --accent-btn: #ea580c; 
+      --accent-text: #ffffff;
+      --sec-btn-bg: #fdba74;
+      --sec-btn-text: #7c2d12;
+      --card-border: #fdba74; 
+      --blob-1: #fdba74; 
+      --blob-2: #ea580c; 
+      --icon-bg: #fed7aa;
+      --icon-color: #7c2d12;
     }
     .theme-maroon {
-      --bg-body: #1f0909; --bg-card: linear-gradient(180deg, #341212 0%, #1f0909 100%); 
-      --text-main: #fef2f2; --text-sub: #fca5a5; --accent: #ef4444; 
-      --card-border: #451a1a; --blob-1: #991b1b; --blob-2: #1f0909; --icon-bg: #451a1a;
+      --bg-body: #1f0909; 
+      --bg-card: #341212; 
+      --text-main: #fef2f2; 
+      --text-sub: #fca5a5; 
+      --accent-btn: #991b1b; 
+      --accent-text: #ffffff;
+      --sec-btn-bg: #b91c1c;
+      --sec-btn-text: #ffffff;
+      --card-border: #991b1b; 
+      --blob-1: #991b1b; 
+      --blob-2: #7f1d1d; 
+      --icon-bg: #451a1a;
+      --icon-color: #ffffff;
     }
 
-    body { background-color: var(--bg-body); color: var(--text-main); }
-    .card-bg { background: var(--bg-card); border-color: var(--card-border); }
-    .btn-accent { background-color: var(--accent); color: #ffffff; }
-    .btn-accent:hover { filter: brightness(0.9); }
-    .text-accent { color: var(--accent); }
+    /* Page Layout Fix for Absolute Centering (Even on Full Zoom Out) */
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body { 
+      background-color: var(--bg-body); 
+      color: var(--text-main); 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    .card-bg { 
+      background-color: var(--bg-card); 
+      border-color: var(--card-border); 
+    }
+
+    .btn-save { 
+      background-color: var(--accent-btn); 
+      color: var(--accent-text) !important; 
+    }
+    .btn-save:hover { filter: brightness(0.95); }
+
+    .btn-share {
+      background-color: var(--sec-btn-bg);
+      color: var(--sec-btn-text) !important;
+    }
+    .btn-share:hover { filter: brightness(0.95); }
+
+    .text-accent { color: var(--accent-btn); }
     .text-sub { color: var(--text-sub); }
     .text-main { color: var(--text-main); }
-    .icon-box { background-color: var(--icon-bg); color: var(--accent); }
+    .icon-box { background-color: var(--icon-bg); color: var(--icon-color); }
 
     /* Animated Organic Background Blobs */
+    .blob-wrapper {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
     .blob {
       position: absolute;
-      filter: blur(60px);
-      opacity: 0.65;
+      filter: blur(50px);
+      opacity: 0.75;
       border-radius: 50%;
-      z-index: 0;
       animation: float 8s infinite alternate ease-in-out;
     }
-    .blob-1 { background-color: var(--blob-1); width: 300px; height: 300px; top: -50px; left: -50px; }
-    .blob-2 { background-color: var(--blob-2); width: 280px; height: 280px; bottom: -50px; right: -50px; animation-delay: -4s; }
+
+    .blob-1 { 
+      background-color: var(--blob-1); 
+      width: 320px; 
+      height: 320px; 
+      top: -60px; 
+      left: -60px; 
+    }
+
+    .blob-2 { 
+      background-color: var(--blob-2); 
+      width: 300px; 
+      height: 300px; 
+      bottom: -60px; 
+      right: -60px; 
+      animation-delay: -4s; 
+    }
 
     @keyframes float {
       0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(30px, 40px) scale(1.1); }
+      100% { transform: translate(35px, 45px) scale(1.15); }
     }
   </style>
 </head>
-<body id="bodyTag" class="theme-plum font-parisienne min-h-screen w-full flex justify-center items-center p-4 transition-colors duration-500 relative overflow-x-hidden">
+<body id="bodyTag" class="theme-plum font-parisienne p-4 transition-colors duration-500 relative">
 
   <!-- Background Decorative Blobs -->
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
+  <div class="blob-wrapper">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+  </div>
 
-  <!-- Main Card Container (Guaranteed Center Alignment) -->
-  <div class="w-full max-w-md card-bg border rounded-3xl shadow-2xl overflow-hidden relative my-auto mx-auto z-10 transition-colors duration-300">
+  <!-- Main Card Container (Strictly Centered Always) -->
+  <div class="w-full max-w-md card-bg border rounded-3xl shadow-2xl overflow-hidden relative z-10 transition-colors duration-300 mx-auto">
     
     <!-- Cover Photo -->
     <div class="h-36 relative bg-slate-200 dark:bg-slate-800">
@@ -145,11 +300,11 @@
 
       <!-- Action Buttons -->
       <div class="grid grid-cols-2 gap-3 mt-6">
-        <button onclick="downloadVCard()" class="btn-accent flex items-center justify-center gap-2 font-bold py-2.5 px-4 rounded-xl shadow-md transition-all active:scale-95 text-sm">
+        <button onclick="downloadVCard()" class="btn-save flex items-center justify-center gap-2 font-bold py-2.5 px-4 rounded-xl shadow-md transition-all active:scale-95 text-sm">
           <i class="fa-solid fa-user-plus"></i>
           <span>Save Contact</span>
         </button>
-        <button onclick="shareCard()" class="flex items-center justify-center gap-2 bg-white/80 text-main border border-slate-300 dark:border-slate-700 font-semibold py-2.5 px-4 rounded-xl transition-all active:scale-95 text-sm shadow-sm">
+        <button onclick="shareCard()" class="btn-share flex items-center justify-center gap-2 font-semibold py-2.5 px-4 rounded-xl transition-all active:scale-95 text-sm shadow-sm">
           <i class="fa-solid fa-share-nodes"></i>
           <span>Share</span>
         </button>
@@ -157,23 +312,23 @@
 
       <!-- Quick Social Icons Row -->
       <div class="flex justify-center items-center gap-4 mt-6" id="socialBar">
-        <a id="linkFacebook" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-slate-200 dark:border-slate-800 transition shadow-sm">
+        <a id="linkFacebook" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/40 transition shadow-sm">
           <i class="fa-brands fa-facebook-f text-lg"></i>
         </a>
-        <a id="linkInstagram" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-slate-200 dark:border-slate-800 transition shadow-sm">
+        <a id="linkInstagram" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/40 transition shadow-sm">
           <i class="fa-brands fa-instagram text-lg"></i>
         </a>
-        <a id="linkWhatsapp" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-slate-200 dark:border-slate-800 transition shadow-sm">
+        <a id="linkWhatsapp" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/40 transition shadow-sm">
           <i class="fa-brands fa-whatsapp text-lg"></i>
         </a>
-        <a id="linkWechat" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-slate-200 dark:border-slate-800 transition shadow-sm">
+        <a id="linkWechat" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/40 transition shadow-sm">
           <i class="fa-brands fa-weixin text-lg"></i>
         </a>
       </div>
 
       <!-- Primary Contact Links -->
       <div class="mt-4 space-y-3 text-left">
-        <a id="linkPhone" href="tel:+1234567890" class="flex items-center gap-4 p-3 rounded-2xl icon-box border border-slate-200/60 dark:border-slate-800 hover:opacity-90 transition shadow-sm">
+        <a id="linkPhone" href="tel:+1234567890" class="flex items-center gap-4 p-3 rounded-2xl icon-box border border-white/40 hover:opacity-90 transition shadow-sm">
           <div class="w-10 h-10 rounded-xl icon-box flex items-center justify-center">
             <i class="fa-solid fa-phone"></i>
           </div>
@@ -183,7 +338,7 @@
           </div>
         </a>
 
-        <a id="linkEmail" href="mailto:alex@example.com" class="flex items-center gap-4 p-3 rounded-2xl icon-box border border-slate-200/60 dark:border-slate-800 hover:opacity-90 transition shadow-sm">
+        <a id="linkEmail" href="mailto:alex@example.com" class="flex items-center gap-4 p-3 rounded-2xl icon-box border border-white/40 hover:opacity-90 transition shadow-sm">
           <div class="w-10 h-10 rounded-xl icon-box flex items-center justify-center">
             <i class="fa-solid fa-envelope"></i>
           </div>
@@ -193,7 +348,7 @@
           </div>
         </a>
 
-        <a id="linkWebsite" href="https://example.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 p-3 rounded-2xl icon-box border border-slate-200/60 dark:border-slate-800 hover:opacity-90 transition shadow-sm">
+        <a id="linkWebsite" href="https://example.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 p-3 rounded-2xl icon-box border border-white/40 hover:opacity-90 transition shadow-sm">
           <div class="w-10 h-10 rounded-xl icon-box flex items-center justify-center">
             <i class="fa-solid fa-globe"></i>
           </div>
@@ -225,11 +380,11 @@
           <div>
             <label class="text-xs text-slate-400 block mb-1">Color Theme</label>
             <select id="selectTheme" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white">
-              <option value="theme-plum">Plum Purple (Chic Tint)</option>
-              <option value="theme-pink">Pastel Pink (Aesthetic Tint)</option>
-              <option value="theme-skyblue">Sky Blue (Fresh Tint)</option>
-              <option value="theme-beige">Warm Beige (Nude Tint)</option>
-              <option value="theme-yellow">Yellow Gold (Warm Tint)</option>
+              <option value="theme-plum">Plum Purple (Chic Light)</option>
+              <option value="theme-pink">Pastel Pink (Aesthetic Light)</option>
+              <option value="theme-skyblue">Sky Blue (Fresh Light)</option>
+              <option value="theme-beige">Warm Beige (Nude Light)</option>
+              <option value="theme-yellow">Yellow Gold (Warm Light)</option>
               <option value="theme-black">Pure Black (Dark Onyx)</option>
               <option value="theme-gray">Slate Gray (Modern)</option>
               <option value="theme-darkgreen">Dark Green (Emerald)</option>
@@ -397,7 +552,7 @@
 
       // Apply Dynamic Theme & Font Classes
       const body = document.getElementById('bodyTag');
-      body.className = `${data.theme || 'theme-plum'} ${data.font || 'font-parisienne'} min-h-screen w-full flex justify-center items-center p-4 transition-colors duration-500 relative overflow-x-hidden`;
+      body.className = `${data.theme || 'theme-plum'} ${data.font || 'font-parisienne'} p-4 transition-colors duration-500 relative`;
     }
 
     function toggleModal(show) {
@@ -509,7 +664,14 @@
 
     function downloadVCard() {
       const data = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
-      const vcardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${data.name}\nTITLE:${data.title}\nTEL;TYPE=CELL:${data.phone}\nEMAIL:${data.email}\nURL:${fixUrl(data.website)}\nEND:VCARD`;
+      const vcardData = `BEGIN:VCARD
+VERSION:3.0
+FN:${data.name}
+TITLE:${data.title}
+TEL;TYPE=CELL:${data.phone}
+EMAIL:${data.email}
+URL:${fixUrl(data.website)}
+END:VCARD`;
 
       const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
