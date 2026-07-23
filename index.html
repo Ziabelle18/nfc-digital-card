@@ -48,10 +48,7 @@
     .theme-pink { --bg-body: #fdf2f8; --bg-card: #fce7f3; --text-main: #701a75; --text-sub: #a21caf; --accent-btn: #ec4899; --accent-text: #ffffff; --sec-btn-bg: #fbcfe8; --sec-btn-text: #701a75; --card-border: #fbcfe8; --blob-1: #fbcfe8; --blob-2: #f472b6; --blob-3: #fef08a; --blob-4: #f87171; --icon-bg: #fbcfe8; --icon-color: #701a75; --header-glow: rgba(236, 72, 153, 0.25); }
     .theme-plum { --bg-body: #faf5ff; --bg-card: #f3e8ff; --text-main: #581c87; --text-sub: #7e22ce; --accent-btn: #a855f7; --accent-text: #ffffff; --sec-btn-bg: #e9d5ff; --sec-btn-text: #581c87; --card-border: #e9d5ff; --blob-1: #e9d5ff; --blob-2: #c084fc; --blob-3: #fbcfe8; --blob-4: #818cf8; --icon-bg: #e9d5ff; --icon-color: #581c87; --header-glow: rgba(168, 85, 247, 0.25); }
     .theme-skyblue { --bg-body: #f0f9ff; --bg-card: #e0f2fe; --text-main: #0c4a6e; --text-sub: #0369a1; --accent-btn: #0284c7; --accent-text: #ffffff; --sec-btn-bg: #bae6fd; --sec-btn-text: #0c4a6e; --card-border: #bae6fd; --blob-1: #bae6fd; --blob-2: #38bdf8; --blob-3: #e0e7ff; --blob-4: #67e8f9; --icon-bg: #bae6fd; --icon-color: #0c4a6e; --header-glow: rgba(2, 132, 199, 0.25); }
-    
-    /* PERFECTED WARM NUDE BEIGE COLOR THEME */
-    .theme-beige { --bg-body: #faf6f0; --bg-card: #f0e8df; --text-main: #3e2723; --text-sub: #7d6965; --accent-btn: #b08968; --accent-text: #ffffff; --sec-btn-bg: #e6ccb2; --sec-btn-text: #3e2723; --card-border: #ddcbbe; --blob-1: #e6ccb2; --blob-2: #b08968; --blob-3: #f5ebe0; --blob-4: #ddcbbe; --icon-bg: #e6ccb2; --icon-color: #3e2723; --header-glow: rgba(176, 137, 104, 0.25); }
-    
+    .theme-beige { --bg-body: #fffbeb; --bg-card: #fef3c7; --text-main: #451a03; --text-sub: #92400e; --accent-btn: #d97706; --accent-text: #ffffff; --sec-btn-bg: #fde68a; --sec-btn-text: #451a03; --card-border: #fde68a; --blob-1: #fde68a; --blob-2: #fbbf24; --blob-3: #ffedd5; --blob-4: #fef08a; --icon-bg: #fde68a; --icon-color: #451a03; --header-glow: rgba(217, 119, 6, 0.25); }
     .theme-yellow { --bg-body: #fefce8; --bg-card: #fef9c3; --text-main: #713f12; --text-sub: #a16207; --accent-btn: #ca8a04; --accent-text: #ffffff; --sec-btn-bg: #fef08a; --sec-btn-text: #713f12; --card-border: #fef08a; --blob-1: #fef08a; --blob-2: #facc15; --blob-3: #fed7aa; --blob-4: #fde68a; --icon-bg: #fef08a; --icon-color: #713f12; --header-glow: rgba(202, 138, 4, 0.25); }
     .theme-mint { --bg-body: #f0fdf4; --bg-card: #dcfce7; --text-main: #064e3b; --text-sub: #047857; --accent-btn: #10b981; --accent-text: #ffffff; --sec-btn-bg: #bbf7d0; --sec-btn-text: #064e3b; --card-border: #bbf7d0; --blob-1: #bbf7d0; --blob-2: #6ee7b7; --blob-3: #bae6fd; --blob-4: #a7f3d0; --icon-bg: #bbf7d0; --icon-color: #064e3b; --header-glow: rgba(16, 185, 129, 0.25); }
     .theme-peach { --bg-body: #fff7ed; --bg-card: #ffedd5; --text-main: #7c2d12; --text-sub: #c2410c; --accent-btn: #f97316; --accent-text: #ffffff; --sec-btn-bg: #fed7aa; --sec-btn-text: #7c2d12; --card-border: #fed7aa; --blob-1: #fed7aa; --blob-2: #fdba74; --blob-3: #fef08a; --blob-4: #fbcfe8; --icon-bg: #fed7aa; --icon-color: #7c2d12; --header-glow: rgba(249, 115, 22, 0.25); }
@@ -451,7 +448,8 @@
       if (!currentCard) return false;
       if (currentCard.enable_pin === false || currentCard.enable_pin === 'false') return false;
       const p = currentCard.pin || currentCard.passcode;
-      if (!p || String(p).trim() === '') return false;
+      if (p === null || p === undefined) return true; // Default requires PIN if not explicitly disabled
+      if (String(p).trim() === '') return false;
       return true;
     }
 
@@ -705,11 +703,17 @@
       document.getElementById('passcodeModal').classList.add('hidden');
     }
 
+    // SMART PIN VERIFICATION FIX
     function verifyPasscode() {
-      const currentPin = String(currentCard?.pin || currentCard?.passcode || '1234');
       const enteredPin = document.getElementById('authPin').value.trim();
+      const rawDbPin = (currentCard?.pin ?? currentCard?.passcode);
+      const dbPin = rawDbPin !== null && rawDbPin !== undefined ? String(rawDbPin).trim() : '';
 
-      if (enteredPin === currentPin) {
+      // Check if PIN matches DB, OR if default '1234' is entered when PIN is default/empty/null
+      const isMatch = (enteredPin === dbPin) || 
+                      (enteredPin === '1234' && (!dbPin || dbPin === '1234' || dbPin === 'null' || dbPin === 'undefined'));
+
+      if (isMatch) {
         closePasscodeModal();
         toggleModal(true);
       } else {
@@ -857,9 +861,6 @@
 
         if (rawDbKeys.includes('title')) updatePayload.title = document.getElementById('inputTitle').value;
         else if (rawDbKeys.includes('job_title')) updatePayload.job_title = document.getElementById('inputTitle').value;
-
-        // AUTOMATICALLY SET STATUS TO 'OCCUPIED' UPON SAVE
-        setIfColExists('status', 'OCCUPIED');
 
         setIfColExists('enable_pin', pinEnabled);
         setIfColExists('pin', effectivePin);
