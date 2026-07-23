@@ -505,21 +505,21 @@
       else label.innerText = `${val}% Vertical`;
     }
 
-    // EXTRACT PIN VALUE SAFELY
+    // EXTRACT PIN VALUE SAFELY & UNIFIED ACROSS COLUMNS
     function getStoredPin() {
       if (!currentCard) return '1234';
-      let raw = (currentCard.pin ?? currentCard.passcode);
+      let raw = currentCard.pin ?? currentCard.passcode;
       if (raw === null || raw === undefined || String(raw).trim() === '') return '1234';
       let str = String(raw).trim();
-      if (str.startsWith('OFF:')) return str.replace('OFF:', '');
-      return str;
+      if (str.startsWith('OFF:')) str = str.replace('OFF:', '');
+      return str.trim() || '1234';
     }
 
     // CHECK IF PIN IS REQUIRED STRICTLY & CROSS-BROWSER ACCURATE
     function isPinRequired() {
       if (!currentCard) return false;
       if (currentCard.enable_pin === false || currentCard.enable_pin === 'false') return false;
-      let raw = (currentCard.pin ?? currentCard.passcode);
+      let raw = currentCard.pin ?? currentCard.passcode;
       if (raw && String(raw).startsWith('OFF:')) return false;
       return true;
     }
@@ -808,20 +808,18 @@
       document.getElementById('passcodeModal').classList.add('hidden');
     }
 
-    // STRICT CUSTOM PIN VERIFICATION LOGIC (PREVENTS 1234 BYPASS ON CUSTOM PINS)
+    // RELIABLE ACCURATE PIN MATCHING LOGIC
     function verifyPasscode() {
       const enteredPin = document.getElementById('authPin').value.trim();
-      const targetPin = getStoredPin();
+      const storedPin = getStoredPin();
 
-      const isDefaultState = (!targetPin || targetPin === '1234' || targetPin === '123456');
+      const isDefault = (!storedPin || storedPin === '1234' || storedPin === '123456');
 
       let isMatch = false;
-      if (isDefaultState) {
-        // Default unedited card state accepts 1234
-        isMatch = (enteredPin === '1234' || enteredPin === targetPin);
+      if (isDefault) {
+        isMatch = (enteredPin === '1234' || enteredPin === storedPin);
       } else {
-        // Customer set a custom PIN: ONLY exact match works! 1234 will NOT work anymore.
-        isMatch = (enteredPin === targetPin);
+        isMatch = (enteredPin === storedPin);
       }
 
       if (isMatch) {
@@ -878,7 +876,6 @@
         document.getElementById('toggleEnablePin').checked = pinActive;
         
         let initialPinDisplay = getStoredPin();
-        if (initialPinDisplay === '123456') initialPinDisplay = '1234';
         document.getElementById('inputPasscode').value = initialPinDisplay;
         
         handlePinToggleChange();
@@ -1000,7 +997,7 @@
         setIfColExists('job_title', titleValue);
         setIfColExists('occupation', titleValue);
 
-        // CROSS-BROWSER PERMANENT PIN RETENTION & STATE
+        // BOTH PIN & PASSCODE KEYS UPDATED SYNCHRONOUSLY
         setIfColExists('enable_pin', pinEnabled);
         setIfColExists('pin', dbPinValue);
         setIfColExists('passcode', dbPinValue);
@@ -1036,7 +1033,7 @@
 
         if (error) throw error;
 
-        // UPDATE LOCAL MEMORY SAFELY
+        // UPDATE LOCAL MEMORY SAFELY WITH DUAL-KEY SYNC
         currentCard.title = titleValue;
         currentCard.job_title = titleValue;
         currentCard.occupation = titleValue;
