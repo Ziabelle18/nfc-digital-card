@@ -660,7 +660,7 @@
 
       document.getElementById('displayName').innerText = data.full_name || data.name || 'Card Holder';
       
-      // FIX OCCUPATION DISPLAY: Safely grabs whichever key exists
+      // Clean Occupation Display
       document.getElementById('displayTitle').innerText = data.title || data.job_title || data.occupation || '';
       
       document.getElementById('displayBio').innerText = data.bio || '';
@@ -748,17 +748,13 @@
       document.getElementById('passcodeModal').classList.add('hidden');
     }
 
+    // ACCURATE PIN VERIFICATION MATCHING EXACT SAVED PIN
     function verifyPasscode() {
       const enteredPin = document.getElementById('authPin').value.trim();
       const rawDbPin = (currentCard?.pin ?? currentCard?.passcode);
-      const dbPin = (rawDbPin !== null && rawDbPin !== undefined) ? String(rawDbPin).trim() : '';
+      const dbPin = (rawDbPin !== null && rawDbPin !== undefined && String(rawDbPin).trim() !== '') ? String(rawDbPin).trim() : '1234';
 
-      const isMatch = (enteredPin === dbPin) || 
-                      (enteredPin === '1234') || 
-                      (enteredPin === '123456') || 
-                      (!dbPin || dbPin === 'null' || dbPin === 'undefined');
-
-      if (isMatch) {
+      if (enteredPin === dbPin) {
         closePasscodeModal();
         toggleModal(true);
       } else {
@@ -814,10 +810,7 @@
         handlePinToggleChange();
 
         document.getElementById('inputName').value = currentCard.full_name || currentCard.name || '';
-        
-        // POPULATE TITLE / OCCUPATION ACCURATELY
         document.getElementById('inputTitle').value = currentCard.title || currentCard.job_title || currentCard.occupation || '';
-        
         document.getElementById('inputBio').value = currentCard.bio || '';
         document.getElementById('inputPhone').value = currentCard.phone || '';
         document.getElementById('inputEmail').value = currentCard.email || '';
@@ -882,7 +875,8 @@
         return;
       }
 
-      const effectivePin = pinEnabled ? (typedPin || '1234') : '';
+      // PRESERVE CUSTOM PIN FIX: Keeps the existing custom PIN if not edited, never erases it on toggle OFF
+      const effectivePin = typedPin || currentCard.pin || currentCard.passcode || '1234';
 
       const saveBtn = document.getElementById('saveBtn');
       saveBtn.innerText = 'Saving...';
@@ -918,12 +912,13 @@
         if (rawDbKeys.includes('full_name')) updatePayload.full_name = document.getElementById('inputName').value;
         else if (rawDbKeys.includes('name')) updatePayload.name = document.getElementById('inputName').value;
 
-        // TITLE / OCCUPATION STRICT MULTI-KEY SAVE FIX
+        // TITLE / OCCUPATION MULTI-KEY SAVE
         const titleValue = document.getElementById('inputTitle').value;
         setIfColExists('title', titleValue);
         setIfColExists('job_title', titleValue);
         setIfColExists('occupation', titleValue);
 
+        // SAFE PIN RETENTION
         setIfColExists('enable_pin', pinEnabled);
         setIfColExists('pin', effectivePin);
         setIfColExists('passcode', effectivePin);
@@ -952,7 +947,7 @@
 
         if (error) throw error;
 
-        // DIRECT LOCAL MEMORY UPDATE
+        // UPDATE LOCAL MEMORY SAFELY
         currentCard.title = titleValue;
         currentCard.job_title = titleValue;
         currentCard.occupation = titleValue;
