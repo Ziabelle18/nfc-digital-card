@@ -723,9 +723,9 @@
 
       document.getElementById('displayName').innerText = data.full_name || data.name || 'Card Holder';
       
-      // BULLETPROOF OCCUPATION EXTRACTION (CHECKS ALL 3 POSSIBLE COLUMNS)
-      const detectedOccupation = (data.occupation && String(data.occupation).trim() !== '') ? data.occupation :
-                                 (data.title && String(data.title).trim() !== '') ? data.title :
+      // BULLETPROOF OCCUPATION EXTRACTION (CHECKS ALL POSSIBLE COLUMNS)
+      const detectedOccupation = (data.title && String(data.title).trim() !== '') ? data.title :
+                                 (data.occupation && String(data.occupation).trim() !== '') ? data.occupation :
                                  (data.job_title && String(data.job_title).trim() !== '') ? data.job_title : '';
                                  
       document.getElementById('displayTitle').innerText = detectedOccupation;
@@ -893,8 +893,8 @@
 
         document.getElementById('inputName').value = currentCard.full_name || currentCard.name || '';
         
-        const existingOcc = (currentCard.occupation && String(currentCard.occupation).trim() !== '') ? currentCard.occupation :
-                            (currentCard.title && String(currentCard.title).trim() !== '') ? currentCard.title :
+        const existingOcc = (currentCard.title && String(currentCard.title).trim() !== '') ? currentCard.title :
+                            (currentCard.occupation && String(currentCard.occupation).trim() !== '') ? currentCard.occupation :
                             (currentCard.job_title && String(currentCard.job_title).trim() !== '') ? currentCard.job_title : '';
         document.getElementById('inputTitle').value = existingOcc;
 
@@ -1010,8 +1010,8 @@
 
         // OCCUPATION / TITLE MULTI-COLUMN SAFE WRITE (FORCES ALL 3 VARIATIONS)
         const titleValue = document.getElementById('inputTitle').value;
-        writeSafeKey('occupation', titleValue);
         writeSafeKey('title', titleValue);
+        writeSafeKey('occupation', titleValue);
         writeSafeKey('job_title', titleValue);
 
         // PIN & PASSCODE SAFE WRITE
@@ -1051,8 +1051,8 @@
         if (error) throw error;
 
         // UPDATE LOCAL MEMORY SAFELY
-        currentCard.occupation = titleValue;
         currentCard.title = titleValue;
+        currentCard.occupation = titleValue;
         currentCard.job_title = titleValue;
         currentCard.enable_pin = pinEnabled;
         currentCard.pin = dbPinValue;
@@ -1079,7 +1079,7 @@
     function downloadVCard() {
       if (!currentCard) return;
       const name = currentCard.full_name || currentCard.name || 'Contact';
-      const title = currentCard.occupation || currentCard.title || currentCard.job_title || '';
+      const title = currentCard.title || currentCard.occupation || currentCard.job_title || '';
       const vcardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nTITLE:${title}\nTEL;TYPE=CELL:${currentCard.phone || ''}\nEMAIL:${currentCard.email || ''}\nURL:${fixUrl(currentCard.website)}\nEND:VCARD`;
 
       const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8;' });
@@ -1101,7 +1101,7 @@
         try {
           await navigator.share({
             title: currentCard?.full_name || currentCard?.name || 'Digital Card',
-            text: `${currentCard?.full_name || currentCard?.name || 'Digital Card'} - ${currentCard?.occupation || currentCard?.title || ''}`,
+            text: `${currentCard?.full_name || currentCard?.name || 'Digital Card'} - ${currentCard?.title || currentCard?.occupation || ''}`,
             url: shareUrl
           });
         } catch (err) {}
