@@ -443,6 +443,7 @@
 
     const MASTER_RECOVERY_CODE = 'ZD2026';
     let currentCard = null;
+    let rawDbKeys = []; // Stores exact database columns that actually exist
 
     // CHECK IF PIN IS REQUIRED
     function isPinRequired() {
@@ -619,6 +620,7 @@
 
         if (response.data) {
           currentCard = response.data;
+          rawDbKeys = Object.keys(response.data); // Store exact original column names
           renderUI(currentCard);
         } else {
           loadingBox.innerHTML = `
@@ -734,14 +736,14 @@
       const enteredCode = document.getElementById('recoveryKey').value.trim();
       if (enteredCode === MASTER_RECOVERY_CODE) {
         try {
-          const updateObj = currentCard.hasOwnProperty('pin') ? { pin: '1234' } : { passcode: '1234' };
+          const updateObj = rawDbKeys.includes('pin') ? { pin: '1234' } : { passcode: '1234' };
           const { error } = await _supabase.from('cards').update(updateObj).eq('id', currentCard.id);
 
           if (error) throw error;
 
           showToast('PIN reset to default: 1234', false, 'PIN Reset');
-          if (currentCard.hasOwnProperty('pin')) currentCard.pin = '1234';
-          else currentCard.passcode = '1234';
+          if (rawDbKeys.includes('pin')) currentCard.pin = '1234';
+          if (rawDbKeys.includes('passcode')) currentCard.passcode = '1234';
 
           closeRecoveryModal();
           toggleModal(true);
@@ -846,38 +848,45 @@
           newCover = await compressImage(coverFile, 800, 0.75);
         }
 
-        const candidatePayload = {};
-        candidatePayload.full_name = document.getElementById('inputName').value;
-        candidatePayload.name = document.getElementById('inputName').value;
-        candidatePayload.title = document.getElementById('inputTitle').value;
-        candidatePayload.job_title = document.getElementById('inputTitle').value;
-        
-        candidatePayload.enable_pin = pinEnabled;
-        candidatePayload.pin = effectivePin;
-        candidatePayload.passcode = effectivePin;
-        
-        candidatePayload.custom_color = document.getElementById('inputCustomColor').value;
-        candidatePayload.customColor = document.getElementById('inputCustomColor').value;
-        candidatePayload.bio = document.getElementById('inputBio').value;
-        candidatePayload.phone = document.getElementById('inputPhone').value;
-        candidatePayload.email = document.getElementById('inputEmail').value;
-        candidatePayload.website = document.getElementById('inputWebsite').value;
-        candidatePayload.facebook = document.getElementById('inputFacebook').value;
-        candidatePayload.instagram = document.getElementById('inputInstagram').value;
-        candidatePayload.whatsapp = document.getElementById('inputWhatsapp').value;
-        candidatePayload.wechat = document.getElementById('inputWechat').value;
-        candidatePayload.avatar = newAvatar;
-        candidatePayload.cover = newCover;
-        candidatePayload.theme = document.getElementById('selectTheme').value;
-        candidatePayload.font = document.getElementById('selectFont').value;
-
-        // Strict Column Filtering: Safely pass fields matching existing schema rows
+        // STRICT COLUMN MATCHING FOR DB
         const updatePayload = {};
-        Object.keys(currentCard).forEach(col => {
-          if (candidatePayload.hasOwnProperty(col) && candidatePayload[col] !== undefined) {
-            updatePayload[col] = candidatePayload[col];
+
+        const setIfColExists = (colName, val) => {
+          if (rawDbKeys.includes(colName)) {
+            updatePayload[colName] = val;
           }
-        });
+        };
+
+        // Name
+        if (rawDbKeys.includes('full_name')) updatePayload.full_name = document.getElementById('inputName').value;
+        else if (rawDbKeys.includes('name')) updatePayload.name = document.getElementById('inputName').value;
+
+        // Title
+        if (rawDbKeys.includes('title')) updatePayload.title = document.getElementById('inputTitle').value;
+        else if (rawDbKeys.includes('job_title')) updatePayload.job_title = document.getElementById('inputTitle').value;
+
+        // PIN / Passcode
+        setIfColExists('enable_pin', pinEnabled);
+        setIfColExists('pin', effectivePin);
+        setIfColExists('passcode', effectivePin);
+
+        // Custom Color
+        setIfColExists('custom_color', document.getElementById('inputCustomColor').value);
+        setIfColExists('customColor', document.getElementById('inputCustomColor').value);
+
+        // Standard Fields
+        setIfColExists('bio', document.getElementById('inputBio').value);
+        setIfColExists('phone', document.getElementById('inputPhone').value);
+        setIfColExists('email', document.getElementById('inputEmail').value);
+        setIfColExists('website', document.getElementById('inputWebsite').value);
+        setIfColExists('facebook', document.getElementById('inputFacebook').value);
+        setIfColExists('instagram', document.getElementById('inputInstagram').value);
+        setIfColExists('whatsapp', document.getElementById('inputWhatsapp').value);
+        setIfColExists('wechat', document.getElementById('inputWechat').value);
+        setIfColExists('avatar', newAvatar);
+        setIfColExists('cover', newCover);
+        setIfColExists('theme', document.getElementById('selectTheme').value);
+        setIfColExists('font', document.getElementById('selectFont').value);
 
         const { error } = await _supabase
           .from('cards')
@@ -886,8 +895,8 @@
 
         if (error) throw error;
 
-        // Update local object instantly
-        Object.assign(currentCard, candidatePayload);
+        // Update local object accurately
+        Object.assign(currentCard, updatePayload);
         renderUI(currentCard);
         
         toggleModal(false);
