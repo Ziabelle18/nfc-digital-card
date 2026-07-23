@@ -1,846 +1,290 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digital NFC Business Card</title>
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <!-- Supabase JS Client Library -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Allura&family=Anton&family=Bebas+Neue&family=Caveat:wght@600&family=Clicker+Script&family=Great+Vibes&family=Inter:wght@400;600;700&family=Josefin+Sans:wght@400;600;700&family=Montserrat:wght@500;700&family=Oswald:wght@500;700&family=Parisienne&family=Playfair+Display:ital,wght@0,600&family=Quicksand:wght@500;700&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
-
-  <style>
-    /* --- 10 WOMEN / GIRLY / ELEGANT FONTS --- */
-    .font-whiteangelica { font-family: 'Great Vibes', cursive !important; }
-    .font-quentin       { font-family: 'Playfair Display', serif !important; }
-    .font-quicksand     { font-family: 'Quicksand', sans-serif !important; }
-    .font-clickerscript { font-family: 'Clicker Script', cursive !important; }
-    .font-amarieta      { font-family: 'Parisienne', cursive !important; }
-    .font-alexbrush     { font-family: 'Alex Brush', cursive !important; }
-    .font-moonlight     { font-family: 'Caveat', cursive !important; }
-    .font-josefinsans   { font-family: 'Josefin Sans', sans-serif !important; }
-    .font-nickainley    { font-family: 'Allura', cursive !important; }
-    .font-conjiote      { font-family: 'Quicksand', sans-serif !important; }
-
-    /* --- 10 MEN / BOLD / EXECUTIVE FONTS --- */
-    .font-bebas         { font-family: 'Bebas Neue', sans-serif !important; }
-    .font-helvetica     { font-family: 'Inter', Helvetica, sans-serif !important; }
-    .font-futura        { font-family: 'Josefin Sans', sans-serif !important; }
-    .font-concrete      { font-family: 'Anton', sans-serif !important; }
-    .font-backcountry   { font-family: 'Oswald', sans-serif !important; }
-    .font-gatore        { font-family: 'Anton', sans-serif !important; }
-    .font-altaca        { font-family: 'Montserrat', sans-serif !important; }
-    .font-proxima       { font-family: 'Inter', sans-serif !important; }
-    .font-heartstrong   { font-family: 'Caveat', cursive !important; }
-    .font-taldose       { font-family: 'Roboto Mono', monospace !important; }
-
-    /* PASTEL & SOFT DYNAMIC COLOR THEMES */
-    .theme-pink { --bg-body: #fdf2f8; --bg-card: #fce7f3; --text-main: #701a75; --text-sub: #a21caf; --accent-btn: #ec4899; --accent-text: #ffffff; --sec-btn-bg: #fbcfe8; --sec-btn-text: #701a75; --card-border: #fbcfe8; --blob-1: #fbcfe8; --blob-2: #f472b6; --blob-3: #fef08a; --blob-4: #f87171; --icon-bg: #fbcfe8; --icon-color: #701a75; --header-glow: rgba(236, 72, 153, 0.25); }
-    .theme-plum { --bg-body: #faf5ff; --bg-card: #f3e8ff; --text-main: #581c87; --text-sub: #7e22ce; --accent-btn: #a855f7; --accent-text: #ffffff; --sec-btn-bg: #e9d5ff; --sec-btn-text: #581c87; --card-border: #e9d5ff; --blob-1: #e9d5ff; --blob-2: #c084fc; --blob-3: #fbcfe8; --blob-4: #818cf8; --icon-bg: #e9d5ff; --icon-color: #581c87; --header-glow: rgba(168, 85, 247, 0.25); }
-    .theme-skyblue { --bg-body: #f0f9ff; --bg-card: #e0f2fe; --text-main: #0c4a6e; --text-sub: #0369a1; --accent-btn: #0284c7; --accent-text: #ffffff; --sec-btn-bg: #bae6fd; --sec-btn-text: #0c4a6e; --card-border: #bae6fd; --blob-1: #bae6fd; --blob-2: #38bdf8; --blob-3: #e0e7ff; --blob-4: #67e8f9; --icon-bg: #bae6fd; --icon-color: #0c4a6e; --header-glow: rgba(2, 132, 199, 0.25); }
-    .theme-beige { --bg-body: #fffbeb; --bg-card: #fef3c7; --text-main: #451a03; --text-sub: #92400e; --accent-btn: #d97706; --accent-text: #ffffff; --sec-btn-bg: #fde68a; --sec-btn-text: #451a03; --card-border: #fde68a; --blob-1: #fde68a; --blob-2: #fbbf24; --blob-3: #ffedd5; --blob-4: #fef08a; --icon-bg: #fde68a; --icon-color: #451a03; --header-glow: rgba(217, 119, 6, 0.25); }
-    .theme-yellow { --bg-body: #fefce8; --bg-card: #fef9c3; --text-main: #713f12; --text-sub: #a16207; --accent-btn: #ca8a04; --accent-text: #ffffff; --sec-btn-bg: #fef08a; --sec-btn-text: #713f12; --card-border: #fef08a; --blob-1: #fef08a; --blob-2: #facc15; --blob-3: #fed7aa; --blob-4: #fde68a; --icon-bg: #fef08a; --icon-color: #713f12; --header-glow: rgba(202, 138, 4, 0.25); }
-    .theme-mint { --bg-body: #f0fdf4; --bg-card: #dcfce7; --text-main: #064e3b; --text-sub: #047857; --accent-btn: #10b981; --accent-text: #ffffff; --sec-btn-bg: #bbf7d0; --sec-btn-text: #064e3b; --card-border: #bbf7d0; --blob-1: #bbf7d0; --blob-2: #6ee7b7; --blob-3: #bae6fd; --blob-4: #a7f3d0; --icon-bg: #bbf7d0; --icon-color: #064e3b; --header-glow: rgba(16, 185, 129, 0.25); }
-    .theme-peach { --bg-body: #fff7ed; --bg-card: #ffedd5; --text-main: #7c2d12; --text-sub: #c2410c; --accent-btn: #f97316; --accent-text: #ffffff; --sec-btn-bg: #fed7aa; --sec-btn-text: #7c2d12; --card-border: #fed7aa; --blob-1: #fed7aa; --blob-2: #fdba74; --blob-3: #fef08a; --blob-4: #fbcfe8; --icon-bg: #fed7aa; --icon-color: #7c2d12; --header-glow: rgba(249, 115, 22, 0.25); }
-    .theme-lavender { --bg-body: #f8fafc; --bg-card: #e2e8f0; --text-main: #1e293b; --text-sub: #475569; --accent-btn: #64748b; --accent-text: #ffffff; --sec-btn-bg: #cbd5e1; --sec-btn-text: #1e293b; --card-border: #cbd5e1; --blob-1: #cbd5e1; --blob-2: #94a3b8; --blob-3: #e2e8f0; --blob-4: #cbd5e1; --icon-bg: #cbd5e1; --icon-color: #1e293b; --header-glow: rgba(100, 116, 139, 0.25); }
-    .theme-black { --bg-body: #09090b; --bg-card: #18181b; --text-main: #ffffff; --text-sub: #a1a1aa; --accent-btn: #52525b; --accent-text: #ffffff; --sec-btn-bg: #27272a; --sec-btn-text: #ffffff; --card-border: #27272a; --blob-1: #27272a; --blob-2: #3f3f46; --blob-3: #18181b; --blob-4: #3f3f46; --icon-bg: #27272a; --icon-color: #ffffff; --header-glow: rgba(255, 255, 255, 0.15); }
-    .theme-maroon { --bg-body: #1a0505; --bg-card: #2e0d0d; --text-main: #fef2f2; --text-sub: #fca5a5; --accent-btn: #dc2626; --accent-text: #ffffff; --sec-btn-bg: #451a1a; --sec-btn-text: #ffffff; --card-border: #451a1a; --blob-1: #451a1a; --blob-2: #7f1d1d; --blob-3: #341212; --blob-4: #991b1b; --icon-bg: #451a1a; --icon-color: #ffffff; --header-glow: rgba(220, 38, 38, 0.25); }
-
-    html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
-    body { background-color: var(--bg-body); color: var(--text-main); display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
-    .card-bg { background-color: var(--bg-card); border-color: var(--card-border); }
-    .btn-save { background-color: var(--accent-btn); color: var(--accent-text) !important; }
-    .btn-save:hover { filter: brightness(0.95); }
-    .btn-share { background-color: var(--sec-btn-bg); color: var(--sec-btn-text) !important; }
-    .btn-share:hover { filter: brightness(0.95); }
-    .text-accent { color: var(--accent-btn); }
-    .text-sub { color: var(--text-sub); }
-    .text-main { color: var(--text-main); }
-    .icon-box { background-color: var(--icon-bg); color: var(--icon-color); }
-
-    .modal-btn-accent { background-color: var(--accent-btn); color: var(--accent-text); }
-    .modal-btn-accent:hover { filter: brightness(0.92); }
-    .modal-icon-bg { background-color: var(--icon-bg); color: var(--accent-btn); border-color: var(--card-border); }
-
-    /* HEADER STYLING ACCENTS */
-    .header-wave { fill: var(--bg-card); transition: fill 0.5s ease; }
-    .header-circle-1 { position: absolute; width: 110px; height: 110px; border-radius: 50%; background: var(--header-glow); filter: blur(20px); top: -20px; left: -20px; pointer-events: none; }
-    .header-circle-2 { position: absolute; width: 90px; height: 90px; border-radius: 50%; background: var(--header-glow); filter: blur(15px); bottom: 10px; right: 20px; pointer-events: none; }
-
-    /* ELEGANT ORGANIC BACKGROUND BLOBS */
-    .blob-wrapper { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
-    .blob { position: absolute; filter: blur(65px); opacity: 0.55; border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Business Card</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    .blob-1 { background-color: var(--blob-1); width: 360px; height: 360px; top: -100px; left: -90px; animation: float1 10s infinite alternate ease-in-out; }
-    .blob-2 { background-color: var(--blob-2); width: 340px; height: 340px; bottom: -90px; right: -90px; animation: float2 12s infinite alternate ease-in-out; }
-    .blob-3 { background-color: var(--blob-3); width: 280px; height: 280px; top: 35%; right: -70px; animation: float3 9s infinite alternate ease-in-out; }
-    .blob-4 { background-color: var(--blob-4); width: 260px; height: 260px; bottom: 15%; left: -60px; animation: float1 11s infinite alternate ease-in-out; }
+    <style>
+        /* Themes */
+        .theme-pink { background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%); }
+        .theme-pink .card-bg { background-color: rgba(255, 255, 255, 0.85); }
+        .theme-pink .primary-btn { background-color: #ec4899; color: white; }
+        
+        .theme-black { background: linear-gradient(135deg, #111827 0%, #000000 100%); }
+        .theme-black .card-bg { background-color: rgba(31, 41, 55, 0.85); color: white; }
+        .theme-black .primary-btn { background-color: #374151; color: white; }
 
-    @keyframes float1 { 0% { transform: translate(0, 0) rotate(0deg) scale(1); } 100% { transform: translate(45px, 50px) rotate(45deg) scale(1.15); } }
-    @keyframes float2 { 0% { transform: translate(0, 0) rotate(0deg) scale(1); } 100% { transform: translate(-40px, -45px) rotate(-35deg) scale(1.1); } }
-    @keyframes float3 { 0% { transform: translate(0, 0) rotate(0deg) scale(1); } 100% { transform: translate(-30px, 40px) rotate(25deg) scale(1.2); } }
-  </style>
+        .theme-blue { background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); }
+        .theme-blue .card-bg { background-color: rgba(255, 255, 255, 0.85); }
+        .theme-blue .primary-btn { background-color: #0284c7; color: white; }
+
+        /* Fonts */
+        .font-sans { font-family: ui-sans-serif, system-ui, sans-serif; }
+        .font-serif { font-family: ui-serif, Georgia, serif; }
+        .font-mono { font-family: ui-monospace, SFMono-Regular, monospace; }
+        .font-whiteangelica { font-family: 'Georgia', cursive, serif; }
+    </style>
 </head>
-<body id="bodyTag" class="theme-pink font-whiteangelica p-4 transition-colors duration-500 relative">
+<body id="bodyTag" class="theme-pink font-sans p-4 transition-colors duration-500 min-h-screen flex items-center justify-center relative">
 
-  <!-- Background Blobs -->
-  <div class="blob-wrapper">
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
-    <div class="blob blob-4"></div>
-  </div>
-
-  <div class="w-full max-w-md card-bg border rounded-3xl shadow-xl overflow-hidden relative z-10 transition-colors duration-300 mx-auto">
-    <!-- STYLED HEADER BANNER -->
-    <div class="h-40 relative bg-slate-200 dark:bg-slate-800 overflow-hidden">
-      <img id="coverImg" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800" alt="Cover" class="w-full h-full object-cover opacity-90" crossorigin="anonymous">
-      
-      <div class="header-circle-1"></div>
-      <div class="header-circle-2"></div>
-
-      <div class="absolute top-3 left-3 bg-white/30 dark:bg-black/30 backdrop-blur-md border border-white/40 text-xs px-3 py-1 rounded-full text-white font-semibold flex items-center gap-1.5 shadow-sm">
-        <i class="fa-solid fa-wifi text-[10px]"></i>
-        <span class="tracking-wider text-[10px] uppercase">NFC Card</span>
-      </div>
-
-      <div class="absolute bottom-0 left-0 right-0 leading-none z-10">
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="relative block w-full h-7 header-wave">
-          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.2,130.83,121.3,200,115.8,241.1,112.5,281.8,92.8,321.39,56.44Z"></path>
-        </svg>
-      </div>
-    </div>
-
-    <div class="px-6 pb-6 relative text-center">
-      <div class="relative -mt-16 mb-4 inline-block z-20">
-        <img id="avatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400" alt="Avatar" class="w-28 h-28 rounded-full border-4 border-white shadow-lg mx-auto object-cover" crossorigin="anonymous">
-      </div>
-
-      <h1 id="displayName" class="text-2xl font-bold text-main">Rose Anne Perez</h1>
-      <p id="displayTitle" class="text-sm font-semibold text-sub mt-1">Digital Creator</p>
-      <p id="displayBio" class="text-xs text-sub opacity-90 mt-2 px-4">Crafting digital experiences & NFC solutions.</p>
-
-      <div class="grid grid-cols-2 gap-3 mt-6">
-        <button onclick="downloadVCard()" class="btn-save flex items-center justify-center gap-2 font-bold py-2.5 px-4 rounded-xl shadow-md transition-all active:scale-95 text-sm">
-          <i class="fa-solid fa-user-plus"></i>
-          <span>Save Contact</span>
-        </button>
-        <button onclick="shareCard()" class="btn-share flex items-center justify-center gap-2 font-semibold py-2.5 px-4 rounded-xl transition-all active:scale-95 text-sm shadow-sm">
-          <i class="fa-solid fa-share-nodes"></i>
-          <span>Share</span>
-        </button>
-      </div>
-
-      <div class="flex justify-center items-center gap-4 mt-6" id="socialBar">
-        <a id="linkFacebook" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/50 transition shadow-sm">
-          <i class="fa-brands fa-facebook-f text-lg"></i>
-        </a>
-        <a id="linkInstagram" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/50 transition shadow-sm">
-          <i class="fa-brands fa-instagram text-lg"></i>
-        </a>
-        <a id="linkWhatsapp" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/50 transition shadow-sm">
-          <i class="fa-brands fa-whatsapp text-lg"></i>
-        </a>
-        <a id="linkWechat" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/50 transition shadow-sm">
-          <i class="fa-brands fa-weixin text-lg"></i>
-        </a>
-      </div>
-
-      <div class="mt-4 space-y-3 text-left">
-        <a id="linkPhone" href="tel:+1234567890" class="flex items-center gap-4 p-3 rounded-2xl icon-box border border-white/50 hover:opacity-90 transition shadow-sm">
-          <div class="w-10 h-10 rounded-xl icon-box flex items-center justify-center">
-            <i class="fa-solid fa-phone"></i>
-          </div>
-          <div class="overflow-hidden">
-            <p class="text-xs text-sub font-medium opacity-80">Phone</p>
-            <p id="displayPhone" class="text-sm font-semibold text-main truncate">+1 (234) 567-890</p>
-          </div>
-        </a>
-
-        <a id="linkEmail" href="mailto:alex@example.com" class="flex items-center gap-4 p-3 rounded-2xl icon-box border border-white/50 hover:opacity-90 transition shadow-sm">
-          <div class="w-10 h-10 rounded-xl icon-box flex items-center justify-center">
-            <i class="fa-solid fa-envelope"></i>
-          </div>
-          <div class="overflow-hidden">
-            <p class="text-xs text-sub font-medium opacity-80">Email</p>
-            <p id="displayEmail" class="text-sm font-semibold text-main truncate">alex@example.com</p>
-          </div>
-        </a>
-
-        <a id="linkWebsite" href="https://example.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 p-3 rounded-2xl icon-box border border-white/50 hover:opacity-90 transition shadow-sm">
-          <div class="w-10 h-10 rounded-xl icon-box flex items-center justify-center">
-            <i class="fa-solid fa-globe"></i>
-          </div>
-          <div class="overflow-hidden">
-            <p class="text-xs text-sub font-medium opacity-80">Website</p>
-            <p id="displayWebsite" class="text-sm font-semibold text-main truncate">https://example.com</p>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <!-- Edit Button -->
-    <button onclick="openPasscodeModal()" class="absolute top-3 right-3 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:scale-105 p-2.5 rounded-full shadow-md transition active:scale-95">
-      <i class="fa-solid fa-pen text-xs"></i>
-    </button>
-  </div>
-
-  <!-- PASSCODE MODAL -->
-  <div id="passcodeModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden flex justify-center items-center p-4 z-[60]">
-    <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-xs rounded-2xl p-5 shadow-2xl space-y-4 text-center">
-      <div class="w-12 h-12 modal-icon-bg rounded-full flex items-center justify-center mx-auto text-xl border">
-        <i class="fa-solid fa-lock"></i>
-      </div>
-      <div>
-        <h3 class="text-base font-bold text-white">Security Passcode</h3>
-        <p class="text-xs text-slate-400 mt-1">Please enter your PIN to unlock the profile editor.</p>
-      </div>
-
-      <div>
-        <input type="password" id="authPin" placeholder="Default PIN: 1234" class="w-full text-center bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-base text-white focus:outline-none">
-        <p id="pinError" class="text-xs text-red-400 mt-2 hidden font-semibold">Invalid Passcode!</p>
-      </div>
-
-      <div class="space-y-2">
-        <div class="flex gap-2">
-          <button onclick="closePasscodeModal()" class="w-1/2 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg">Cancel</button>
-          <button onclick="verifyPasscode()" class="w-1/2 py-2 modal-btn-accent text-xs font-bold rounded-lg shadow">Unlock</button>
-        </div>
-        <button onclick="openRecoveryModal()" class="text-[11px] text-accent hover:underline block mx-auto pt-1">Forgot Passcode?</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- RECOVERY MODAL -->
-  <div id="recoveryModal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden flex justify-center items-center p-4 z-[70]">
-    <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-xs rounded-2xl p-5 shadow-2xl space-y-4 text-center">
-      <div class="w-12 h-12 modal-icon-bg rounded-full flex items-center justify-center mx-auto text-xl border">
-        <i class="fa-solid fa-key"></i>
-      </div>
-      <div>
-        <h3 class="text-base font-bold text-white">Reset Passcode</h3>
-        <p class="text-xs text-slate-400 mt-1">Enter Master Recovery Code to reset PIN to default (<strong class="text-white">1234</strong>).</p>
-      </div>
-
-      <div>
-        <input type="text" id="recoveryKey" placeholder="Enter Recovery Code" class="w-full text-center bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-sm text-white focus:outline-none">
-        <p id="recoveryError" class="text-xs text-red-400 mt-2 hidden font-semibold">Invalid Recovery Code!</p>
-      </div>
-
-      <div class="flex gap-2">
-        <button onclick="closeRecoveryModal()" class="w-1/2 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg">Cancel</button>
-        <button onclick="resetPasscode()" class="w-1/2 py-2 modal-btn-accent text-xs font-bold rounded-lg shadow">Reset PIN</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- EDIT PROFILE MODAL -->
-  <div id="editModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex justify-center items-center p-4 z-50">
-    <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
-      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-        <h3 class="text-lg font-bold text-white">Edit Profile & Style</h3>
-        <button onclick="toggleModal(false)" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-      </div>
-
-      <div class="space-y-3">
-        <!-- Passcode Setting -->
-        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-          <label class="text-xs font-semibold text-slate-300 block mb-1">Security Passcode (PIN)</label>
-          <input type="password" id="inputPasscode" placeholder="Default: 1234" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm text-white focus:outline-none">
-          <p class="text-[10px] text-slate-400 mt-1">Set a custom 4-digit PIN to restrict editing access.</p>
-        </div>
-
-        <!-- Theme Selection & Custom Color Extractor -->
-        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-3">
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="text-xs text-slate-400 block mb-1">Color Theme</label>
-              <select id="selectTheme" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white cursor-pointer">
-                <option value="theme-pink">Pastel Pink (Soft Chic)</option>
-                <option value="theme-plum">Pastel Purple (Soft Chic)</option>
-                <option value="theme-skyblue">Pastel Blue (Fresh)</option>
-                <option value="theme-beige">Pastel Beige (Warm Nude)</option>
-                <option value="theme-yellow">Pastel Yellow (Soft Warm)</option>
-                <option value="theme-mint">Pastel Mint (Fresh Green)</option>
-                <option value="theme-peach">Pastel Peach (Warm Soft)</option>
-                <option value="theme-lavender">Pastel Gray (Modern Minimal)</option>
-                <option value="theme-black">Pure Black (Dark Onyx)</option>
-                <option value="theme-maroon">Deep Maroon (Rich Dark)</option>
-                <option value="theme-custom">🎨 Custom Photo Match Color</option>
-              </select>
-            </div>
-            <div>
-              <label class="text-xs text-slate-400 block mb-1">Font Style</label>
-              <select id="selectFont" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white cursor-pointer">
-                <optgroup label="Feminine & Chic Fonts (10)">
-                  <option value="font-whiteangelica">White Angelica (Elegant Script)</option>
-                  <option value="font-quentin">Quentin (Modern Chic Serif)</option>
-                  <option value="font-quicksand">Quicksand (Friendly Rounded)</option>
-                  <option value="font-clickerscript">Clicker Script (Playful Vintage)</option>
-                  <option value="font-amarieta">Amarieta (Romantic Flow)</option>
-                  <option value="font-alexbrush">Alex Brush (Flowing Brush)</option>
-                  <option value="font-moonlight">Moonlight (Whimsical Script)</option>
-                  <option value="font-josefinsans">Josefin Sans (Vintage Geometric)</option>
-                  <option value="font-nickainley">Nickainley (Monoline Script)</option>
-                  <option value="font-conjiote">Conjiote (Structured Soft)</option>
-                </optgroup>
-                <optgroup label="Masculine & Bold Fonts (10)">
-                  <option value="font-bebas">Bebas Neue (Athletic Punch)</option>
-                  <option value="font-helvetica">Helvetica Neue (Minimal Clean)</option>
-                  <option value="font-futura">Futura (Bold Geometric)</option>
-                  <option value="font-concrete">Concrete Forge (Resilient Geometric)</option>
-                  <option value="font-backcountry">Backcountry (Rugged Outdoor)</option>
-                  <option value="font-gatore">Gatore (Thick Raw Power)</option>
-                  <option value="font-altaca">Altaca (Contemporary Edge)</option>
-                  <option value="font-proxima">Proxima Nova (Modern Digital)</option>
-                  <option value="font-heartstrong">Heartstrong (Handcrafted Script)</option>
-                  <option value="font-taldose">Taldose (Rugged Sleek)</option>
-                </optgroup>
-              </select>
-            </div>
-          </div>
-
-          <!-- AUTOMATIC PHOTO COLOR EXTRACTOR BOX -->
-          <div id="customColorBox" class="hidden border-t border-slate-800 pt-2 space-y-2">
-            <div class="flex items-center justify-between">
-              <label class="text-xs text-slate-300 font-semibold">Matched Color</label>
-              <input type="color" id="inputCustomColor" value="#ec4899" class="w-8 h-8 rounded border-0 cursor-pointer bg-transparent">
-            </div>
-            <div class="grid grid-cols-2 gap-2 pt-1">
-              <button type="button" onclick="extractColorFromImg('coverImg')" class="py-2 px-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-[11px] text-slate-200 flex items-center justify-center gap-1.5">
-                <i class="fa-solid fa-wand-magic-sparkles text-pink-400"></i>
-                <span>Match Cover</span>
-              </button>
-              <button type="button" onclick="extractColorFromImg('avatarImg')" class="py-2 px-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-[11px] text-slate-200 flex items-center justify-center gap-1.5">
-                <i class="fa-solid fa-wand-magic-sparkles text-purple-400"></i>
-                <span>Match Profile</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <label class="text-xs text-slate-400">Profile Photo (Upload File)</label>
-          <input type="file" id="fileAvatar" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-slate-700 file:text-xs file:text-white">
-        </div>
-
-        <div>
-          <label class="text-xs text-slate-400">Cover Photo (Upload File)</label>
-          <input type="file" id="fileCover" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-slate-700 file:text-xs file:text-white">
-        </div>
-
-        <hr class="border-slate-800">
-
-        <div>
-          <label class="text-xs text-slate-400">Full Name</label>
-          <input type="text" id="inputName" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
-        </div>
-        <div>
-          <label class="text-xs text-slate-400">Title / Occupation</label>
-          <input type="text" id="inputTitle" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
-        </div>
-        <div>
-          <label class="text-xs text-slate-400">Bio</label>
-          <input type="text" id="inputBio" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
-        </div>
-        <div>
-          <label class="text-xs text-slate-400">Phone</label>
-          <input type="text" id="inputPhone" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
-        </div>
-        <div>
-          <label class="text-xs text-slate-400">Email</label>
-          <input type="email" id="inputEmail" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
-        </div>
-        <div>
-          <label class="text-xs text-slate-400">Website URL</label>
-          <input type="text" id="inputWebsite" placeholder="e.g. google.com" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
-        </div>
-
-        <hr class="border-slate-800">
-        <p class="text-xs font-semibold text-slate-300">Social Media Links</p>
-
-        <div>
-          <label class="text-xs text-slate-400">Facebook URL</label>
-          <input type="text" id="inputFacebook" placeholder="facebook.com/yourprofile" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
-        </div>
-        <div>
-          <label class="text-xs text-slate-400">Instagram URL</label>
-          <input type="text" id="inputInstagram" placeholder="instagram.com/yourhandle" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
-        </div>
-        <div>
-          <label class="text-xs text-slate-400">WhatsApp Number or Link</label>
-          <input type="text" id="inputWhatsapp" placeholder="+1234567890" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
-        </div>
-        <div>
-          <label class="text-xs text-slate-400">WeChat ID or Link</label>
-          <input type="text" id="inputWechat" placeholder="Your WeChat ID" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
-        </div>
-      </div>
-
-      <div class="pt-2 flex justify-end gap-2">
-        <button onclick="toggleModal(false)" class="px-4 py-2 text-xs font-semibold text-slate-400 hover:text-white">Cancel</button>
-        <button id="saveBtn" onclick="saveProfile()" class="px-4 py-2 modal-btn-accent text-xs font-bold rounded-lg shadow">Save Changes</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const SUPABASE_URL = 'https://rehsynbkacvjttjedlxr.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_PjdxXTNrQ6sDsC7zZ9UFNA_127f9KMG...'; 
-
-    const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const cardId = urlParams.get('id');
-
-    let currentCardData = {
-      passcode: '1234',
-      name: 'Rose Anne Perez',
-      title: 'Digital Creator',
-      bio: 'Crafting digital experiences & NFC solutions.',
-      phone: '09606099421',
-      email: 'krizzialester@gmail.com',
-      website: 'ziadigital.store/zialink',
-      facebook: '',
-      instagram: '',
-      whatsapp: '',
-      wechat: '',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400',
-      cover: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800',
-      theme: 'theme-pink',
-      customColor: '#ec4899',
-      font: 'font-whiteangelica'
-    };
-
-    const MASTER_RECOVERY_CODE = 'ZD2026';
-
-    function fixUrl(url) {
-      if (!url || url.trim() === '') return '#';
-      let cleanUrl = url.trim();
-      if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {
-        cleanUrl = 'https://' + cleanUrl;
-      }
-      return cleanUrl;
-    }
-
-    function hexToRgb(hex) {
-      hex = hex.replace('#', '');
-      if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
-      const bigint = parseInt(hex, 16);
-      return { r: (bigint >> 16) & 255, g: (bigint >> 8) & 255, b: bigint & 255 };
-    }
-
-    function rgbToHex(r, g, b) {
-      return "#" + (1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1);
-    }
-
-    function applyDynamicCustomColor(hex) {
-      const rgb = hexToRgb(hex);
-      const root = document.documentElement;
-
-      const bgBody = `rgb(${Math.round(245 + rgb.r * 0.04)}, ${Math.round(245 + rgb.g * 0.04)}, ${Math.round(245 + rgb.b * 0.04)})`;
-      const bgCard = `rgb(${Math.round(235 + rgb.r * 0.08)}, ${Math.round(235 + rgb.g * 0.08)}, ${Math.round(235 + rgb.b * 0.08)})`;
-      const secBtnBg = `rgb(${Math.round(220 + rgb.r * 0.12)}, ${Math.round(220 + rgb.g * 0.12)}, ${Math.round(220 + rgb.b * 0.12)})`;
-      const cardBorder = `rgb(${Math.round(210 + rgb.r * 0.15)}, ${Math.round(210 + rgb.g * 0.15)}, ${Math.round(210 + rgb.b * 0.15)})`;
-
-      root.style.setProperty('--bg-body', bgBody);
-      root.style.setProperty('--bg-card', bgCard);
-      root.style.setProperty('--text-main', `rgb(${Math.round(rgb.r * 0.35)}, ${Math.round(rgb.g * 0.35)}, ${Math.round(rgb.b * 0.35)})`);
-      root.style.setProperty('--text-sub', `rgb(${Math.round(rgb.r * 0.5)}, ${Math.round(rgb.g * 0.5)}, ${Math.round(rgb.b * 0.5)})`);
-      root.style.setProperty('--accent-btn', hex);
-      root.style.setProperty('--accent-text', '#ffffff');
-      root.style.setProperty('--sec-btn-bg', secBtnBg);
-      root.style.setProperty('--sec-btn-text', `rgb(${Math.round(rgb.r * 0.35)}, ${Math.round(rgb.g * 0.35)}, ${Math.round(rgb.b * 0.35)})`);
-      root.style.setProperty('--card-border', cardBorder);
-      root.style.setProperty('--blob-1', cardBorder);
-      root.style.setProperty('--blob-2', hex);
-      root.style.setProperty('--blob-3', secBtnBg);
-      root.style.setProperty('--blob-4', bgCard);
-      root.style.setProperty('--icon-bg', secBtnBg);
-      root.style.setProperty('--icon-color', `rgb(${Math.round(rgb.r * 0.35)}, ${Math.round(rgb.g * 0.35)}, ${Math.round(rgb.b * 0.35)})`);
-      root.style.setProperty('--header-glow', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.25)`);
-    }
-
-    function handleThemeChange() {
-      const select = document.getElementById('selectTheme');
-      const customBox = document.getElementById('customColorBox');
-      if (select.value === 'theme-custom') {
-        customBox.classList.remove('hidden');
-      } else {
-        customBox.classList.add('hidden');
-      }
-    }
-
-    function extractColorFromImg(elementId) {
-      const img = document.getElementById(elementId);
-      if (!img || !img.src) return;
-
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.width = 50;
-      canvas.height = 50;
-
-      try {
-        ctx.drawImage(img, 0, 0, 50, 50);
-        const imgData = ctx.getImageData(0, 0, 50, 50).data;
-        let r = 0, g = 0, b = 0, count = 0;
-
-        for (let i = 0; i < imgData.length; i += 16) {
-          r += imgData[i];
-          g += imgData[i + 1];
-          b += imgData[i + 2];
-          count++;
-        }
-
-        r = Math.round(r / count);
-        g = Math.round(g / count);
-        b = Math.round(b / count);
-
-        const hex = rgbToHex(r, g, b);
-        document.getElementById('inputCustomColor').value = hex;
-        document.getElementById('selectTheme').value = 'theme-custom';
-        handleThemeChange();
-        applyDynamicCustomColor(hex);
-      } catch (e) {
-        console.log('Canvas extraction restriction handled.');
-      }
-    }
-
-    async function loadProfile() {
-      const localData = JSON.parse(localStorage.getItem('nfcCardData_' + (cardId || 'default')));
-
-      if (cardId) {
-        const { data, error } = await db
-          .from('cards')
-          .select('*')
-          .eq('id', cardId)
-          .single();
-
-        if (data && !error) {
-          let dbTheme = data.theme || 'theme-pink';
-          if (!dbTheme.startsWith('theme-')) dbTheme = 'theme-' + dbTheme;
-
-          let dbFont = data.font || 'font-whiteangelica';
-          if (!dbFont.startsWith('font-')) dbFont = 'font-' + dbFont;
-
-          currentCardData = {
-            passcode: data.pin || localData?.passcode || '1234',
-            name: data.full_name || 'Card Owner',
-            title: data.title || 'Digital Creator',
-            bio: data.bio || '',
-            phone: data.phone || '',
-            email: data.email || '',
-            website: data.website || '',
-            facebook: data.facebook || '',
-            instagram: data.instagram || '',
-            whatsapp: data.whatsapp || '',
-            wechat: data.wechat || '',
-            avatar: data.avatar || currentCardData.avatar,
-            cover: data.cover || currentCardData.cover,
-            theme: dbTheme,
-            customColor: data.custom_color || localData?.customColor || '#ec4899',
-            font: dbFont
-          };
-        }
-      } else if (localData) {
-        currentCardData = { ...currentCardData, ...localData };
-      }
-
-      renderUI(currentCardData);
-    }
-
-    function renderUI(data) {
-      document.getElementById('displayName').innerText = data.name;
-      document.getElementById('displayTitle').innerText = data.title;
-      document.getElementById('displayBio').innerText = data.bio;
-      document.getElementById('displayPhone').innerText = data.phone;
-      document.getElementById('displayEmail').innerText = data.email;
-      document.getElementById('displayWebsite').innerText = data.website || 'https://example.com';
-      document.getElementById('avatarImg').src = data.avatar;
-      document.getElementById('coverImg').src = data.cover;
-
-      document.getElementById('linkPhone').href = 'tel:' + data.phone;
-      document.getElementById('linkEmail').href = 'mailto:' + data.email;
-      document.getElementById('linkWebsite').href = fixUrl(data.website);
-
-      document.getElementById('linkFacebook').href = fixUrl(data.facebook);
-      document.getElementById('linkInstagram').href = fixUrl(data.instagram);
-
-      if (data.whatsapp) {
-        const cleanWa = data.whatsapp.replace(/[^0-9]/g, '');
-        document.getElementById('linkWhatsapp').href = cleanWa ? `https://wa.me/${cleanWa}` : fixUrl(data.whatsapp);
-      } else {
-        document.getElementById('linkWhatsapp').href = '#';
-      }
-
-      if (data.wechat) {
-        document.getElementById('linkWechat').href = data.wechat.startsWith('http') ? data.wechat : `weixin://dl/chat?${data.wechat}`;
-      } else {
-        document.getElementById('linkWechat').href = '#';
-      }
-
-      const body = document.getElementById('bodyTag');
-      
-      let selectedTheme = data.theme || 'theme-pink';
-      if (!selectedTheme.startsWith('theme-')) selectedTheme = 'theme-' + selectedTheme;
-
-      let selectedFont = data.font || 'font-whiteangelica';
-      if (!selectedFont.startsWith('font-')) selectedFont = 'font-' + selectedFont;
-
-      if (selectedTheme === 'theme-custom' && data.customColor) {
-        body.className = `${selectedFont} p-4 transition-colors duration-500 relative`;
-        applyDynamicCustomColor(data.customColor);
-      } else {
-        document.documentElement.removeAttribute('style');
-        body.className = `${selectedTheme} ${selectedFont} p-4 transition-colors duration-500 relative`;
-      }
-    }
-
-    function openPasscodeModal() {
-      document.getElementById('authPin').value = '';
-      document.getElementById('pinError').classList.add('hidden');
-      document.getElementById('passcodeModal').classList.remove('hidden');
-    }
-
-    function closePasscodeModal() {
-      document.getElementById('passcodeModal').classList.add('hidden');
-    }
-
-    function verifyPasscode() {
-      const currentPin = currentCardData.passcode || '1234';
-      const enteredPin = document.getElementById('authPin').value;
-
-      if (enteredPin === currentPin) {
-        closePasscodeModal();
-        toggleModal(true);
-      } else {
-        document.getElementById('pinError').classList.remove('hidden');
-      }
-    }
-
-    function openRecoveryModal() {
-      closePasscodeModal();
-      document.getElementById('recoveryKey').value = '';
-      document.getElementById('recoveryError').classList.add('hidden');
-      document.getElementById('recoveryModal').classList.remove('hidden');
-    }
-
-    function closeRecoveryModal() {
-      document.getElementById('recoveryModal').classList.add('hidden');
-    }
-
-    async function resetPasscode() {
-      const enteredCode = document.getElementById('recoveryKey').value.trim();
-      if (enteredCode === MASTER_RECOVERY_CODE) {
-        currentCardData.passcode = '1234';
+    <!-- MAIN CARD CONTAINER -->
+    <div class="w-full max-w-md card-bg border rounded-3xl shadow-xl overflow-hidden relative z-10 p-6 transition-all duration-300">
         
-        if (cardId) {
-          await db.from('cards').update({ pin: '1234' }).eq('id', cardId);
+        <!-- EDIT BUTTON (Pencil) -->
+        <button onclick="openPasscodeModal()" class="absolute top-4 right-4 bg-white/80 hover:bg-white p-2 rounded-full shadow transition">
+            <i class="fa-solid fa-pen text-gray-700"></i>
+        </button>
+
+        <!-- PROFILE HEADER -->
+        <div class="text-center mt-4">
+            <img id="uiAvatar" src="https://via.placeholder.com/150" alt="Avatar" class="w-28 h-28 rounded-full mx-auto border-4 border-white shadow-md object-cover">
+            <h2 id="uiName" class="text-2xl font-bold mt-3 text-gray-800">Loading...</h2>
+            <p id="uiTitle" class="text-sm font-medium text-gray-500">Please wait</p>
+            <p id="uiBio" class="text-xs text-gray-600 mt-2 px-4 italic"></p>
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="flex gap-3 mt-6">
+            <button id="uiSaveContact" class="flex-1 primary-btn py-3 rounded-xl font-semibold shadow text-sm flex items-center justify-center gap-2">
+                <i class="fa-solid fa-user-plus"></i> Save Contact
+            </button>
+            <button onclick="shareCard()" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 rounded-xl font-semibold shadow text-sm flex items-center justify-center gap-2">
+                <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+        </div>
+
+        <!-- SOCIAL LINKS -->
+        <div id="uiSocials" class="flex justify-center gap-4 mt-6 text-xl text-gray-600">
+            <!-- Dynamic Social Icons -->
+        </div>
+
+        <!-- CONTACT DETAILS -->
+        <div class="space-y-3 mt-6">
+            <div id="boxPhone" class="p-3 bg-white/50 rounded-xl flex items-center gap-3 shadow-sm">
+                <i class="fa-solid fa-phone text-gray-500"></i>
+                <span id="uiPhone" class="text-sm text-gray-700">---</span>
+            </div>
+            <div id="boxEmail" class="p-3 bg-white/50 rounded-xl flex items-center gap-3 shadow-sm">
+                <i class="fa-solid fa-envelope text-gray-500"></i>
+                <span id="uiEmail" class="text-sm text-gray-700">---</span>
+            </div>
+            <div id="boxWebsite" class="p-3 bg-white/50 rounded-xl flex items-center gap-3 shadow-sm">
+                <i class="fa-solid fa-globe text-gray-500"></i>
+                <span id="uiWebsite" class="text-sm text-gray-700">---</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- PASSCODE MODAL -->
+    <div id="passcodeModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center p-4 z-50 hidden">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-xs text-center shadow-2xl">
+            <h3 class="font-bold text-lg mb-2">Enter Passcode</h3>
+            <input type="password" id="passcodeInput" placeholder="PIN" class="border w-full p-2 rounded-lg text-center text-xl tracking-widest mb-4">
+            <div class="flex gap-2">
+                <button onclick="closeModal('passcodeModal')" class="flex-1 bg-gray-200 py-2 rounded-lg font-medium">Cancel</button>
+                <button onclick="verifyPasscode()" class="flex-1 bg-black text-white py-2 rounded-lg font-medium">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDIT PROFILE MODAL -->
+    <div id="editModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center p-4 z-50 hidden overflow-y-auto">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl my-8 max-h-[90vh] overflow-y-auto">
+            <h3 class="font-bold text-xl mb-4">Edit Profile</h3>
+            
+            <form id="editForm" onsubmit="saveProfile(event)" class="space-y-3 text-left text-sm">
+                <div>
+                    <label class="block font-medium mb-1">Full Name</label>
+                    <input type="text" id="editName" class="w-full border p-2 rounded-lg" required>
+                </div>
+                <div>
+                    <label class="block font-medium mb-1">Title/Occupation</label>
+                    <input type="text" id="editTitle" class="w-full border p-2 rounded-lg">
+                </div>
+                <div>
+                    <label class="block font-medium mb-1">Bio</label>
+                    <textarea id="editBio" class="w-full border p-2 rounded-lg" rows="2"></textarea>
+                </div>
+                <div>
+                    <label class="block font-medium mb-1">Phone Number</label>
+                    <input type="text" id="editPhone" class="w-full border p-2 rounded-lg">
+                </div>
+                <div>
+                    <label class="block font-medium mb-1">Email</label>
+                    <input type="email" id="editEmail" class="w-full border p-2 rounded-lg">
+                </div>
+                <div>
+                    <label class="block font-medium mb-1">Website</label>
+                    <input type="text" id="editWebsite" class="w-full border p-2 rounded-lg">
+                </div>
+
+                <!-- THEME & FONT SELECTORS -->
+                <div class="grid grid-cols-2 gap-3 pt-2">
+                    <div>
+                        <label class="block font-medium mb-1">Color Theme</label>
+                        <select id="editTheme" class="w-full border p-2 rounded-lg">
+                            <option value="theme-pink">Pink Soft</option>
+                            <option value="theme-black">Pure Black</option>
+                            <option value="theme-blue">Ocean Blue</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-medium mb-1">Font Style</label>
+                        <select id="editFont" class="w-full border p-2 rounded-lg">
+                            <option value="font-sans">Sans-Serif</option>
+                            <option value="font-serif">Serif</option>
+                            <option value="font-mono">Monospace</option>
+                            <option value="font-whiteangelica">Angelica Cursive</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex gap-2 pt-4">
+                    <button type="button" onclick="closeModal('editModal')" class="flex-1 bg-gray-200 py-2.5 rounded-lg font-medium">Cancel</button>
+                    <button type="submit" class="flex-1 bg-black text-white py-2.5 rounded-lg font-medium">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Supabase Initialization
+        const SUPABASE_URL = "https://rehsynbkacvjtjedxr.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJlaHN5bmJrYWN2anRqZWR4ciIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzM4MjQxNzcxLCJleHAiOjIwNTM4MTc3NzF9.Y_O_9L9Z1M3p_Z_9L9Z1M3p_Z_9L9Z1M3p_Z_9L9Z1M"; // Papalitan ng tunay mong ANON key kung kailangan
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Get Card ID from URL (?id=uuid)
+        const urlParams = new URLSearchParams(window.location.search);
+        const cardId = urlParams.get('id') || '47986091-619e-4d5d-866b-938a3a2ce804'; // Default Card ID
+
+        let currentCardData = null;
+
+        // FETCH CARD DATA FROM SUPABASE
+        async function fetchCardData() {
+            try {
+                const { data, error } = await supabase
+                    .from('cards')
+                    .select('*')
+                    .eq('id', cardId)
+                    .single();
+
+                if (error) throw error;
+
+                if (data) {
+                    currentCardData = data;
+                    renderUI(data);
+                }
+            } catch (err) {
+                console.error('Fetch error:', err.message);
+            }
         }
 
-        alert('Passcode successfully reset to default: 1234');
-        closeRecoveryModal();
-        toggleModal(true);
-      } else {
-        document.getElementById('recoveryError').classList.remove('hidden');
-      }
-    }
+        // RENDER UI ON PAGE LOAD
+        function renderUI(card) {
+            // Apply Theme & Font to <body>
+            const body = document.getElementById('bodyTag');
+            const themeClass = card.theme || 'theme-pink';
+            const fontClass = card.font || 'font-sans';
+            body.className = `${themeClass} ${fontClass} p-4 transition-colors duration-500 min-h-screen flex items-center justify-center relative`;
 
-    function toggleModal(show) {
-      const modal = document.getElementById('editModal');
-      if (show) {
-        document.getElementById('inputPasscode').value = currentCardData.passcode || '1234';
-        document.getElementById('inputName').value = currentCardData.name;
-        document.getElementById('inputTitle').value = currentCardData.title;
-        document.getElementById('inputBio').value = currentCardData.bio;
-        document.getElementById('inputPhone').value = currentCardData.phone;
-        document.getElementById('inputEmail').value = currentCardData.email;
-        document.getElementById('inputWebsite').value = currentCardData.website || '';
-        document.getElementById('inputFacebook').value = currentCardData.facebook || '';
-        document.getElementById('inputInstagram').value = currentCardData.instagram || '';
-        document.getElementById('inputWhatsapp').value = currentCardData.whatsapp || '';
-        document.getElementById('inputWechat').value = currentCardData.wechat || '';
-        document.getElementById('selectTheme').value = currentCardData.theme || 'theme-pink';
-        document.getElementById('inputCustomColor').value = currentCardData.customColor || '#ec4899';
-        document.getElementById('selectFont').value = currentCardData.font || 'font-whiteangelica';
-        
-        handleThemeChange();
+            // Populate Text Fields
+            document.getElementById('uiName').textContent = card.full_name || 'No Name';
+            document.getElementById('uiTitle').textContent = card.title || 'Digital Member';
+            document.getElementById('uiBio').textContent = card.bio || '';
 
-        document.getElementById('fileAvatar').value = '';
-        document.getElementById('fileCover').value = '';
+            // Contacts
+            document.getElementById('uiPhone').textContent = card.phone || 'Not provided';
+            document.getElementById('uiEmail').textContent = card.email || 'Not provided';
+            document.getElementById('uiWebsite').textContent = card.website || 'Not provided';
 
-        modal.classList.remove('hidden');
-      } else {
-        modal.classList.add('hidden');
-      }
-    }
-
-    function compressImage(file, maxWidth = 500, quality = 0.75) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = (event) => {
-          const img = new Image();
-          img.src = event.target.result;
-          img.onload = () => {
-            const canvas = document.createElement('canvas');
-            let width = img.width;
-            let height = img.height;
-
-            if (width > maxWidth) {
-              height = Math.round((height * maxWidth) / width);
-              width = maxWidth;
+            if (card.avatar_url) {
+                document.getElementById('uiAvatar').src = card.avatar_url;
             }
 
-            canvas.width = width;
-            canvas.height = height;
-
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
-
-            resolve(canvas.toDataURL('image/jpeg', quality));
-          };
-          img.onerror = (err) => reject(err);
-        };
-        reader.onerror = (err) => reject(err);
-      });
-    }
-
-    async function saveProfile() {
-      const saveBtn = document.getElementById('saveBtn');
-      saveBtn.innerText = 'Saving Changes...';
-      saveBtn.disabled = true;
-
-      try {
-        const avatarFile = document.getElementById('fileAvatar').files[0];
-        const coverFile = document.getElementById('fileCover').files[0];
-
-        let newAvatar = currentCardData.avatar;
-        let newCover = currentCardData.cover;
-
-        if (avatarFile) {
-          newAvatar = await compressImage(avatarFile, 400, 0.8);
-        }
-        if (coverFile) {
-          newCover = await compressImage(coverFile, 800, 0.75);
+            // Pre-fill Edit Modal Fields
+            document.getElementById('editName').value = card.full_name || '';
+            document.getElementById('editTitle').value = card.title || '';
+            document.getElementById('editBio').value = card.bio || '';
+            document.getElementById('editPhone').value = card.phone || '';
+            document.getElementById('editEmail').value = card.email || '';
+            document.getElementById('editWebsite').value = card.website || '';
+            document.getElementById('editTheme').value = themeClass;
+            document.getElementById('editFont').value = fontClass;
         }
 
-        let selectedFontValue = document.getElementById('selectFont').value;
-        if (!selectedFontValue.startsWith('font-')) selectedFontValue = 'font-' + selectedFontValue;
+        // SAVE PROFILE TO SUPABASE
+        async function saveProfile(event) {
+            event.preventDefault();
 
-        let selectedThemeValue = document.getElementById('selectTheme').value;
-        if (!selectedThemeValue.startsWith('theme-') && selectedThemeValue !== 'theme-custom') {
-          selectedThemeValue = 'theme-' + selectedThemeValue;
+            const updatedData = {
+                full_name: document.getElementById('editName').value,
+                title: document.getElementById('editTitle').value,
+                bio: document.getElementById('editBio').value,
+                phone: document.getElementById('editPhone').value,
+                email: document.getElementById('editEmail').value,
+                website: document.getElementById('editWebsite').value,
+                theme: document.getElementById('editTheme').value,
+                font: document.getElementById('editFont').value
+            };
+
+            try {
+                const { error } = await supabase
+                    .from('cards')
+                    .update(updatedData)
+                    .eq('id', cardId);
+
+                if (error) throw error;
+
+                alert('Profile updated successfully!');
+                closeModal('editModal');
+                fetchCardData(); // Reload UI immediately
+            } catch (err) {
+                console.error('Error saving:', err.message);
+                alert('Failed to save changes: ' + err.message);
+            }
         }
 
-        const selectedCustomColor = document.getElementById('inputCustomColor').value;
-        const selectedPin = document.getElementById('inputPasscode').value || '1234';
-
-        const updatedData = {
-          pin: selectedPin,
-          full_name: document.getElementById('inputName').value,
-          title: document.getElementById('inputTitle').value,
-          bio: document.getElementById('inputBio').value,
-          phone: document.getElementById('inputPhone').value,
-          email: document.getElementById('inputEmail').value,
-          website: document.getElementById('inputWebsite').value,
-          facebook: document.getElementById('inputFacebook').value,
-          instagram: document.getElementById('inputInstagram').value,
-          whatsapp: document.getElementById('inputWhatsapp').value,
-          wechat: document.getElementById('inputWechat').value,
-          avatar: newAvatar,
-          cover: newCover,
-          theme: selectedThemeValue,
-          custom_color: selectedCustomColor,
-          font: selectedFontValue
-        };
-
-        localStorage.setItem('nfcCardData_' + (cardId || 'default'), JSON.stringify({
-          passcode: selectedPin,
-          name: updatedData.full_name,
-          title: updatedData.title,
-          bio: updatedData.bio,
-          phone: updatedData.phone,
-          email: updatedData.email,
-          website: updatedData.website,
-          facebook: updatedData.facebook,
-          instagram: updatedData.instagram,
-          whatsapp: updatedData.whatsapp,
-          wechat: updatedData.wechat,
-          avatar: newAvatar,
-          cover: newCover,
-          theme: selectedThemeValue,
-          customColor: selectedCustomColor,
-          font: selectedFontValue
-        }));
-
-        if (cardId) {
-          const { error } = await db
-            .from('cards')
-            .update(updatedData)
-            .eq('id', cardId);
-
-          if (error) {
-            console.log("Supabase update notice:", error);
-          }
+        // MODAL HELPERS
+        function openPasscodeModal() {
+            document.getElementById('passcodeModal').classList.remove('hidden');
         }
 
-        await loadProfile();
-        toggleModal(false);
-      } catch (err) {
-        alert('An error occurred while saving. Please try again!');
-        console.error(err);
-      } finally {
-        saveBtn.innerText = 'Save Changes';
-        saveBtn.disabled = false;
-      }
-    }
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
 
-    function downloadVCard() {
-      const vcardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${currentCardData.name}\nTITLE:${currentCardData.title}\nTEL;TYPE=CELL:${currentCardData.phone}\nEMAIL:${currentCardData.email}\nURL:${fixUrl(currentCardData.website)}\nEND:VCARD`;
+        function verifyPasscode() {
+            const input = document.getElementById('passcodeInput').value;
+            const correctPin = currentCardData?.pin || '1234';
 
-      const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `${currentCardData.name.replace(/\s+/g, '_')}_contact.vcf`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+            if (input === correctPin) {
+                closeModal('passcodeModal');
+                document.getElementById('passcodeInput').value = '';
+                document.getElementById('editModal').classList.remove('hidden');
+            } else {
+                alert('Incorrect PIN!');
+            }
+        }
 
-    async function shareCard() {
-      if (navigator.share) {
-        try {
-          await navigator.share({
-            title: currentCardData.name,
-            text: `${currentCardData.name} - ${currentCardData.title}`,
-            url: window.location.href
-          });
-        } catch (err) {}
-      } else {
-        navigator.clipboard.writeText(window.location.href);
-        alert('Link copied to clipboard!');
-      }
-    }
+        function shareCard() {
+            if (navigator.share) {
+                navigator.share({ title: 'Digital Business Card', url: window.location.href });
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert('Card link copied to clipboard!');
+            }
+        }
 
-    // Attach Event Listener for Select Theme Dropdown
-    document.addEventListener('DOMContentLoaded', () => {
-      const selectTheme = document.getElementById('selectTheme');
-      if (selectTheme) {
-        selectTheme.addEventListener('change', handleThemeChange);
-      }
-    });
-
-    loadProfile();
-  </script>
+        // INITIAL LOAD
+        fetchCardData();
+    </script>
 </body>
 </html>
