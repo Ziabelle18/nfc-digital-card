@@ -258,50 +258,66 @@
           <p class="text-[10px] text-slate-400 mt-1">Set a custom PIN to restrict editing access.</p>
         </div>
 
-        <div class="grid grid-cols-2 gap-3 bg-slate-950 p-3 rounded-xl border border-slate-800">
-          <div>
-            <label class="text-xs text-slate-400 block mb-1">Color Theme</label>
-            <select id="selectTheme" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white">
-              <option value="theme-pink">Pastel Pink (Soft Chic)</option>
-              <option value="theme-plum">Pastel Purple (Soft Chic)</option>
-              <option value="theme-skyblue">Pastel Blue (Fresh)</option>
-              <option value="theme-beige">Pastel Beige (Warm Nude)</option>
-              <option value="theme-yellow">Pastel Yellow (Soft Warm)</option>
-              <option value="theme-mint">Pastel Mint (Fresh Green)</option>
-              <option value="theme-peach">Pastel Peach (Warm Soft)</option>
-              <option value="theme-lavender">Pastel Gray (Modern Minimal)</option>
-              <option value="theme-black">Pure Black (Dark Onyx)</option>
-              <option value="theme-maroon">Deep Maroon (Rich Dark)</option>
-            </select>
+        <!-- Theme Selection & Custom Color Picker -->
+        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-3">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="text-xs text-slate-400 block mb-1">Color Theme</label>
+              <select id="selectTheme" onchange="handleThemeChange()" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white">
+                <option value="theme-pink">Pastel Pink (Soft Chic)</option>
+                <option value="theme-plum">Pastel Purple (Soft Chic)</option>
+                <option value="theme-skyblue">Pastel Blue (Fresh)</option>
+                <option value="theme-beige">Pastel Beige (Warm Nude)</option>
+                <option value="theme-yellow">Pastel Yellow (Soft Warm)</option>
+                <option value="theme-mint">Pastel Mint (Fresh Green)</option>
+                <option value="theme-peach">Pastel Peach (Warm Soft)</option>
+                <option value="theme-lavender">Pastel Gray (Modern Minimal)</option>
+                <option value="theme-black">Pure Black (Dark Onyx)</option>
+                <option value="theme-maroon">Deep Maroon (Rich Dark)</option>
+                <option value="theme-custom">🎨 Custom Color Picker</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-xs text-slate-400 block mb-1">Font Style</label>
+              <select id="selectFont" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white">
+                <optgroup label="Feminine & Chic Fonts (10)">
+                  <option value="font-whiteangelica">White Angelica (Elegant Script)</option>
+                  <option value="font-quentin">Quentin (Modern Chic Serif)</option>
+                  <option value="font-quicksand">Quicksand (Friendly Rounded)</option>
+                  <option value="font-clickerscript">Clicker Script (Playful Vintage)</option>
+                  <option value="font-amarieta">Amarieta (Romantic Flow)</option>
+                  <option value="font-alexbrush">Alex Brush (Flowing Brush)</option>
+                  <option value="font-moonlight">Moonlight (Whimsical Script)</option>
+                  <option value="font-josefinsans">Josefin Sans (Vintage Geometric)</option>
+                  <option value="font-nickainley">Nickainley (Monoline Script)</option>
+                  <option value="font-conjiote">Conjiote (Structured Soft)</option>
+                </optgroup>
+                <optgroup label="Masculine & Bold Fonts (10)">
+                  <option value="font-bebas">Bebas Neue (Athletic Punch)</option>
+                  <option value="font-helvetica">Helvetica Neue (Minimal Clean)</option>
+                  <option value="font-futura">Futura (Bold Geometric)</option>
+                  <option value="font-concrete">Concrete Forge (Resilient Geometric)</option>
+                  <option value="font-backcountry">Backcountry (Rugged Outdoor)</option>
+                  <option value="font-gatore">Gatore (Thick Raw Power)</option>
+                  <option value="font-altaca">Altaca (Contemporary Edge)</option>
+                  <option value="font-proxima">Proxima Nova (Modern Digital)</option>
+                  <option value="font-heartstrong">Heartstrong (Handcrafted Script)</option>
+                  <option value="font-taldose">Taldose (Rugged Sleek)</option>
+                </optgroup>
+              </select>
+            </div>
           </div>
-          <div>
-            <label class="text-xs text-slate-400 block mb-1">Font Style</label>
-            <select id="selectFont" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white">
-              <optgroup label="Feminine & Chic Fonts (10)">
-                <option value="font-whiteangelica">White Angelica (Elegant Script)</option>
-                <option value="font-quentin">Quentin (Modern Chic Serif)</option>
-                <option value="font-quicksand">Quicksand (Friendly Rounded)</option>
-                <option value="font-clickerscript">Clicker Script (Playful Vintage)</option>
-                <option value="font-amarieta">Amarieta (Romantic Flow)</option>
-                <option value="font-alexbrush">Alex Brush (Flowing Brush)</option>
-                <option value="font-moonlight">Moonlight (Whimsical Script)</option>
-                <option value="font-josefinsans">Josefin Sans (Vintage Geometric)</option>
-                <option value="font-nickainley">Nickainley (Monoline Script)</option>
-                <option value="font-conjiote">Conjiote (Structured Soft)</option>
-              </optgroup>
-              <optgroup label="Masculine & Bold Fonts (10)">
-                <option value="font-bebas">Bebas Neue (Athletic Punch)</option>
-                <option value="font-helvetica">Helvetica Neue (Minimal Clean)</option>
-                <option value="font-futura">Futura (Bold Geometric)</option>
-                <option value="font-concrete">Concrete Forge (Resilient Geometric)</option>
-                <option value="font-backcountry">Backcountry (Rugged Outdoor)</option>
-                <option value="font-gatore">Gatore (Thick Raw Power)</option>
-                <option value="font-altaca">Altaca (Contemporary Edge)</option>
-                <option value="font-proxima">Proxima Nova (Modern Digital)</option>
-                <option value="font-heartstrong">Heartstrong (Handcrafted Script)</option>
-                <option value="font-taldose">Taldose (Rugged Sleek)</option>
-              </optgroup>
-            </select>
+
+          <!-- CUSTOM COLOR PICKER BOX -->
+          <div id="customColorBox" class="hidden border-t border-slate-800 pt-2 space-y-2">
+            <div class="flex items-center justify-between">
+              <label class="text-xs text-slate-300 font-semibold">Match Color from Cover/Photo</label>
+              <input type="color" id="inputCustomColor" value="#ec4899" class="w-8 h-8 rounded border-0 cursor-pointer bg-transparent">
+            </div>
+            <button type="button" onclick="pickColorFromScreen()" class="w-full py-2 px-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-xs text-slate-200 flex items-center justify-center gap-2">
+              <i class="fa-solid fa-eye-dropper text-pink-400"></i>
+              <span>Pick Color from Cover/Photo</span>
+            </button>
           </div>
         </div>
 
@@ -386,6 +402,7 @@
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400',
       cover: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800',
       theme: 'theme-pink',
+      customColor: '#ec4899',
       font: 'font-whiteangelica'
     };
 
@@ -398,6 +415,42 @@
         cleanUrl = 'https://' + cleanUrl;
       }
       return cleanUrl;
+    }
+
+    // Helper: Converts HEX Color to Soft Pastel Theme Variables
+    function hexToRgb(hex) {
+      hex = hex.replace('#', '');
+      if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+      const bigint = parseInt(hex, 16);
+      return { r: (bigint >> 16) & 255, g: (bigint >> 8) & 255, b: bigint & 255 };
+    }
+
+    function applyDynamicCustomColor(hex) {
+      const rgb = hexToRgb(hex);
+      const root = document.documentElement;
+
+      // Soft blended pastel tints
+      const bgBody = `rgb(${Math.round(245 + rgb.r * 0.04)}, ${Math.round(245 + rgb.g * 0.04)}, ${Math.round(245 + rgb.b * 0.04)})`;
+      const bgCard = `rgb(${Math.round(235 + rgb.r * 0.08)}, ${Math.round(235 + rgb.g * 0.08)}, ${Math.round(235 + rgb.b * 0.08)})`;
+      const secBtnBg = `rgb(${Math.round(220 + rgb.r * 0.12)}, ${Math.round(220 + rgb.g * 0.12)}, ${Math.round(220 + rgb.b * 0.12)})`;
+      const cardBorder = `rgb(${Math.round(210 + rgb.r * 0.15)}, ${Math.round(210 + rgb.g * 0.15)}, ${Math.round(210 + rgb.b * 0.15)})`;
+
+      root.style.setProperty('--bg-body', bgBody);
+      root.style.setProperty('--bg-card', bgCard);
+      root.style.setProperty('--text-main', `rgb(${Math.round(rgb.r * 0.35)}, ${Math.round(rgb.g * 0.35)}, ${Math.round(rgb.b * 0.35)})`);
+      root.style.setProperty('--text-sub', `rgb(${Math.round(rgb.r * 0.5)}, ${Math.round(rgb.g * 0.5)}, ${Math.round(rgb.b * 0.5)})`);
+      root.style.setProperty('--accent-btn', hex);
+      root.style.setProperty('--accent-text', '#ffffff');
+      root.style.setProperty('--sec-btn-bg', secBtnBg);
+      root.style.setProperty('--sec-btn-text', `rgb(${Math.round(rgb.r * 0.35)}, ${Math.round(rgb.g * 0.35)}, ${Math.round(rgb.b * 0.35)})`);
+      root.style.setProperty('--card-border', cardBorder);
+      root.style.setProperty('--blob-1', cardBorder);
+      root.style.setProperty('--blob-2', hex);
+      root.style.setProperty('--blob-3', secBtnBg);
+      root.style.setProperty('--blob-4', bgCard);
+      root.style.setProperty('--icon-bg', secBtnBg);
+      root.style.setProperty('--icon-color', `rgb(${Math.round(rgb.r * 0.35)}, ${Math.round(rgb.g * 0.35)}, ${Math.round(rgb.b * 0.35)})`);
+      root.style.setProperty('--header-glow', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.25)`);
     }
 
     function loadProfile() {
@@ -433,7 +486,36 @@
       }
 
       const body = document.getElementById('bodyTag');
-      body.className = `${data.theme || 'theme-pink'} ${data.font || 'font-whiteangelica'} p-4 transition-colors duration-500 relative`;
+      
+      if (data.theme === 'theme-custom' && data.customColor) {
+        body.className = `${data.font || 'font-whiteangelica'} p-4 transition-colors duration-500 relative`;
+        applyDynamicCustomColor(data.customColor);
+      } else {
+        document.documentElement.removeAttribute('style');
+        body.className = `${data.theme || 'theme-pink'} ${data.font || 'font-whiteangelica'} p-4 transition-colors duration-500 relative`;
+      }
+    }
+
+    function handleThemeChange() {
+      const select = document.getElementById('selectTheme');
+      const customBox = document.getElementById('customColorBox');
+      if (select.value === 'theme-custom') {
+        customBox.classList.remove('hidden');
+      } else {
+        customBox.classList.add('hidden');
+      }
+    }
+
+    async function pickColorFromScreen() {
+      if ('EyeDropper' in window) {
+        try {
+          const eyeDropper = new EyeDropper();
+          const result = await eyeDropper.open();
+          document.getElementById('inputCustomColor').value = result.sRGBHex;
+        } catch (e) {}
+      } else {
+        alert('Please use the color swatch to pick your preferred color.');
+      }
     }
 
     function openPasscodeModal() {
@@ -501,8 +583,11 @@
         document.getElementById('inputWhatsapp').value = data.whatsapp || '';
         document.getElementById('inputWechat').value = data.wechat || '';
         document.getElementById('selectTheme').value = data.theme || 'theme-pink';
+        document.getElementById('inputCustomColor').value = data.customColor || '#ec4899';
         document.getElementById('selectFont').value = data.font || 'font-whiteangelica';
         
+        handleThemeChange();
+
         document.getElementById('fileAvatar').value = '';
         document.getElementById('fileCover').value = '';
 
@@ -579,6 +664,7 @@
           avatar: newAvatar,
           cover: newCover,
           theme: document.getElementById('selectTheme').value,
+          customColor: document.getElementById('inputCustomColor').value,
           font: document.getElementById('selectFont').value
         };
 
