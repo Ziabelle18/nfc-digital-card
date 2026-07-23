@@ -9,6 +9,9 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
+  <!-- Supabase JS Client Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -393,8 +396,18 @@
   </div>
 
   <script>
-    const defaultData = {
-      passcode: '1234',
+    // --- SUPABASE CONFIGURATION ---
+    const SUPABASE_URL = 'https://rehsynbkacvjttjedlxr.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_PjdxXTNrQ6sDsC7zZ9UFNA_127f9KMG...'; // TODO: Pasting the full publishable key if truncated
+
+    const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Kuhanin ang Card ID mula sa URL (e.g. ziadigital.store/?id=UUID)
+    const urlParams = new URLSearchParams(window.location.search);
+    const cardId = urlParams.get('id');
+
+    let currentCardData = {
+      passcode: '123456',
       name: 'Rose Anne Perez',
       title: 'Digital Creator',
       bio: 'Crafting digital experiences & NFC solutions.',
@@ -492,13 +505,45 @@
         handleThemeChange();
         applyDynamicCustomColor(hex);
       } catch (e) {
-        console.log('Cross-origin canvas restriction. Color set via custom picker.');
+        console.log('Canvas extraction restriction handled.');
       }
     }
 
-    function loadProfile() {
-      const data = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
-      
+    // --- FETCH DATA FROM SUPABASE ---
+    async function loadProfile() {
+      if (cardId) {
+        const { data, error } = await db
+          .from('cards')
+          .select('*')
+          .eq('id', cardId)
+          .single();
+
+        if (data && !error) {
+          currentCardData = {
+            passcode: data.pin || '123456',
+            name: data.full_name || 'Card Owner',
+            title: data.title || 'Digital Creator',
+            bio: data.bio || '',
+            phone: data.phone || '',
+            email: data.email || '',
+            website: data.website || '',
+            facebook: data.facebook || '',
+            instagram: data.instagram || '',
+            whatsapp: data.whatsapp || '',
+            wechat: data.wechat || '',
+            avatar: data.avatar || currentCardData.avatar,
+            cover: data.cover || currentCardData.cover,
+            theme: data.theme || 'theme-pink',
+            customColor: data.custom_color || '#ec4899',
+            font: data.font || 'font-whiteangelica'
+          };
+        }
+      }
+
+      renderUI(currentCardData);
+    }
+
+    function renderUI(data) {
       document.getElementById('displayName').innerText = data.name;
       document.getElementById('displayTitle').innerText = data.title;
       document.getElementById('displayBio').innerText = data.bio;
@@ -506,7 +551,7 @@
       document.getElementById('displayEmail').innerText = data.email;
       document.getElementById('displayWebsite').innerText = data.website || 'https://example.com';
       document.getElementById('avatarImg').src = data.avatar;
-      document.getElementById('coverImg').src = data.cover || defaultData.cover;
+      document.getElementById('coverImg').src = data.cover;
 
       document.getElementById('linkPhone').href = 'tel:' + data.phone;
       document.getElementById('linkEmail').href = 'mailto:' + data.email;
@@ -560,8 +605,7 @@
     }
 
     function verifyPasscode() {
-      const data = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
-      const currentPin = data.passcode || '1234';
+      const currentPin = currentCardData.passcode || '123456';
       const enteredPin = document.getElementById('authPin').value;
 
       if (enteredPin === currentPin) {
@@ -583,14 +627,16 @@
       document.getElementById('recoveryModal').classList.add('hidden');
     }
 
-    function resetPasscode() {
+    async function resetPasscode() {
       const enteredCode = document.getElementById('recoveryKey').value.trim();
       if (enteredCode === MASTER_RECOVERY_CODE) {
-        const currentData = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
-        currentData.passcode = '1234';
-        localStorage.setItem('nfcCardData', JSON.stringify(currentData));
+        currentCardData.passcode = '123456';
+        
+        if (cardId) {
+          await db.from('cards').update({ pin: '123456' }).eq('id', cardId);
+        }
 
-        alert('Passcode successfully reset to default: 1234');
+        alert('Passcode successfully reset to default: 123456');
         closeRecoveryModal();
         toggleModal(true);
       } else {
@@ -601,21 +647,20 @@
     function toggleModal(show) {
       const modal = document.getElementById('editModal');
       if (show) {
-        const data = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
-        document.getElementById('inputPasscode').value = data.passcode || '1234';
-        document.getElementById('inputName').value = data.name;
-        document.getElementById('inputTitle').value = data.title;
-        document.getElementById('inputBio').value = data.bio;
-        document.getElementById('inputPhone').value = data.phone;
-        document.getElementById('inputEmail').value = data.email;
-        document.getElementById('inputWebsite').value = data.website || '';
-        document.getElementById('inputFacebook').value = data.facebook || '';
-        document.getElementById('inputInstagram').value = data.instagram || '';
-        document.getElementById('inputWhatsapp').value = data.whatsapp || '';
-        document.getElementById('inputWechat').value = data.wechat || '';
-        document.getElementById('selectTheme').value = data.theme || 'theme-pink';
-        document.getElementById('inputCustomColor').value = data.customColor || '#ec4899';
-        document.getElementById('selectFont').value = data.font || 'font-whiteangelica';
+        document.getElementById('inputPasscode').value = currentCardData.passcode || '123456';
+        document.getElementById('inputName').value = currentCardData.name;
+        document.getElementById('inputTitle').value = currentCardData.title;
+        document.getElementById('inputBio').value = currentCardData.bio;
+        document.getElementById('inputPhone').value = currentCardData.phone;
+        document.getElementById('inputEmail').value = currentCardData.email;
+        document.getElementById('inputWebsite').value = currentCardData.website || '';
+        document.getElementById('inputFacebook').value = currentCardData.facebook || '';
+        document.getElementById('inputInstagram').value = currentCardData.instagram || '';
+        document.getElementById('inputWhatsapp').value = currentCardData.whatsapp || '';
+        document.getElementById('inputWechat').value = currentCardData.wechat || '';
+        document.getElementById('selectTheme').value = currentCardData.theme || 'theme-pink';
+        document.getElementById('inputCustomColor').value = currentCardData.customColor || '#ec4899';
+        document.getElementById('selectFont').value = currentCardData.font || 'font-whiteangelica';
         
         handleThemeChange();
 
@@ -659,19 +704,18 @@
       });
     }
 
+    // --- SAVE TO SUPABASE DATABASE ---
     async function saveProfile() {
       const saveBtn = document.getElementById('saveBtn');
-      saveBtn.innerText = 'Saving...';
+      saveBtn.innerText = 'Saving to Database...';
       saveBtn.disabled = true;
 
       try {
-        const currentData = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
-
         const avatarFile = document.getElementById('fileAvatar').files[0];
         const coverFile = document.getElementById('fileCover').files[0];
 
-        let newAvatar = currentData.avatar;
-        let newCover = currentData.cover;
+        let newAvatar = currentCardData.avatar;
+        let newCover = currentCardData.cover;
 
         if (avatarFile) {
           newAvatar = await compressImage(avatarFile, 400, 0.8);
@@ -681,8 +725,8 @@
         }
 
         const updatedData = {
-          passcode: document.getElementById('inputPasscode').value || '1234',
-          name: document.getElementById('inputName').value,
+          pin: document.getElementById('inputPasscode').value || '123456',
+          full_name: document.getElementById('inputName').value,
           title: document.getElementById('inputTitle').value,
           bio: document.getElementById('inputBio').value,
           phone: document.getElementById('inputPhone').value,
@@ -695,12 +739,24 @@
           avatar: newAvatar,
           cover: newCover,
           theme: document.getElementById('selectTheme').value,
-          customColor: document.getElementById('inputCustomColor').value,
+          custom_color: document.getElementById('inputCustomColor').value,
           font: document.getElementById('selectFont').value
         };
 
-        localStorage.setItem('nfcCardData', JSON.stringify(updatedData));
-        loadProfile();
+        // If opened via card URL ID, update in Supabase
+        if (cardId) {
+          const { error } = await db
+            .from('cards')
+            .update(updatedData)
+            .eq('id', cardId);
+
+          if (error) {
+            console.error("Supabase Save Error:", error);
+            alert("Error saving profile to database.");
+          }
+        }
+
+        await loadProfile();
         toggleModal(false);
       } catch (err) {
         alert('An error occurred while saving. Please try again!');
@@ -712,26 +768,24 @@
     }
 
     function downloadVCard() {
-      const data = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
-      const vcardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${data.name}\nTITLE:${data.title}\nTEL;TYPE=CELL:${data.phone}\nEMAIL:${data.email}\nURL:${fixUrl(data.website)}\nEND:VCARD`;
+      const vcardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${currentCardData.name}\nTITLE:${currentCardData.title}\nTEL;TYPE=CELL:${currentCardData.phone}\nEMAIL:${currentCardData.email}\nURL:${fixUrl(currentCardData.website)}\nEND:VCARD`;
 
       const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', `${data.name.replace(/\s+/g, '_')}_contact.vcf`);
+      link.setAttribute('download', `${currentCardData.name.replace(/\s+/g, '_')}_contact.vcf`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     }
 
     async function shareCard() {
-      const data = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
       if (navigator.share) {
         try {
           await navigator.share({
-            title: data.name,
-            text: `${data.name} - ${data.title}`,
+            title: currentCardData.name,
+            text: `${currentCardData.name} - ${currentCardData.title}`,
             url: window.location.href
           });
         } catch (err) {}
