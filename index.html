@@ -669,7 +669,7 @@
       }
     }
 
-    // DETERMINISTIC CROSS-BROWSER LOAD
+    // DETERMINISTIC CROSS-BROWSER LOAD WITH AUTOMATIC ID URL SYNC
     async function loadProfile() {
       const loadingBox = document.getElementById('loadingBox');
       const urlParams = new URLSearchParams(window.location.search);
@@ -688,6 +688,13 @@
         if (response.data) {
           currentCard = response.data;
           rawDbKeys = Object.keys(response.data);
+
+          // AUTOMATIC URL ID SYNC SO COPYING THE LINK TO ANOTHER BROWSER ALWAYS LOADS THIS EXACT CARD
+          if (currentCard.id) {
+            const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?id=' + currentCard.id;
+            window.history.replaceState({ path: newUrl }, '', newUrl);
+          }
+
           renderUI(currentCard);
         } else {
           loadingBox.innerHTML = `
@@ -716,7 +723,7 @@
 
       document.getElementById('displayName').innerText = data.full_name || data.name || 'Card Holder';
       
-      // RELIABLE OCCUPATION EXTRACTION
+      // RELIABLE OCCUPATION EXTRACTION FROM ANY DB COLUMN
       const detectedOccupation = data.occupation || data.title || data.job_title || '';
       document.getElementById('displayTitle').innerText = detectedOccupation;
       
@@ -847,9 +854,9 @@
       if (enteredCode === MASTER_RECOVERY_CODE) {
         try {
           const updateObj = {};
-          if (rawDbKeys.includes('pin')) updateObj.pin = '1234';
-          if (rawDbKeys.includes('passcode')) updateObj.passcode = '1234';
-          if (rawDbKeys.includes('enable_pin')) updateObj.enable_pin = true;
+          if (rawDbKeys.length === 0 || rawDbKeys.includes('pin')) updateObj.pin = '1234';
+          if (rawDbKeys.length === 0 || rawDbKeys.includes('passcode')) updateObj.passcode = '1234';
+          if (rawDbKeys.length === 0 || rawDbKeys.includes('enable_pin')) updateObj.enable_pin = true;
 
           if (Object.keys(updateObj).length > 0) {
             await _supabase.from('cards').update(updateObj).eq('id', currentCard.id);
@@ -983,46 +990,46 @@
 
         const updatePayload = {};
 
-        // Helper to safely write data to all available schema column variations
-        const writeToAvailableKeys = (keys, val) => {
+        // Helper function that writes to payload if key exists or by default
+        const writeKeys = (keys, val) => {
           keys.forEach(k => {
-            if (rawDbKeys.includes(k)) {
+            if (rawDbKeys.length === 0 || rawDbKeys.includes(k)) {
               updatePayload[k] = val;
             }
           });
         };
 
-        writeToAvailableKeys(['full_name', 'name'], document.getElementById('inputName').value);
+        writeKeys(['full_name', 'name'], document.getElementById('inputName').value);
 
         // GUARANTEED MULTI-KEY SAVE FOR OCCUPATION/TITLE ACROSS ALL CARDS
         const titleValue = document.getElementById('inputTitle').value;
-        writeToAvailableKeys(['title', 'job_title', 'occupation'], titleValue);
+        writeKeys(['title', 'job_title', 'occupation'], titleValue);
 
         // GUARANTEED BOTH PIN & PASSCODE KEYS UPDATED SYNCHRONOUSLY
-        writeToAvailableKeys(['pin', 'passcode'], dbPinValue);
-        writeToAvailableKeys(['enable_pin'], pinEnabled);
+        writeKeys(['pin', 'passcode'], dbPinValue);
+        writeKeys(['enable_pin'], pinEnabled);
 
         // AUTOMATIC CARD STATUS UPDATE
-        writeToAvailableKeys(['status'], 'claimed');
+        writeKeys(['status'], 'claimed');
 
         // COVER POSITION SAVE
-        writeToAvailableKeys(['cover_position', 'coverPosition'], coverPosVal);
+        writeKeys(['cover_position', 'coverPosition'], coverPosVal);
 
-        writeToAvailableKeys(['custom_color', 'customColor'], document.getElementById('inputCustomColor').value);
+        writeKeys(['custom_color', 'customColor'], document.getElementById('inputCustomColor').value);
 
-        writeToAvailableKeys(['bio'], document.getElementById('inputBio').value);
-        writeToAvailableKeys(['phone'], document.getElementById('inputPhone').value);
-        writeToAvailableKeys(['email'], document.getElementById('inputEmail').value);
-        writeToAvailableKeys(['website'], document.getElementById('inputWebsite').value);
-        writeToAvailableKeys(['facebook'], document.getElementById('inputFacebook').value);
-        writeToAvailableKeys(['instagram'], document.getElementById('inputInstagram').value);
-        writeToAvailableKeys(['whatsapp'], document.getElementById('inputWhatsapp').value);
-        writeToAvailableKeys(['wechat'], newWechatQr);
+        writeKeys(['bio'], document.getElementById('inputBio').value);
+        writeKeys(['phone'], document.getElementById('inputPhone').value);
+        writeKeys(['email'], document.getElementById('inputEmail').value);
+        writeKeys(['website'], document.getElementById('inputWebsite').value);
+        writeKeys(['facebook'], document.getElementById('inputFacebook').value);
+        writeKeys(['instagram'], document.getElementById('inputInstagram').value);
+        writeKeys(['whatsapp'], document.getElementById('inputWhatsapp').value);
+        writeKeys(['wechat'], newWechatQr);
         
-        writeToAvailableKeys(['avatar'], newAvatar);
-        writeToAvailableKeys(['cover'], newCover);
-        writeToAvailableKeys(['theme'], document.getElementById('selectTheme').value);
-        writeToAvailableKeys(['font'], document.getElementById('selectFont').value);
+        writeKeys(['avatar'], newAvatar);
+        writeKeys(['cover'], newCover);
+        writeKeys(['theme'], document.getElementById('selectTheme').value);
+        writeKeys(['font'], document.getElementById('selectFont').value);
 
         const { error } = await _supabase
           .from('cards')
@@ -1074,16 +1081,20 @@
     }
 
     async function shareCard() {
+      const shareUrl = currentCard?.id 
+        ? `${window.location.protocol}//${window.location.host}${window.location.pathname}?id=${currentCard.id}`
+        : window.location.href;
+
       if (navigator.share) {
         try {
           await navigator.share({
             title: currentCard?.full_name || currentCard?.name || 'Digital Card',
             text: `${currentCard?.full_name || currentCard?.name || 'Digital Card'} - ${currentCard?.occupation || currentCard?.title || ''}`,
-            url: window.location.href
+            url: shareUrl
           });
         } catch (err) {}
       } else {
-        navigator.clipboard.writeText(window.location.href);
+        navigator.clipboard.writeText(shareUrl);
         showToast('Link copied to clipboard!', false, 'Copied');
       }
     }
