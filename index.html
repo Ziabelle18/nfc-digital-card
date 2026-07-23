@@ -717,7 +717,7 @@
       document.getElementById('displayName').innerText = data.full_name || data.name || 'Card Holder';
       
       // RELIABLE OCCUPATION EXTRACTION
-      const detectedOccupation = data.title || data.job_title || data.occupation || '';
+      const detectedOccupation = data.occupation || data.title || data.job_title || '';
       document.getElementById('displayTitle').innerText = detectedOccupation;
       
       document.getElementById('displayBio').innerText = data.bio || '';
@@ -882,7 +882,7 @@
         handlePinToggleChange();
 
         document.getElementById('inputName').value = currentCard.full_name || currentCard.name || '';
-        document.getElementById('inputTitle').value = currentCard.title || currentCard.job_title || currentCard.occupation || '';
+        document.getElementById('inputTitle').value = currentCard.occupation || currentCard.title || currentCard.job_title || '';
         document.getElementById('inputBio').value = currentCard.bio || '';
         document.getElementById('inputPhone').value = currentCard.phone || '';
         document.getElementById('inputEmail').value = currentCard.email || '';
@@ -1060,7 +1060,7 @@
     function downloadVCard() {
       if (!currentCard) return;
       const name = currentCard.full_name || currentCard.name || 'Contact';
-      const title = currentCard.title || currentCard.job_title || currentCard.occupation || '';
+      const title = currentCard.occupation || currentCard.title || currentCard.job_title || '';
       const vcardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nTITLE:${title}\nTEL;TYPE=CELL:${currentCard.phone || ''}\nEMAIL:${currentCard.email || ''}\nURL:${fixUrl(currentCard.website)}\nEND:VCARD`;
 
       const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8;' });
@@ -1078,7 +1078,7 @@
         try {
           await navigator.share({
             title: currentCard?.full_name || currentCard?.name || 'Digital Card',
-            text: `${currentCard?.full_name || currentCard?.name || 'Digital Card'} - ${currentCard?.title || ''}`,
+            text: `${currentCard?.full_name || currentCard?.name || 'Digital Card'} - ${currentCard?.occupation || currentCard?.title || ''}`,
             url: window.location.href
           });
         } catch (err) {}
