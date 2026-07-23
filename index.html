@@ -36,11 +36,11 @@
     .font-futura        { font-family: 'Josefin Sans', sans-serif !important; }
     .font-concrete      { font-family: 'Anton', sans-serif !important; }
     .font-backcountry   { font-family: 'Oswald', sans-serif !important; }
-    .font-gatore       { font-family: 'Anton', sans-serif !important; }
+    .font-gatore        { font-family: 'Anton', sans-serif !important; }
     .font-altaca        { font-family: 'Montserrat', sans-serif !important; }
     .font-proxima       { font-family: 'Inter', sans-serif !important; }
     .font-heartstrong   { font-family: 'Caveat', cursive !important; }
-    .font-taldose      { font-family: 'Roboto Mono', monospace !important; }
+    .font-taldose       { font-family: 'Roboto Mono', monospace !important; }
 
     /* PASTEL & SOFT DYNAMIC COLOR THEMES */
     .theme-pink { --bg-body: #fdf2f8; --bg-card: #fce7f3; --text-main: #701a75; --text-sub: #a21caf; --accent-btn: #ec4899; --accent-text: #ffffff; --sec-btn-bg: #fbcfe8; --sec-btn-text: #701a75; --card-border: #fbcfe8; --blob-1: #fbcfe8; --blob-2: #f472b6; --blob-3: #fef08a; --blob-4: #f87171; --icon-bg: #fbcfe8; --icon-color: #701a75; --header-glow: rgba(236, 72, 153, 0.25); }
@@ -525,6 +525,12 @@
           .single();
 
         if (data && !error) {
+          let dbTheme = data.theme || 'theme-pink';
+          if (!dbTheme.startsWith('theme-')) dbTheme = 'theme-' + dbTheme;
+
+          let dbFont = data.font || 'font-whiteangelica';
+          if (!dbFont.startsWith('font-')) dbFont = 'font-' + dbFont;
+
           currentCardData = {
             passcode: data.pin || localData?.passcode || '1234',
             name: data.full_name || 'Card Owner',
@@ -539,9 +545,9 @@
             wechat: data.wechat || '',
             avatar: data.avatar || currentCardData.avatar,
             cover: data.cover || currentCardData.cover,
-            theme: data.theme || localData?.theme || 'theme-pink',
+            theme: dbTheme,
             customColor: data.custom_color || localData?.customColor || '#ec4899',
-            font: data.font || localData?.font || 'font-whiteangelica'
+            font: dbFont
           };
         }
       } else if (localData) {
@@ -582,9 +588,13 @@
       }
 
       const body = document.getElementById('bodyTag');
-      const selectedFont = data.font || 'font-whiteangelica';
-      const selectedTheme = data.theme || 'theme-pink';
       
+      let selectedTheme = data.theme || 'theme-pink';
+      if (!selectedTheme.startsWith('theme-')) selectedTheme = 'theme-' + selectedTheme;
+
+      let selectedFont = data.font || 'font-whiteangelica';
+      if (!selectedFont.startsWith('font-')) selectedFont = 'font-' + selectedFont;
+
       if (selectedTheme === 'theme-custom' && data.customColor) {
         body.className = `${selectedFont} p-4 transition-colors duration-500 relative`;
         applyDynamicCustomColor(data.customColor);
@@ -723,8 +733,14 @@
           newCover = await compressImage(coverFile, 800, 0.75);
         }
 
-        const selectedFontValue = document.getElementById('selectFont').value;
-        const selectedThemeValue = document.getElementById('selectTheme').value;
+        let selectedFontValue = document.getElementById('selectFont').value;
+        if (!selectedFontValue.startsWith('font-')) selectedFontValue = 'font-' + selectedFontValue;
+
+        let selectedThemeValue = document.getElementById('selectTheme').value;
+        if (!selectedThemeValue.startsWith('theme-') && selectedThemeValue !== 'theme-custom') {
+          selectedThemeValue = 'theme-' + selectedThemeValue;
+        }
+
         const selectedCustomColor = document.getElementById('inputCustomColor').value;
         const selectedPin = document.getElementById('inputPasscode').value || '1234';
 
