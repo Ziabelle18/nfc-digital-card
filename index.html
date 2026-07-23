@@ -57,16 +57,18 @@
     .theme-maroon { --bg-body: #1a0505; --bg-card: #2e0d0d; --text-main: #fef2f2; --text-sub: #fca5a5; --accent-btn: #dc2626; --accent-text: #ffffff; --sec-btn-bg: #451a1a; --sec-btn-text: #ffffff; --card-border: #451a1a; --blob-1: #451a1a; --blob-2: #7f1d1d; --blob-3: #341212; --blob-4: #991b1b; --icon-bg: #451a1a; --icon-color: #ffffff; --header-glow: rgba(220, 38, 38, 0.25); }
 
     html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
-    body { background-color: var(--bg-body); color: var(--text-main); display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
-    .card-bg { background-color: var(--bg-card); border-color: var(--card-border); }
-    .btn-save { background-color: var(--accent-btn); color: var(--accent-text) !important; }
-    .btn-save:hover { filter: brightness(0.95); }
-    .btn-share { background-color: var(--sec-btn-bg); color: var(--sec-btn-text) !important; }
-    .btn-share:hover { filter: brightness(0.95); }
-    .text-accent { color: var(--accent-btn); }
-    .text-sub { color: var(--text-sub); }
-    .text-main { color: var(--text-main); }
-    .icon-box { background-color: var(--icon-bg); color: var(--icon-color); }
+    body { background-color: var(--bg-body); color: var(--text-main); display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; transition: background-color 0.5s ease, color 0.5s ease; }
+    
+    /* SMOOTH CARD ANIMATIONS */
+    .card-bg { background-color: var(--bg-card); border-color: var(--card-border); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+    .btn-save { background-color: var(--accent-btn); color: var(--accent-text) !important; transition: all 0.3s ease; }
+    .btn-save:hover { filter: brightness(0.95); transform: translateY(-1px); }
+    .btn-share { background-color: var(--sec-btn-bg); color: var(--sec-btn-text) !important; transition: all 0.3s ease; }
+    .btn-share:hover { filter: brightness(0.95); transform: translateY(-1px); }
+    .text-accent { color: var(--accent-btn); transition: color 0.5s ease; }
+    .text-sub { color: var(--text-sub); transition: color 0.5s ease; }
+    .text-main { color: var(--text-main); transition: color 0.5s ease; }
+    .icon-box { background-color: var(--icon-bg); color: var(--icon-color); transition: all 0.5s ease; }
 
     .modal-btn-accent { background-color: var(--accent-btn); color: var(--accent-text); }
     .modal-btn-accent:hover { filter: brightness(0.92); }
@@ -74,12 +76,12 @@
 
     /* HEADER STYLING ACCENTS */
     .header-wave { fill: var(--bg-card); transition: fill 0.5s ease; }
-    .header-circle-1 { position: absolute; width: 110px; height: 110px; border-radius: 50%; background: var(--header-glow); filter: blur(20px); top: -20px; left: -20px; pointer-events: none; }
-    .header-circle-2 { position: absolute; width: 90px; height: 90px; border-radius: 50%; background: var(--header-glow); filter: blur(15px); bottom: 10px; right: 20px; pointer-events: none; }
+    .header-circle-1 { position: absolute; width: 110px; height: 110px; border-radius: 50%; background: var(--header-glow); filter: blur(20px); top: -20px; left: -20px; pointer-events: none; transition: background 0.5s ease; }
+    .header-circle-2 { position: absolute; width: 90px; height: 90px; border-radius: 50%; background: var(--header-glow); filter: blur(15px); bottom: 10px; right: 20px; pointer-events: none; transition: background 0.5s ease; }
 
     /* ELEGANT ORGANIC BACKGROUND BLOBS */
     .blob-wrapper { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
-    .blob { position: absolute; filter: blur(65px); opacity: 0.55; border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+    .blob { position: absolute; filter: blur(65px); opacity: 0.55; border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transition: background-color 0.8s ease; }
     
     .blob-1 { background-color: var(--blob-1); width: 360px; height: 360px; top: -100px; left: -90px; animation: float1 10s infinite alternate ease-in-out; }
     .blob-2 { background-color: var(--blob-2); width: 340px; height: 340px; bottom: -90px; right: -90px; animation: float2 12s infinite alternate ease-in-out; }
@@ -93,6 +95,19 @@
 </head>
 <body id="bodyTag" class="theme-pink font-whiteangelica p-4 transition-colors duration-500 relative">
 
+  <!-- ELEGANT CUSTOM TOAST NOTIFICATION -->
+  <div id="toastNotification" class="fixed top-5 left-1/2 -translate-x-1/2 z-[100] hidden transition-all duration-500 ease-out transform -translate-y-10 opacity-0">
+    <div class="bg-slate-900/90 backdrop-blur-md text-white border border-slate-700/60 px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3">
+      <div id="toastIcon" class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <div>
+        <p id="toastTitle" class="text-xs font-bold text-white">Success</p>
+        <p id="toastMessage" class="text-[11px] text-slate-300">Profile updated successfully!</p>
+      </div>
+    </div>
+  </div>
+
   <!-- Background Blobs -->
   <div class="blob-wrapper">
     <div class="blob blob-1"></div>
@@ -104,7 +119,7 @@
   <div class="w-full max-w-md card-bg border rounded-3xl shadow-xl overflow-hidden relative z-10 transition-colors duration-300 mx-auto">
     <!-- STYLED HEADER BANNER -->
     <div class="h-40 relative bg-slate-200 dark:bg-slate-800 overflow-hidden">
-      <img id="coverImg" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800" alt="Cover" class="w-full h-full object-cover opacity-90" crossorigin="anonymous">
+      <img id="coverImg" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800" alt="Cover" class="w-full h-full object-cover opacity-90 transition-opacity duration-300" crossorigin="anonymous">
       
       <!-- Glowing Mood Accents on Banner -->
       <div class="header-circle-1"></div>
@@ -131,7 +146,7 @@
 
     <div id="cardContent" class="px-6 pb-6 relative text-center hidden">
       <div class="relative -mt-16 mb-4 inline-block z-20">
-        <img id="avatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400" alt="Avatar" class="w-28 h-28 rounded-full border-4 border-white shadow-lg mx-auto object-cover" crossorigin="anonymous">
+        <img id="avatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400" alt="Avatar" class="w-28 h-28 rounded-full border-4 border-white shadow-lg mx-auto object-cover transition-all duration-300" crossorigin="anonymous">
       </div>
 
       <h1 id="displayName" class="text-2xl font-bold text-main">Loading...</h1>
@@ -204,7 +219,7 @@
   </div>
 
   <!-- PASSCODE MODAL -->
-  <div id="passcodeModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden flex justify-center items-center p-4 z-[60]">
+  <div id="passcodeModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden flex justify-center items-center p-4 z-[60] transition-opacity duration-300">
     <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-xs rounded-2xl p-5 shadow-2xl space-y-4 text-center">
       <div class="w-12 h-12 modal-icon-bg rounded-full flex items-center justify-center mx-auto text-xl border">
         <i class="fa-solid fa-lock"></i>
@@ -230,7 +245,7 @@
   </div>
 
   <!-- RECOVERY / FORGOT PASSCODE MODAL -->
-  <div id="recoveryModal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden flex justify-center items-center p-4 z-[70]">
+  <div id="recoveryModal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden flex justify-center items-center p-4 z-[70] transition-opacity duration-300">
     <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-xs rounded-2xl p-5 shadow-2xl space-y-4 text-center">
       <div class="w-12 h-12 modal-icon-bg rounded-full flex items-center justify-center mx-auto text-xl border">
         <i class="fa-solid fa-key"></i>
@@ -253,7 +268,7 @@
   </div>
 
   <!-- EDIT PROFILE MODAL -->
-  <div id="editModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex justify-center items-center p-4 z-50">
+  <div id="editModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex justify-center items-center p-4 z-50 transition-opacity duration-300">
     <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center border-b border-slate-800 pb-3">
         <h3 class="text-lg font-bold text-white">Edit Profile & Style</h3>
@@ -410,6 +425,37 @@
 
     const MASTER_RECOVERY_CODE = 'ZD2026';
     let currentCard = null;
+
+    // CUSTOM TOAST NOTIFICATION FUNCTION
+    function showToast(message, isError = false, title = "Success") {
+      const toast = document.getElementById('toastNotification');
+      const toastIcon = document.getElementById('toastIcon');
+      const toastTitle = document.getElementById('toastTitle');
+      const toastMsg = document.getElementById('toastMessage');
+
+      toastTitle.innerText = title;
+      toastMsg.innerText = message;
+
+      if (isError) {
+        toastIcon.className = "w-8 h-8 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center text-sm";
+        toastIcon.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+      } else {
+        toastIcon.className = "w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm";
+        toastIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
+      }
+
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.remove('-translate-y-10', 'opacity-0');
+        toast.classList.add('translate-y-0', 'opacity-100');
+      }, 10);
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('-translate-y-10', 'opacity-0');
+        setTimeout(() => toast.classList.add('hidden'), 500);
+      }, 3000);
+    }
 
     function fixUrl(url) {
       if (!url || url.trim() === '') return '#';
@@ -622,14 +668,14 @@
 
           if (error) throw error;
 
-          alert('Passcode successfully reset to default: 1234');
+          showToast('PIN reset to default: 1234', false, 'PIN Reset');
           if (currentCard.hasOwnProperty('pin')) currentCard.pin = '1234';
           else currentCard.passcode = '1234';
 
           closeRecoveryModal();
           toggleModal(true);
         } catch (err) {
-          alert("Error resetting PIN: " + err.message);
+          showToast(err.message, true, 'Error');
         }
       } else {
         document.getElementById('recoveryError').classList.remove('hidden');
@@ -699,7 +745,7 @@
     async function saveProfile() {
       const newPin = document.getElementById('inputPasscode').value.trim();
       if (newPin && newPin.length !== 4) {
-        alert('Ang PIN ay kailangang 4 digits!');
+        showToast('Ang PIN ay kailangang 4 digits!', true, 'Validation Error');
         return;
       }
 
@@ -756,10 +802,16 @@
 
         if (error) throw error;
 
-        alert('Card profile updated successfully!');
-        location.reload();
+        // Update local object & render UI dynamically (NO HARD RELOAD!)
+        Object.assign(currentCard, updatePayload);
+        renderUI(currentCard);
+        
+        // Close modal smoothly & show sleek toast
+        toggleModal(false);
+        showToast('Card profile updated successfully!', false, 'Success');
+
       } catch (err) {
-        alert('An error occurred while saving: ' + err.message);
+        showToast('Save failed: ' + err.message, true, 'Error');
         console.error(err);
       } finally {
         saveBtn.innerText = 'Save Changes';
@@ -794,7 +846,7 @@
         } catch (err) {}
       } else {
         navigator.clipboard.writeText(window.location.href);
-        alert('Link copied to clipboard!');
+        showToast('Link copied to clipboard!', false, 'Copied');
       }
     }
 
