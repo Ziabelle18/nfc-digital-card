@@ -982,6 +982,9 @@
         setIfColExists('pin', dbPinValue);
         setIfColExists('passcode', dbPinValue);
 
+        // AUTOMATIC CARD STATUS UPDATE (AUTOMATICALLY MARKS CARD AS CLAIMED/ACTIVE)
+        setIfColExists('status', 'claimed');
+
         // COVER POSITION SAVE
         setIfColExists('cover_position', coverPosVal);
         setIfColExists('coverPosition', coverPosVal);
@@ -1017,6 +1020,7 @@
         currentCard.enable_pin = pinEnabled;
         currentCard.pin = dbPinValue;
         currentCard.passcode = dbPinValue;
+        currentCard.status = 'claimed';
         currentCard.cover_position = coverPosVal;
         currentCard.coverPosition = coverPosVal;
         Object.assign(currentCard, updatePayload);
