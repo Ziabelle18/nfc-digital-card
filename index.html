@@ -3,473 +3,466 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digital Business Card</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <title>Digital NFC Business Card</title>
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- GOOGLE FONTS -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Great+Vibes&family=Poppins:wght@400;600;700&family=Sacramento&family=Cinzel:wght@600;800&family=Montserrat:wght@500;700;800&family=Oswald:wght@500;700&family=Bebas+Neue&family=Roboto+Slab:wght@500;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@600&family=Cinzel:wght@600;700&family=Great+Vibes&family=Inter:wght@400;600;700&family=Montserrat:wght@500;700;800&family=Oswald:wght@500;700&family=Pacifico&family=Playfair+Display:ital,wght@0,600;1,400&family=Quicksand:wght@500;700&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
 
   <style>
-    .font-playfair { font-family: 'Playfair Display', serif; }
+    /* Girly Fonts */
+    .font-quicksand { font-family: 'Quicksand', sans-serif; }
+    .font-pacifico { font-family: 'Pacifico', cursive; }
     .font-greatvibes { font-family: 'Great Vibes', cursive; }
-    .font-poppins { font-family: 'Poppins', sans-serif; }
-    .font-sacramento { font-family: 'Sacramento', cursive; }
-    .font-cinzel { font-family: 'Cinzel', serif; }
+    .font-playfair { font-family: 'Playfair Display', serif; }
+    .font-caveat { font-family: 'Caveat', cursive; }
+
+    /* Men / Masculine Fonts */
     .font-montserrat { font-family: 'Montserrat', sans-serif; }
     .font-oswald { font-family: 'Oswald', sans-serif; }
-    .font-bebas { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; }
-    .font-robotoslab { font-family: 'Roboto Slab', serif; }
+    .font-robotomono { font-family: 'Roboto Mono', monospace; }
+    .font-anton { font-family: 'Anton', sans-serif; }
+    .font-cinzel { font-family: 'Cinzel', serif; }
+    
+    /* Modern Default */
     .font-inter { font-family: 'Inter', sans-serif; }
+
+    /* Color Themes */
+    .theme-skyblue   { --bg-body: #0b192c; --bg-card: #1e293b; --accent: #38bdf8; --accent-hover: #0284c7; }
+    .theme-black     { --bg-body: #000000; --bg-card: #121212; --accent: #ffffff; --accent-hover: #d1d5db; }
+    .theme-gray      { --bg-body: #18181b; --bg-card: #27272a; --accent: #a1a1aa; --accent-hover: #71717a; }
+    .theme-pink      { --bg-body: #2a121d; --bg-card: #3b1c2b; --accent: #f472b6; --accent-hover: #ec4899; }
+    .theme-yellow    { --bg-body: #1c1917; --bg-card: #292524; --accent: #facc15; --accent-hover: #eab308; }
+    .theme-plum      { --bg-body: #18091e; --bg-card: #281033; --accent: #c084fc; --accent-hover: #a855f7; }
+    .theme-darkgreen { --bg-body: #022c22; --bg-card: #064e3b; --accent: #34d399; --accent-hover: #10b981; }
+    .theme-orange    { --bg-body: #1c0d02; --bg-card: #2e1605; --accent: #fb923c; --accent-hover: #f97316; }
+    .theme-maroon    { --bg-body: #1f0909; --bg-card: #341212; --accent: #f87171; --accent-hover: #ef4444; }
+    .theme-beige     { --bg-body: #1c1917; --bg-card: #2b2623; --accent: #f59e0b; --accent-hover: #d97706; }
+
+    body { background-color: var(--bg-body); }
+    .card-bg { background-color: var(--bg-card); }
+    .btn-accent { background-color: var(--accent); }
+    .btn-accent:hover { background-color: var(--accent-hover); }
+    .text-accent { color: var(--accent); }
   </style>
 </head>
-<body id="bgCard" class="min-h-screen flex items-center justify-center sm:p-4 bg-black font-inter transition-colors duration-500">
+<body id="bodyTag" class="theme-skyblue font-inter text-slate-100 min-h-screen flex flex-col justify-center items-center p-4 transition-colors duration-300">
 
-  <!-- CARD CONTAINER -->
-  <div id="cardBox" class="bg-black text-white max-w-sm w-full min-h-screen sm:min-h-0 sm:rounded-3xl shadow-2xl overflow-hidden relative flex flex-col justify-between pb-8 border border-gray-900">
+  <!-- Main Card Container -->
+  <div class="w-full max-w-md card-bg border border-slate-800 rounded-3xl shadow-2xl overflow-hidden relative my-8 transition-colors duration-300">
     
-    <!-- FLOATING EDIT BUTTON -->
-    <button id="editCardBtn" onclick="triggerEditProcess()" type="button" class="fixed top-4 right-4 z-50 text-white bg-black/80 p-3.5 rounded-full backdrop-blur-md border border-white/30 shadow-2xl active:scale-90 cursor-pointer">
-      <i class="fa-solid fa-pen-to-square text-xl"></i>
+    <!-- Cover Photo -->
+    <div class="h-36 relative bg-slate-800">
+      <img id="coverImg" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800" alt="Cover" class="w-full h-full object-cover">
+    </div>
+
+    <!-- Profile Header Section -->
+    <div class="px-6 pb-6 relative text-center">
+      <!-- Profile Picture -->
+      <div class="relative -mt-16 mb-4 inline-block">
+        <img id="avatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400" alt="Avatar" class="w-28 h-28 rounded-full border-4 border-slate-900 object-cover shadow-lg mx-auto">
+      </div>
+
+      <h1 id="displayName" class="text-2xl font-bold text-white">Alex Rivera</h1>
+      <p id="displayTitle" class="text-sm font-medium text-accent mt-1">Creative Director & Web Developer</p>
+      <p id="displayBio" class="text-xs text-slate-400 mt-2 px-4">Building sleek digital experiences & web solutions.</p>
+
+      <!-- Action Buttons -->
+      <div class="grid grid-cols-2 gap-3 mt-6">
+        <button onclick="downloadVCard()" class="btn-accent flex items-center justify-center gap-2 text-slate-950 font-bold py-2.5 px-4 rounded-xl shadow-lg transition-all active:scale-95 text-sm">
+          <i class="fa-solid fa-user-plus"></i>
+          <span>Save Contact</span>
+        </button>
+        <button onclick="shareCard()" class="flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold py-2.5 px-4 rounded-xl transition-all active:scale-95 text-sm">
+          <i class="fa-solid fa-share-nodes"></i>
+          <span>Share</span>
+        </button>
+      </div>
+
+      <!-- Quick Social Icons Row -->
+      <div class="flex justify-center items-center gap-4 mt-6" id="socialBar">
+        <a id="linkFacebook" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 text-blue-500 flex items-center justify-center border border-slate-700 transition">
+          <i class="fa-brands fa-facebook-f text-lg"></i>
+        </a>
+        <a id="linkInstagram" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 text-pink-500 flex items-center justify-center border border-slate-700 transition">
+          <i class="fa-brands fa-instagram text-lg"></i>
+        </a>
+        <a id="linkWhatsapp" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 text-green-500 flex items-center justify-center border border-slate-700 transition">
+          <i class="fa-brands fa-whatsapp text-lg"></i>
+        </a>
+        <a id="linkWechat" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 text-emerald-400 flex items-center justify-center border border-slate-700 transition">
+          <i class="fa-brands fa-weixin text-lg"></i>
+        </a>
+      </div>
+
+      <!-- Primary Contact Links -->
+      <div class="mt-4 space-y-3 text-left">
+        <a id="linkPhone" href="tel:+1234567890" class="flex items-center gap-4 p-3 rounded-2xl bg-slate-800/40 border border-slate-800 hover:border-slate-700 transition">
+          <div class="w-10 h-10 rounded-xl bg-slate-800 text-accent flex items-center justify-center">
+            <i class="fa-solid fa-phone"></i>
+          </div>
+          <div class="overflow-hidden">
+            <p class="text-xs text-slate-400 font-medium">Phone</p>
+            <p id="displayPhone" class="text-sm font-semibold text-slate-200 truncate">+1 (234) 567-890</p>
+          </div>
+        </a>
+
+        <a id="linkEmail" href="mailto:alex@example.com" class="flex items-center gap-4 p-3 rounded-2xl bg-slate-800/40 border border-slate-800 hover:border-slate-700 transition">
+          <div class="w-10 h-10 rounded-xl bg-slate-800 text-accent flex items-center justify-center">
+            <i class="fa-solid fa-envelope"></i>
+          </div>
+          <div class="overflow-hidden">
+            <p class="text-xs text-slate-400 font-medium">Email</p>
+            <p id="displayEmail" class="text-sm font-semibold text-slate-200 truncate">alex@example.com</p>
+          </div>
+        </a>
+
+        <a id="linkWebsite" href="https://example.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 p-3 rounded-2xl bg-slate-800/40 border border-slate-800 hover:border-slate-700 transition">
+          <div class="w-10 h-10 rounded-xl bg-slate-800 text-accent flex items-center justify-center">
+            <i class="fa-solid fa-globe"></i>
+          </div>
+          <div class="overflow-hidden">
+            <p class="text-xs text-slate-400 font-medium">Website</p>
+            <p id="displayWebsite" class="text-sm font-semibold text-slate-200 truncate">https://example.com</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Floating Edit Button -->
+    <button onclick="toggleModal(true)" class="absolute top-3 right-3 bg-slate-900/80 backdrop-blur-md border border-slate-700 text-slate-300 hover:text-white p-2.5 rounded-full shadow-md transition active:scale-95">
+      <i class="fa-solid fa-pen text-xs"></i>
     </button>
-
-    <div>
-      <!-- COVER BANNER HEADER -->
-      <div class="h-40 bg-amber-500 relative overflow-hidden">
-        <img id="bannerImg" class="w-full h-full object-cover hidden" src="" alt="Cover Banner">
-      </div>
-
-      <!-- PROFILE PHOTO OVERLAY -->
-      <div class="px-6 relative">
-        <div class="relative -mt-20 mb-3 inline-block">
-          <div class="w-32 h-32 rounded-full border-4 border-black overflow-hidden bg-gray-800 flex items-center justify-center text-3xl font-bold shadow-2xl">
-            <img id="avatarImg" class="w-full h-full object-cover hidden" src="" alt="Profile">
-            <span id="avatarInitials">ZD</span>
-          </div>
-        </div>
-
-        <!-- USER NAME & TITLE -->
-        <h1 id="name" class="text-3xl font-bold tracking-tight">Your Name</h1>
-        <p id="jobTitle" class="text-gray-400 text-base mt-1 font-medium">Business Title / Position</p>
-
-        <!-- FULL CONTACT & SOCIAL LIST -->
-        <div class="mt-8 space-y-4 text-left" id="links">
-          
-          <!-- COMPANY -->
-          <div id="rowCompany" class="flex items-center gap-4 p-1 rounded-xl">
-            <div class="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center text-xl shrink-0 font-bold">
-              <i class="fa-solid fa-city"></i>
-            </div>
-            <span id="textCompany" class="font-semibold text-lg truncate">Your Company</span>
-          </div>
-
-          <!-- PHONE 1 -->
-          <div id="rowPhone1" class="flex items-center gap-4 p-1 rounded-xl">
-            <div class="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center text-xl shrink-0 font-bold">
-              <i class="fa-solid fa-phone"></i>
-            </div>
-            <a id="linkPhone1" href="#" class="font-semibold text-lg hover:underline truncate">+63 917 000 0000</a>
-          </div>
-
-          <!-- PHONE 2 / MOBILE -->
-          <div id="rowPhone2" class="flex items-center gap-4 p-1 rounded-xl">
-            <div class="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center text-xl shrink-0 font-bold">
-              <i class="fa-solid fa-mobile-screen"></i>
-            </div>
-            <a id="linkPhone2" href="#" class="font-semibold text-lg hover:underline truncate">+63 918 000 0000</a>
-          </div>
-
-          <!-- WHATSAPP -->
-          <div id="rowWhatsapp" class="flex items-center gap-4 p-1 rounded-xl">
-            <div class="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center text-xl shrink-0 font-bold">
-              <i class="fa-brands fa-whatsapp text-2xl"></i>
-            </div>
-            <a id="linkWhatsapp" href="#" target="_blank" class="font-semibold text-lg text-green-400 hover:underline truncate">WhatsApp</a>
-          </div>
-
-          <!-- WECHAT -->
-          <div id="rowWechat" class="flex items-center gap-4 p-1 rounded-xl">
-            <div class="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center text-xl shrink-0 font-bold">
-              <i class="fa-brands fa-weixin text-2xl"></i>
-            </div>
-            <span id="textWechat" class="font-semibold text-lg text-emerald-400 truncate">WeChat ID</span>
-          </div>
-
-          <!-- EMAIL -->
-          <div id="rowEmail" class="flex items-center gap-4 p-1 rounded-xl">
-            <div class="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center text-xl shrink-0 font-bold">
-              <i class="fa-regular fa-envelope"></i>
-            </div>
-            <a id="linkEmail" href="#" class="font-semibold text-lg hover:underline truncate">yourname@email.com</a>
-          </div>
-
-          <!-- FACEBOOK -->
-          <div id="rowFacebook" class="flex items-center gap-4 p-1 rounded-xl">
-            <div class="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center text-xl shrink-0 font-bold">
-              <i class="fa-brands fa-facebook-f text-2xl"></i>
-            </div>
-            <a id="linkFacebook" href="#" target="_blank" class="font-semibold text-lg text-blue-400 hover:underline truncate">Facebook Profile</a>
-          </div>
-
-          <!-- INSTAGRAM -->
-          <div id="rowInstagram" class="flex items-center gap-4 p-1 rounded-xl">
-            <div class="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center text-xl shrink-0 font-bold">
-              <i class="fa-brands fa-instagram text-2xl"></i>
-            </div>
-            <a id="linkInstagram" href="#" target="_blank" class="font-semibold text-lg text-pink-400 hover:underline truncate">Instagram Profile</a>
-          </div>
-
-          <!-- LINKEDIN -->
-          <div id="rowLinkedin" class="flex items-center gap-4 p-1 rounded-xl">
-            <div class="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center text-xl shrink-0 font-bold">
-              <i class="fa-brands fa-linkedin-in"></i>
-            </div>
-            <a id="linkLinkedin" href="#" target="_blank" class="font-semibold text-lg text-sky-400 hover:underline truncate">LinkedIn Profile</a>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- BOTTOM ACTION BUTTONS -->
-    <div class="px-6 mt-8 space-y-3">
-      <button onclick="downloadVCard()" class="w-full py-3.5 px-4 border border-white/30 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-white/10 transition">
-        <i class="fa-solid fa-download"></i> Add to Phone Book
-      </button>
-      <button onclick="shareCard()" class="w-full py-3.5 px-4 border border-white/30 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-white/10 transition">
-        <i class="fa-solid fa-share-nodes"></i> Share My vCard
-      </button>
-    </div>
-
   </div>
 
-  <!-- PIN PROMPT MODAL -->
-  <div id="pinModal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-[90]">
-    <div class="bg-gray-800 text-white max-w-xs w-full rounded-3xl p-6 text-center space-y-4 border border-gray-700 shadow-2xl">
-      <h3 class="text-lg font-bold">Security Verification</h3>
-      <p class="text-xs text-gray-300">Enter PIN to edit card details (Default: 1234)</p>
-      <input type="password" id="pinInput" placeholder="Enter PIN" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-3 text-center text-white font-bold text-lg focus:outline-none focus:border-blue-500">
-      <div class="flex gap-2 pt-2">
-        <button onclick="closePinModal()" class="w-1/2 py-2.5 bg-gray-700 rounded-xl font-medium">Cancel</button>
-        <button onclick="verifyPin()" class="w-1/2 py-2.5 bg-blue-600 rounded-xl font-medium">Confirm</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- EDIT MODAL (PHONE EDITOR) -->
-  <div id="editModal" class="fixed inset-0 bg-black/90 backdrop-blur-md hidden items-center justify-center p-4 z-[100]">
-    <div class="bg-gray-800 text-white max-w-md w-full rounded-3xl p-6 space-y-4 border border-gray-700 max-h-[90vh] overflow-y-auto">
-      
-      <div class="flex justify-between items-center border-b border-gray-700 pb-3">
-        <h3 class="text-lg font-bold flex items-center gap-2"><i class="fa-solid fa-gear"></i> Edit Business Profile</h3>
-        <button onclick="closeEditModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+  <!-- Edit Profile Modal -->
+  <div id="editModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex justify-center items-center p-4 z-50">
+    <div class="bg-slate-900 border border-slate-800 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+        <h3 class="text-lg font-bold text-white">Edit Profile & Links</h3>
+        <button onclick="toggleModal(false)" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
       </div>
 
-      <!-- FORM FIELDS -->
-      <div class="space-y-3 text-left text-sm">
+      <div class="space-y-3">
+        <!-- Theme & Font Selection -->
+        <div class="grid grid-cols-2 gap-3 bg-slate-950 p-3 rounded-xl border border-slate-800">
+          <div>
+            <label class="text-xs text-slate-400 block mb-1">Color Theme</label>
+            <select id="selectTheme" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white">
+              <option value="theme-skyblue">Sky Blue</option>
+              <option value="theme-black">Black (Onyx)</option>
+              <option value="theme-gray">Slate Gray</option>
+              <option value="theme-pink">Pastel Pink</option>
+              <option value="theme-yellow">Yellow Gold</option>
+              <option value="theme-plum">Plum Purple</option>
+              <option value="theme-darkgreen">Dark Green</option>
+              <option value="theme-orange">Vibrant Orange</option>
+              <option value="theme-maroon">Deep Maroon</option>
+              <option value="theme-beige">Warm Beige</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs text-slate-400 block mb-1">Font Style</label>
+            <select id="selectFont" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white">
+              <optgroup label="Girly / Chic Fonts">
+                <option value="font-quicksand">Quicksand (Cute & Soft)</option>
+                <option value="font-pacifico">Pacifico (Fun Script)</option>
+                <option value="font-greatvibes">Great Vibes (Calligraphy)</option>
+                <option value="font-playfair">Playfair (Elegant Chic)</option>
+                <option value="font-caveat">Caveat (Handwritten)</option>
+              </optgroup>
+              <optgroup label="Men / Bold Fonts">
+                <option value="font-montserrat">Montserrat (Modern Bold)</option>
+                <option value="font-oswald">Oswald (Strong Condensed)</option>
+                <option value="font-robotomono">Roboto Mono (Tech Clean)</option>
+                <option value="font-anton">Anton (Heavy Impact)</option>
+                <option value="font-cinzel">Cinzel (Executive Serif)</option>
+              </optgroup>
+              <optgroup label="Standard">
+                <option value="font-inter">Inter (Clean Modern)</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+
+        <!-- Image Uploads -->
         <div>
-          <label class="block mb-1 text-gray-300 font-medium">Full Name</label>
-          <input type="text" id="editName" placeholder="e.g. Juan Dela Cruz" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
+          <label class="text-xs text-slate-400">Profile Photo (Upload File)</label>
+          <input type="file" id="fileAvatar" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-slate-700 file:text-xs file:text-white">
         </div>
 
         <div>
-          <label class="block mb-1 text-gray-300 font-medium">Job Title</label>
-          <input type="text" id="editTitle" placeholder="e.g. Sales Director / Manager" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
+          <label class="text-xs text-slate-400">Cover Photo (Upload File)</label>
+          <input type="file" id="fileCover" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-slate-700 file:text-xs file:text-white">
         </div>
 
+        <hr class="border-slate-800">
+
+        <!-- Info Inputs -->
         <div>
-          <label class="block mb-1 text-gray-300 font-medium">Company Name</label>
-          <input type="text" id="editCompany" placeholder="e.g. Company Name" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
+          <label class="text-xs text-slate-400">Full Name</label>
+          <input type="text" id="inputName" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400">Title / Occupation</label>
+          <input type="text" id="inputTitle" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400">Bio</label>
+          <input type="text" id="inputBio" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400">Phone</label>
+          <input type="text" id="inputPhone" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400">Email</label>
+          <input type="email" id="inputEmail" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400">Website URL</label>
+          <input type="text" id="inputWebsite" placeholder="e.g. google.com" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
         </div>
 
-        <div>
-          <label class="block mb-1 text-gray-300 font-medium">Primary Phone</label>
-          <input type="text" id="editPhone1" placeholder="e.g. +63 917 000 0000" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
-        </div>
+        <hr class="border-slate-800">
+        <p class="text-xs font-semibold text-slate-300">Social Media Links</p>
 
         <div>
-          <label class="block mb-1 text-gray-300 font-medium">Secondary Phone / Mobile</label>
-          <input type="text" id="editPhone2" placeholder="e.g. +63 918 000 0000" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
+          <label class="text-xs text-slate-400">Facebook URL</label>
+          <input type="text" id="inputFacebook" placeholder="facebook.com/yourprofile" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
         </div>
-
         <div>
-          <label class="block mb-1 text-gray-300 font-medium">WhatsApp Number / Link</label>
-          <input type="text" id="editWhatsapp" placeholder="e.g. +63 917 000 0000" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
+          <label class="text-xs text-slate-400">Instagram URL</label>
+          <input type="text" id="inputInstagram" placeholder="instagram.com/yourhandle" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
         </div>
-
         <div>
-          <label class="block mb-1 text-gray-300 font-medium">WeChat ID</label>
-          <input type="text" id="editWechat" placeholder="e.g. wxid_12345" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
+          <label class="text-xs text-slate-400">WhatsApp Number or Link</label>
+          <input type="text" id="inputWhatsapp" placeholder="+1234567890" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
         </div>
-
         <div>
-          <label class="block mb-1 text-gray-300 font-medium">Email Address</label>
-          <input type="email" id="editEmail" placeholder="e.g. juan@domain.com" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
-        </div>
-
-        <div>
-          <label class="block mb-1 text-gray-300 font-medium">Facebook Profile / Page Link</label>
-          <input type="text" id="editFacebook" placeholder="e.g. facebook.com/yourprofile" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
-        </div>
-
-        <div>
-          <label class="block mb-1 text-gray-300 font-medium">Instagram Profile Link</label>
-          <input type="text" id="editInstagram" placeholder="e.g. instagram.com/yourusername" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
-        </div>
-
-        <div>
-          <label class="block mb-1 text-gray-300 font-medium">LinkedIn URL</label>
-          <input type="text" id="editLinkedin" placeholder="e.g. linkedin.com/in/yourprofile" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
-        </div>
-
-        <div>
-          <label class="block mb-1 text-gray-300 font-medium">Header / Cover Banner Image URL</label>
-          <input type="text" id="editBanner" placeholder="Paste Header Image Link" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
-        </div>
-
-        <div>
-          <label class="block mb-1 text-gray-300 font-medium">Profile Photo URL</label>
-          <input type="text" id="editPhoto" placeholder="Paste Profile Image Link" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
-        </div>
-
-        <div>
-          <label class="block mb-1 text-gray-300 font-medium">Font Style</label>
-          <select id="editFont" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
-            <optgroup label="✨ Girly & Elegant Styles">
-              <option value="font-playfair">🌸 Playfair Display</option>
-              <option value="font-greatvibes">💖 Great Vibes</option>
-              <option value="font-poppins">🎀 Poppins</option>
-              <option value="font-sacramento">👑 Sacramento</option>
-              <option value="font-cinzel">✨ Cinzel</option>
-            </optgroup>
-            <optgroup label="💼 Men & Bold Styles">
-              <option value="font-montserrat">🕶️ Montserrat</option>
-              <option value="font-oswald">⚡ Oswald</option>
-              <option value="font-bebas">🔥 Bebas Neue</option>
-              <option value="font-robotoslab">🪵 Roboto Slab</option>
-              <option value="font-inter" selected>👔 Inter</option>
-            </optgroup>
-          </select>
-        </div>
-
-        <div>
-          <label class="block mb-1 text-gray-300 font-medium">New Security PIN (Optional)</label>
-          <input type="password" id="editPin" placeholder="Default: 1234" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-2.5 text-white">
+          <label class="text-xs text-slate-400">WeChat ID or Link</label>
+          <input type="text" id="inputWechat" placeholder="Your WeChat ID" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
         </div>
       </div>
 
-      <div class="pt-2 flex gap-2">
-        <button onclick="closeEditModal()" class="w-1/2 py-2.5 bg-gray-700 rounded-xl font-medium">Cancel</button>
-        <button onclick="saveCardData()" id="saveBtn" class="w-1/2 py-2.5 bg-blue-600 rounded-xl font-medium">Save Changes</button>
+      <div class="pt-2 flex justify-end gap-2">
+        <button onclick="toggleModal(false)" class="px-4 py-2 text-xs font-semibold text-slate-400 hover:text-white">Cancel</button>
+        <button id="saveBtn" onclick="saveProfile()" class="px-4 py-2 btn-accent text-slate-950 text-xs font-bold rounded-lg shadow">Save Changes</button>
       </div>
-
     </div>
   </div>
 
   <script>
-    const SUPABASE_URL = "https://rehsynbkacvjttjedlxr.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_PjdxXTNrQ6sDsC7zZ9UFNA_127f9KMG";
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const defaultData = {
+      name: 'Alex Rivera',
+      title: 'Creative Director & Web Developer',
+      bio: 'Building sleek digital experiences & web solutions.',
+      phone: '+1 (234) 567-890',
+      email: 'alex@example.com',
+      website: 'https://example.com',
+      facebook: 'https://facebook.com',
+      instagram: 'https://instagram.com',
+      whatsapp: '+1234567890',
+      wechat: 'wechat_id',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400',
+      cover: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800',
+      theme: 'theme-skyblue',
+      font: 'font-inter'
+    };
 
-    let cardRecordId = null;
-    let currentPin = "1234";
-
-    // Helper Function para maiwasan ang 404 Not Found sa External Links
-    function formatUrl(url) {
-      if (!url) return '#';
+    // Helper: Auto-formats URLs so they don't break/404 on external links
+    function fixUrl(url) {
+      if (!url || url.trim() === '') return '#';
       let cleanUrl = url.trim();
       if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {
-        return 'https://' + cleanUrl;
+        cleanUrl = 'https://' + cleanUrl;
       }
       return cleanUrl;
     }
 
-    async function fetchCardData() {
-      const { data } = await supabase.from('cards').select('*').limit(1);
+    function loadProfile() {
+      const data = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
+      
+      document.getElementById('displayName').innerText = data.name;
+      document.getElementById('displayTitle').innerText = data.title;
+      document.getElementById('displayBio').innerText = data.bio;
+      document.getElementById('displayPhone').innerText = data.phone;
+      document.getElementById('displayEmail').innerText = data.email;
+      document.getElementById('displayWebsite').innerText = data.website || 'https://example.com';
+      document.getElementById('avatarImg').src = data.avatar;
+      document.getElementById('coverImg').src = data.cover || defaultData.cover;
 
-      if (data && data.length > 0) {
-        const card = data[0];
-        cardRecordId = card.id;
-        currentPin = card.pin || "1234";
-        const links = card.social_links || {};
+      document.getElementById('linkPhone').href = 'tel:' + data.phone;
+      document.getElementById('linkEmail').href = 'mailto:' + data.email;
+      document.getElementById('linkWebsite').href = fixUrl(data.website);
 
-        document.getElementById('name').innerText = card.full_name || 'Your Name';
-        document.getElementById('jobTitle').innerText = links.title || 'Business Title / Position';
-        
-        document.getElementById('textCompany').innerText = links.company || 'Your Company';
-        document.getElementById('linkPhone1').innerText = card.phone || '+63 917 000 0000';
-        document.getElementById('linkPhone1').href = 'tel:' + (card.phone || '');
-        
-        document.getElementById('linkPhone2').innerText = links.phone2 || '+63 918 000 0000';
-        document.getElementById('linkPhone2').href = 'tel:' + (links.phone2 || '');
+      // Social Links Setup
+      document.getElementById('linkFacebook').href = fixUrl(data.facebook);
+      document.getElementById('linkInstagram').href = fixUrl(data.instagram);
 
-        document.getElementById('linkWhatsapp').innerText = (links.whatsapp || '+63 917 000 0000') + ' (whatsapp)';
-        document.getElementById('linkWhatsapp').href = 'https://wa.me/' + (links.whatsapp || '').replace(/[^0-9]/g, '');
-
-        document.getElementById('textWechat').innerText = 'WeChat: ' + (links.wechat || 'Not set');
-
-        document.getElementById('linkEmail').innerText = links.email || 'yourname@email.com';
-        document.getElementById('linkEmail').href = 'mailto:' + (links.email || '');
-
-        // Formatted Links para hindi mag-404 Not Found
-        document.getElementById('linkFacebook').href = formatUrl(links.facebook);
-        document.getElementById('linkInstagram').href = formatUrl(links.instagram);
-        document.getElementById('linkLinkedin').href = formatUrl(links.linkedin);
-
-        // Apply Font
-        const selectedFont = links.font || 'font-inter';
-        document.getElementById('name').className = `text-3xl font-bold tracking-tight ${selectedFont}`;
-
-        // Header Banner
-        if (links.banner) {
-          document.getElementById('bannerImg').src = links.banner;
-          document.getElementById('bannerImg').classList.remove('hidden');
-        }
-
-        // Profile Photo
-        if (links.photo) {
-          document.getElementById('avatarImg').src = links.photo;
-          document.getElementById('avatarImg').classList.remove('hidden');
-          document.getElementById('avatarInitials').classList.add('hidden');
-        } else {
-          const initials = (card.full_name || 'YN').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-          document.getElementById('avatarInitials').innerText = initials;
-          document.getElementById('avatarImg').classList.add('hidden');
-          document.getElementById('avatarInitials').classList.remove('hidden');
-        }
-
-        // Populate Form
-        document.getElementById('editName').value = card.full_name || '';
-        document.getElementById('editTitle').value = links.title || '';
-        document.getElementById('editCompany').value = links.company || '';
-        document.getElementById('editPhone1').value = card.phone || '';
-        document.getElementById('editPhone2').value = links.phone2 || '';
-        document.getElementById('editWhatsapp').value = links.whatsapp || '';
-        document.getElementById('editWechat').value = links.wechat || '';
-        document.getElementById('editEmail').value = links.email || '';
-        document.getElementById('editFacebook').value = links.facebook || '';
-        document.getElementById('editInstagram').value = links.instagram || '';
-        document.getElementById('editLinkedin').value = links.linkedin || '';
-        document.getElementById('editBanner').value = links.banner || '';
-        document.getElementById('editPhoto').value = links.photo || '';
-        document.getElementById('editFont').value = selectedFont;
-      }
-    }
-
-    function triggerEditProcess() {
-      document.getElementById('pinInput').value = '';
-      document.getElementById('pinModal').classList.remove('hidden');
-      document.getElementById('pinModal').classList.add('flex');
-    }
-
-    function closePinModal() {
-      document.getElementById('pinModal').classList.add('hidden');
-      document.getElementById('pinModal').classList.remove('flex');
-    }
-
-    function verifyPin() {
-      const entered = document.getElementById('pinInput').value;
-      if (entered === currentPin || entered === "1234") {
-        closePinModal();
-        document.getElementById('editModal').classList.remove('hidden');
-        document.getElementById('editModal').classList.add('flex');
+      // WhatsApp Handler
+      if (data.whatsapp) {
+        const cleanWa = data.whatsapp.replace(/[^0-9]/g, '');
+        document.getElementById('linkWhatsapp').href = cleanWa ? `https://wa.me/${cleanWa}` : fixUrl(data.whatsapp);
       } else {
-        alert("Incorrect PIN!");
+        document.getElementById('linkWhatsapp').href = '#';
+      }
+
+      // WeChat Handler
+      if (data.wechat) {
+        document.getElementById('linkWechat').href = data.wechat.startsWith('http') ? data.wechat : `weixin://dl/chat?${data.wechat}`;
+      } else {
+        document.getElementById('linkWechat').href = '#';
+      }
+
+      // Apply Theme & Font
+      const body = document.getElementById('bodyTag');
+      body.className = `${data.theme || 'theme-skyblue'} ${data.font || 'font-inter'} text-slate-100 min-h-screen flex flex-col justify-center items-center p-4 transition-colors duration-300`;
+    }
+
+    function toggleModal(show) {
+      const modal = document.getElementById('editModal');
+      if (show) {
+        const data = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
+        document.getElementById('inputName').value = data.name;
+        document.getElementById('inputTitle').value = data.title;
+        document.getElementById('inputBio').value = data.bio;
+        document.getElementById('inputPhone').value = data.phone;
+        document.getElementById('inputEmail').value = data.email;
+        document.getElementById('inputWebsite').value = data.website || '';
+        document.getElementById('inputFacebook').value = data.facebook || '';
+        document.getElementById('inputInstagram').value = data.instagram || '';
+        document.getElementById('inputWhatsapp').value = data.whatsapp || '';
+        document.getElementById('inputWechat').value = data.wechat || '';
+        document.getElementById('selectTheme').value = data.theme || 'theme-skyblue';
+        document.getElementById('selectFont').value = data.font || 'font-inter';
+        
+        document.getElementById('fileAvatar').value = '';
+        document.getElementById('fileCover').value = '';
+
+        modal.classList.remove('hidden');
+      } else {
+        modal.classList.add('hidden');
       }
     }
 
-    function closeEditModal() {
-      document.getElementById('editModal').classList.add('hidden');
-      document.getElementById('editModal').classList.remove('flex');
+    function compressImage(file, maxWidth = 500, quality = 0.75) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+          const img = new Image();
+          img.src = event.target.result;
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            let width = img.width;
+            let height = img.height;
+
+            if (width > maxWidth) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.onerror = (err) => reject(err);
+        };
+        reader.onerror = (err) => reject(err);
+      });
     }
 
-    async function saveCardData() {
-      const name = document.getElementById('editName').value;
-      const title = document.getElementById('editTitle').value;
-      const company = document.getElementById('editCompany').value;
-      const phone1 = document.getElementById('editPhone1').value;
-      const phone2 = document.getElementById('editPhone2').value;
-      const whatsapp = document.getElementById('editWhatsapp').value;
-      const wechat = document.getElementById('editWechat').value;
-      const email = document.getElementById('editEmail').value;
-      const facebook = document.getElementById('editFacebook').value;
-      const instagram = document.getElementById('editInstagram').value;
-      const linkedin = document.getElementById('editLinkedin').value;
-      const banner = document.getElementById('editBanner').value;
-      const photo = document.getElementById('editPhoto').value;
-      const font = document.getElementById('editFont').value;
-      const pin = document.getElementById('editPin').value || currentPin;
-
+    async function saveProfile() {
       const saveBtn = document.getElementById('saveBtn');
-      saveBtn.innerText = "Saving...";
+      saveBtn.innerText = 'Saving...';
       saveBtn.disabled = true;
 
-      const payload = {
-        full_name: name,
-        phone: phone1,
-        pin: pin,
-        is_active: true,
-        social_links: { 
-          photo: photo, 
-          banner: banner, 
-          font: font, 
-          title: title, 
-          company: company,
-          phone2: phone2,
-          whatsapp: whatsapp,
-          wechat: wechat,
-          email: email,
-          facebook: facebook,
-          instagram: instagram,
-          linkedin: linkedin
+      try {
+        const currentData = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
+
+        const avatarFile = document.getElementById('fileAvatar').files[0];
+        const coverFile = document.getElementById('fileCover').files[0];
+
+        let newAvatar = currentData.avatar;
+        let newCover = currentData.cover;
+
+        if (avatarFile) {
+          newAvatar = await compressImage(avatarFile, 400, 0.8);
         }
-      };
+        if (coverFile) {
+          newCover = await compressImage(coverFile, 800, 0.75);
+        }
 
-      let res;
-      if (cardRecordId) {
-        res = await supabase.from('cards').update(payload).eq('id', cardRecordId);
-      } else {
-        res = await supabase.from('cards').insert([payload]);
+        const updatedData = {
+          name: document.getElementById('inputName').value,
+          title: document.getElementById('inputTitle').value,
+          bio: document.getElementById('inputBio').value,
+          phone: document.getElementById('inputPhone').value,
+          email: document.getElementById('inputEmail').value,
+          website: document.getElementById('inputWebsite').value,
+          facebook: document.getElementById('inputFacebook').value,
+          instagram: document.getElementById('inputInstagram').value,
+          whatsapp: document.getElementById('inputWhatsapp').value,
+          wechat: document.getElementById('inputWechat').value,
+          avatar: newAvatar,
+          cover: newCover,
+          theme: document.getElementById('selectTheme').value,
+          font: document.getElementById('selectFont').value
+        };
+
+        localStorage.setItem('nfcCardData', JSON.stringify(updatedData));
+        loadProfile();
+        toggleModal(false);
+      } catch (err) {
+        alert('An error occurred while saving. Please try again!');
+        console.error(err);
+      } finally {
+        saveBtn.innerText = 'Save Changes';
+        saveBtn.disabled = false;
       }
-
-      if (res.error) {
-        alert("Error saving: " + res.error.message);
-      } else {
-        alert("Card updated successfully!");
-        closeEditModal();
-        fetchCardData();
-      }
-
-      saveBtn.innerText = "Save Changes";
-      saveBtn.disabled = false;
     }
 
     function downloadVCard() {
-      const name = document.getElementById('name').innerText;
-      const phone = document.getElementById('linkPhone1').innerText;
-      const email = document.getElementById('linkEmail').innerText;
-      const vcardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nTEL:${phone}\nEMAIL:${email}\nEND:VCARD`;
-      const blob = new Blob([vcardData], { type: 'text/vcard' });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${name}.vcf`;
-      a.click();
+      const data = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
+      const vcardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${data.name}\nTITLE:${data.title}\nTEL;TYPE=CELL:${data.phone}\nEMAIL:${data.email}\nURL:${fixUrl(data.website)}\nEND:VCARD`;
+
+      const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `${data.name.replace(/\s+/g, '_')}_contact.vcf`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
 
-    function shareCard() {
+    async function shareCard() {
+      const data = JSON.parse(localStorage.getItem('nfcCardData')) || defaultData;
       if (navigator.share) {
-        navigator.share({ title: document.title, url: window.location.href });
+        try {
+          await navigator.share({
+            title: data.name,
+            text: `${data.name} - ${data.title}`,
+            url: window.location.href
+          });
+        } catch (err) {}
       } else {
         navigator.clipboard.writeText(window.location.href);
         alert('Link copied to clipboard!');
       }
     }
 
-    fetchCardData();
+    loadProfile();
   </script>
 </body>
 </html>
