@@ -724,7 +724,10 @@
       document.getElementById('displayName').innerText = data.full_name || data.name || 'Card Holder';
       
       // RELIABLE OCCUPATION EXTRACTION FROM ANY DB COLUMN
-      const detectedOccupation = data.occupation || data.title || data.job_title || '';
+      const detectedOccupation = (data.title && String(data.title).trim() !== '') ? data.title :
+                                 (data.occupation && String(data.occupation).trim() !== '') ? data.occupation :
+                                 (data.job_title && String(data.job_title).trim() !== '') ? data.job_title : '';
+                                 
       document.getElementById('displayTitle').innerText = detectedOccupation;
       
       document.getElementById('displayBio').innerText = data.bio || '';
@@ -854,9 +857,9 @@
       if (enteredCode === MASTER_RECOVERY_CODE) {
         try {
           const updateObj = {};
-          if (rawDbKeys.length === 0 || rawDbKeys.includes('pin')) updateObj.pin = '1234';
-          if (rawDbKeys.length === 0 || rawDbKeys.includes('passcode')) updateObj.passcode = '1234';
-          if (rawDbKeys.length === 0 || rawDbKeys.includes('enable_pin')) updateObj.enable_pin = true;
+          if (rawDbKeys.includes('pin')) updateObj.pin = '1234';
+          if (rawDbKeys.includes('passcode')) updateObj.passcode = '1234';
+          if (rawDbKeys.includes('enable_pin')) updateObj.enable_pin = true;
 
           if (Object.keys(updateObj).length > 0) {
             await _supabase.from('cards').update(updateObj).eq('id', currentCard.id);
@@ -889,7 +892,12 @@
         handlePinToggleChange();
 
         document.getElementById('inputName').value = currentCard.full_name || currentCard.name || '';
-        document.getElementById('inputTitle').value = currentCard.occupation || currentCard.title || currentCard.job_title || '';
+        
+        const existingOcc = (currentCard.title && String(currentCard.title).trim() !== '') ? currentCard.title :
+                            (currentCard.occupation && String(currentCard.occupation).trim() !== '') ? currentCard.occupation :
+                            (currentCard.job_title && String(currentCard.job_title).trim() !== '') ? currentCard.job_title : '';
+        document.getElementById('inputTitle').value = existingOcc;
+
         document.getElementById('inputBio').value = currentCard.bio || '';
         document.getElementById('inputPhone').value = currentCard.phone || '';
         document.getElementById('inputEmail').value = currentCard.email || '';
@@ -990,46 +998,50 @@
 
         const updatePayload = {};
 
-        // Helper function that writes to payload if key exists or by default
-        const writeKeys = (keys, val) => {
-          keys.forEach(k => {
-            if (rawDbKeys.length === 0 || rawDbKeys.includes(k)) {
-              updatePayload[k] = val;
-            }
-          });
+        // SAFE STRICT KEY WRITER (PREVENTS SUPABASE INVALID COLUMN ERRORS)
+        const writeSafeKey = (colName, val) => {
+          if (rawDbKeys.includes(colName)) {
+            updatePayload[colName] = val;
+          }
         };
 
-        writeKeys(['full_name', 'name'], document.getElementById('inputName').value);
+        writeSafeKey('full_name', document.getElementById('inputName').value);
+        writeSafeKey('name', document.getElementById('inputName').value);
 
-        // GUARANTEED MULTI-KEY SAVE FOR OCCUPATION/TITLE ACROSS ALL CARDS
+        // OCCUPATION / TITLE MULTI-COLUMN SAFE WRITE
         const titleValue = document.getElementById('inputTitle').value;
-        writeKeys(['title', 'job_title', 'occupation'], titleValue);
+        writeSafeKey('title', titleValue);
+        writeSafeKey('job_title', titleValue);
+        writeSafeKey('occupation', titleValue);
 
-        // GUARANTEED BOTH PIN & PASSCODE KEYS UPDATED SYNCHRONOUSLY
-        writeKeys(['pin', 'passcode'], dbPinValue);
-        writeKeys(['enable_pin'], pinEnabled);
+        // PIN & PASSCODE SAFE WRITE
+        writeSafeKey('pin', dbPinValue);
+        writeSafeKey('passcode', dbPinValue);
+        writeSafeKey('enable_pin', pinEnabled);
 
-        // AUTOMATIC CARD STATUS UPDATE
-        writeKeys(['status'], 'claimed');
+        // CARD STATUS
+        writeSafeKey('status', 'claimed');
 
-        // COVER POSITION SAVE
-        writeKeys(['cover_position', 'coverPosition'], coverPosVal);
+        // COVER POSITION
+        writeSafeKey('cover_position', coverPosVal);
+        writeSafeKey('coverPosition', coverPosVal);
 
-        writeKeys(['custom_color', 'customColor'], document.getElementById('inputCustomColor').value);
+        writeSafeKey('custom_color', document.getElementById('inputCustomColor').value);
+        writeSafeKey('customColor', document.getElementById('inputCustomColor').value);
 
-        writeKeys(['bio'], document.getElementById('inputBio').value);
-        writeKeys(['phone'], document.getElementById('inputPhone').value);
-        writeKeys(['email'], document.getElementById('inputEmail').value);
-        writeKeys(['website'], document.getElementById('inputWebsite').value);
-        writeKeys(['facebook'], document.getElementById('inputFacebook').value);
-        writeKeys(['instagram'], document.getElementById('inputInstagram').value);
-        writeKeys(['whatsapp'], document.getElementById('inputWhatsapp').value);
-        writeKeys(['wechat'], newWechatQr);
+        writeSafeKey('bio', document.getElementById('inputBio').value);
+        writeSafeKey('phone', document.getElementById('inputPhone').value);
+        writeSafeKey('email', document.getElementById('inputEmail').value);
+        writeSafeKey('website', document.getElementById('inputWebsite').value);
+        writeSafeKey('facebook', document.getElementById('inputFacebook').value);
+        writeSafeKey('instagram', document.getElementById('inputInstagram').value);
+        writeSafeKey('whatsapp', document.getElementById('inputWhatsapp').value);
+        writeSafeKey('wechat', newWechatQr);
         
-        writeKeys(['avatar'], newAvatar);
-        writeKeys(['cover'], newCover);
-        writeKeys(['theme'], document.getElementById('selectTheme').value);
-        writeKeys(['font'], document.getElementById('selectFont').value);
+        writeSafeKey('avatar', newAvatar);
+        writeSafeKey('cover', newCover);
+        writeSafeKey('theme', document.getElementById('selectTheme').value);
+        writeSafeKey('font', document.getElementById('selectFont').value);
 
         const { error } = await _supabase
           .from('cards')
@@ -1038,7 +1050,7 @@
 
         if (error) throw error;
 
-        // UPDATE LOCAL MEMORY SAFELY WITH DUAL-KEY SYNC
+        // UPDATE LOCAL MEMORY SAFELY
         currentCard.title = titleValue;
         currentCard.job_title = titleValue;
         currentCard.occupation = titleValue;
@@ -1067,7 +1079,7 @@
     function downloadVCard() {
       if (!currentCard) return;
       const name = currentCard.full_name || currentCard.name || 'Contact';
-      const title = currentCard.occupation || currentCard.title || currentCard.job_title || '';
+      const title = currentCard.title || currentCard.occupation || currentCard.job_title || '';
       const vcardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nTITLE:${title}\nTEL;TYPE=CELL:${currentCard.phone || ''}\nEMAIL:${currentCard.email || ''}\nURL:${fixUrl(currentCard.website)}\nEND:VCARD`;
 
       const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8;' });
@@ -1089,7 +1101,7 @@
         try {
           await navigator.share({
             title: currentCard?.full_name || currentCard?.name || 'Digital Card',
-            text: `${currentCard?.full_name || currentCard?.name || 'Digital Card'} - ${currentCard?.occupation || currentCard?.title || ''}`,
+            text: `${currentCard?.full_name || currentCard?.name || 'Digital Card'} - ${currentCard?.title || currentCard?.occupation || ''}`,
             url: shareUrl
           });
         } catch (err) {}
