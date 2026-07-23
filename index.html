@@ -57,31 +57,31 @@
     .theme-maroon { --bg-body: #1a0505; --bg-card: #2e0d0d; --text-main: #fef2f2; --text-sub: #fca5a5; --accent-btn: #dc2626; --accent-text: #ffffff; --sec-btn-bg: #451a1a; --sec-btn-text: #ffffff; --card-border: #451a1a; --blob-1: #451a1a; --blob-2: #7f1d1d; --blob-3: #341212; --blob-4: #991b1b; --icon-bg: #451a1a; --icon-color: #ffffff; --header-glow: rgba(220, 38, 38, 0.25); }
 
     html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
-    body { background-color: var(--bg-body); color: var(--text-main); display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; transition: background-color 0.5s ease, color 0.5s ease; }
+    body { background-color: var(--bg-body); color: var(--text-main); display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
     
-    /* SMOOTH CARD ANIMATIONS */
-    .card-bg { background-color: var(--bg-card); border-color: var(--card-border); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-    .btn-save { background-color: var(--accent-btn); color: var(--accent-text) !important; transition: all 0.3s ease; }
-    .btn-save:hover { filter: brightness(0.95); transform: translateY(-1px); }
-    .btn-share { background-color: var(--sec-btn-bg); color: var(--sec-btn-text) !important; transition: all 0.3s ease; }
-    .btn-share:hover { filter: brightness(0.95); transform: translateY(-1px); }
-    .text-accent { color: var(--accent-btn); transition: color 0.5s ease; }
-    .text-sub { color: var(--text-sub); transition: color 0.5s ease; }
-    .text-main { color: var(--text-main); transition: color 0.5s ease; }
-    .icon-box { background-color: var(--icon-bg); color: var(--icon-color); transition: all 0.5s ease; }
+    /* SMOOTH COLOR APPLIER (NO BLACK FLICKER) */
+    .card-bg { background-color: var(--bg-card); border-color: var(--card-border); }
+    .btn-save { background-color: var(--accent-btn); color: var(--accent-text) !important; }
+    .btn-save:hover { filter: brightness(0.95); }
+    .btn-share { background-color: var(--sec-btn-bg); color: var(--sec-btn-text) !important; }
+    .btn-share:hover { filter: brightness(0.95); }
+    .text-accent { color: var(--accent-btn); }
+    .text-sub { color: var(--text-sub); }
+    .text-main { color: var(--text-main); }
+    .icon-box { background-color: var(--icon-bg); color: var(--icon-color); }
 
     .modal-btn-accent { background-color: var(--accent-btn); color: var(--accent-text); }
     .modal-btn-accent:hover { filter: brightness(0.92); }
     .modal-icon-bg { background-color: var(--icon-bg); color: var(--accent-btn); border-color: var(--card-border); }
 
     /* HEADER STYLING ACCENTS */
-    .header-wave { fill: var(--bg-card); transition: fill 0.5s ease; }
-    .header-circle-1 { position: absolute; width: 110px; height: 110px; border-radius: 50%; background: var(--header-glow); filter: blur(20px); top: -20px; left: -20px; pointer-events: none; transition: background 0.5s ease; }
-    .header-circle-2 { position: absolute; width: 90px; height: 90px; border-radius: 50%; background: var(--header-glow); filter: blur(15px); bottom: 10px; right: 20px; pointer-events: none; transition: background 0.5s ease; }
+    .header-wave { fill: var(--bg-card); }
+    .header-circle-1 { position: absolute; width: 110px; height: 110px; border-radius: 50%; background: var(--header-glow); filter: blur(20px); top: -20px; left: -20px; pointer-events: none; }
+    .header-circle-2 { position: absolute; width: 90px; height: 90px; border-radius: 50%; background: var(--header-glow); filter: blur(15px); bottom: 10px; right: 20px; pointer-events: none; }
 
     /* ELEGANT ORGANIC BACKGROUND BLOBS */
     .blob-wrapper { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
-    .blob { position: absolute; filter: blur(65px); opacity: 0.55; border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transition: background-color 0.8s ease; }
+    .blob { position: absolute; filter: blur(65px); opacity: 0.55; border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
     
     .blob-1 { background-color: var(--blob-1); width: 360px; height: 360px; top: -100px; left: -90px; animation: float1 10s infinite alternate ease-in-out; }
     .blob-2 { background-color: var(--blob-2); width: 340px; height: 340px; bottom: -90px; right: -90px; animation: float2 12s infinite alternate ease-in-out; }
@@ -93,10 +93,10 @@
     @keyframes float3 { 0% { transform: translate(0, 0) rotate(0deg) scale(1); } 100% { transform: translate(-30px, 40px) rotate(25deg) scale(1.2); } }
   </style>
 </head>
-<body id="bodyTag" class="theme-pink font-whiteangelica p-4 transition-colors duration-500 relative">
+<body id="bodyTag" class="theme-pink font-whiteangelica p-4 relative">
 
   <!-- ELEGANT CUSTOM TOAST NOTIFICATION -->
-  <div id="toastNotification" class="fixed top-5 left-1/2 -translate-x-1/2 z-[100] hidden transition-all duration-500 ease-out transform -translate-y-10 opacity-0">
+  <div id="toastNotification" class="fixed top-5 left-1/2 -translate-x-1/2 z-[100] hidden transition-all duration-300 ease-out transform -translate-y-10 opacity-0">
     <div class="bg-slate-900/90 backdrop-blur-md text-white border border-slate-700/60 px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3">
       <div id="toastIcon" class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm">
         <i class="fa-solid fa-check"></i>
@@ -116,10 +116,10 @@
     <div class="blob blob-4"></div>
   </div>
 
-  <div class="w-full max-w-md card-bg border rounded-3xl shadow-xl overflow-hidden relative z-10 transition-colors duration-300 mx-auto">
+  <div class="w-full max-w-md card-bg border rounded-3xl shadow-xl overflow-hidden relative z-10 mx-auto">
     <!-- STYLED HEADER BANNER -->
     <div class="h-40 relative bg-slate-200 dark:bg-slate-800 overflow-hidden">
-      <img id="coverImg" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800" alt="Cover" class="w-full h-full object-cover opacity-90 transition-opacity duration-300" crossorigin="anonymous">
+      <img id="coverImg" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800" alt="Cover" class="w-full h-full object-cover opacity-90" crossorigin="anonymous">
       
       <!-- Glowing Mood Accents on Banner -->
       <div class="header-circle-1"></div>
@@ -139,26 +139,34 @@
       </div>
     </div>
 
-    <!-- LOADING SPINNER / CONTAINER -->
-    <div id="loadingBox" class="p-8 text-center font-bold text-gray-500">
-      Loading digital card...
+    <!-- ELEGANT SKELETON LOADER (INSTEAD OF SMALL TEXT BOX) -->
+    <div id="loadingBox" class="px-6 pb-6 relative text-center animate-pulse">
+      <div class="relative -mt-16 mb-4 inline-block z-20">
+        <div class="w-28 h-28 rounded-full border-4 border-white shadow-lg mx-auto bg-slate-300 dark:bg-slate-700"></div>
+      </div>
+      <div class="h-6 w-40 bg-slate-300 dark:bg-slate-700 rounded-lg mx-auto mb-2"></div>
+      <div class="h-4 w-28 bg-slate-200 dark:bg-slate-800 rounded-lg mx-auto mb-6"></div>
+      <div class="space-y-3">
+        <div class="h-12 bg-slate-200 dark:bg-slate-800 rounded-2xl w-full"></div>
+        <div class="h-12 bg-slate-200 dark:bg-slate-800 rounded-2xl w-full"></div>
+      </div>
     </div>
 
     <div id="cardContent" class="px-6 pb-6 relative text-center hidden">
       <div class="relative -mt-16 mb-4 inline-block z-20">
-        <img id="avatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400" alt="Avatar" class="w-28 h-28 rounded-full border-4 border-white shadow-lg mx-auto object-cover transition-all duration-300" crossorigin="anonymous">
+        <img id="avatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400" alt="Avatar" class="w-28 h-28 rounded-full border-4 border-white shadow-lg mx-auto object-cover" crossorigin="anonymous">
       </div>
 
-      <h1 id="displayName" class="text-2xl font-bold text-main">Loading...</h1>
+      <h1 id="displayName" class="text-2xl font-bold text-main">---</h1>
       <p id="displayTitle" class="text-sm font-semibold text-sub mt-1">---</p>
       <p id="displayBio" class="text-xs text-sub opacity-90 mt-2 px-4">---</p>
 
       <div class="grid grid-cols-2 gap-3 mt-6">
-        <button onclick="downloadVCard()" class="btn-save flex items-center justify-center gap-2 font-bold py-2.5 px-4 rounded-xl shadow-md transition-all active:scale-95 text-sm">
+        <button onclick="downloadVCard()" class="btn-save flex items-center justify-center gap-2 font-bold py-2.5 px-4 rounded-xl shadow-md transition-transform active:scale-95 text-sm">
           <i class="fa-solid fa-user-plus"></i>
           <span>Save Contact</span>
         </button>
-        <button onclick="shareCard()" class="btn-share flex items-center justify-center gap-2 font-semibold py-2.5 px-4 rounded-xl transition-all active:scale-95 text-sm shadow-sm">
+        <button onclick="shareCard()" class="btn-share flex items-center justify-center gap-2 font-semibold py-2.5 px-4 rounded-xl transition-transform active:scale-95 text-sm shadow-sm">
           <i class="fa-solid fa-share-nodes"></i>
           <span>Share</span>
         </button>
@@ -219,7 +227,7 @@
   </div>
 
   <!-- PASSCODE MODAL -->
-  <div id="passcodeModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden flex justify-center items-center p-4 z-[60] transition-opacity duration-300">
+  <div id="passcodeModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden flex justify-center items-center p-4 z-[60]">
     <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-xs rounded-2xl p-5 shadow-2xl space-y-4 text-center">
       <div class="w-12 h-12 modal-icon-bg rounded-full flex items-center justify-center mx-auto text-xl border">
         <i class="fa-solid fa-lock"></i>
@@ -245,7 +253,7 @@
   </div>
 
   <!-- RECOVERY / FORGOT PASSCODE MODAL -->
-  <div id="recoveryModal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden flex justify-center items-center p-4 z-[70] transition-opacity duration-300">
+  <div id="recoveryModal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden flex justify-center items-center p-4 z-[70]">
     <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-xs rounded-2xl p-5 shadow-2xl space-y-4 text-center">
       <div class="w-12 h-12 modal-icon-bg rounded-full flex items-center justify-center mx-auto text-xl border">
         <i class="fa-solid fa-key"></i>
@@ -268,7 +276,7 @@
   </div>
 
   <!-- EDIT PROFILE MODAL -->
-  <div id="editModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex justify-center items-center p-4 z-50 transition-opacity duration-300">
+  <div id="editModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex justify-center items-center p-4 z-50">
     <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center border-b border-slate-800 pb-3">
         <h3 class="text-lg font-bold text-white">Edit Profile & Style</h3>
@@ -453,8 +461,8 @@
       setTimeout(() => {
         toast.classList.remove('translate-y-0', 'opacity-100');
         toast.classList.add('-translate-y-10', 'opacity-0');
-        setTimeout(() => toast.classList.add('hidden'), 500);
-      }, 3000);
+        setTimeout(() => toast.classList.add('hidden'), 300);
+      }, 2500);
     }
 
     function fixUrl(url) {
@@ -560,13 +568,15 @@
           renderUI(currentCard);
         } else {
           document.getElementById('loadingBox').innerHTML = `
-            <p class="text-red-500 font-bold">Card Not Found!</p>
-            <p class="text-xs text-gray-500 mt-1">Ang ID sa URL ay wala sa database.</p>
+            <div class="py-8 text-center">
+              <p class="text-red-500 font-bold">Card Not Found!</p>
+              <p class="text-xs text-gray-500 mt-1">Ang ID sa URL ay wala sa database.</p>
+            </div>
           `;
         }
       } catch (err) {
         console.error("Load Error:", err);
-        document.getElementById('loadingBox').innerHTML = `<p class="text-red-500 font-bold">Error loading card<br><span class="text-xs font-normal">${err.message}</span></p>`;
+        document.getElementById('loadingBox').innerHTML = `<div class="py-8 text-center text-red-500 font-bold">Error loading card<br><span class="text-xs font-normal">${err.message}</span></div>`;
       }
     }
 
@@ -607,12 +617,13 @@
       const body = document.getElementById('bodyTag');
       const customCol = data.custom_color || data.customColor;
 
+      // INSTANT THEME/FONT SWITCHING WITHOUT BLACK FLICKERING
       if (data.theme === 'theme-custom' && customCol) {
-        body.className = `${data.font || 'font-whiteangelica'} p-4 transition-colors duration-500 relative`;
+        body.className = `${data.font || 'font-whiteangelica'} p-4 relative`;
         applyDynamicCustomColor(customCol);
       } else {
         document.documentElement.removeAttribute('style');
-        body.className = `${data.theme || 'theme-pink'} ${data.font || 'font-whiteangelica'} p-4 transition-colors duration-500 relative`;
+        body.className = `${data.theme || 'theme-pink'} ${data.font || 'font-whiteangelica'} p-4 relative`;
       }
     }
 
