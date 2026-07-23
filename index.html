@@ -179,18 +179,18 @@
         </button>
       </div>
 
+      <!-- DYNAMIC SOCIAL BAR (AUTOMATICALLY HIDES UNSET PLATFORMS) -->
       <div class="flex justify-center items-center gap-4 mt-6" id="socialBar">
-        <a id="linkFacebook" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/50 transition shadow-sm">
+        <a id="linkFacebook" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/50 transition shadow-sm hidden">
           <i class="fa-brands fa-facebook-f text-lg"></i>
         </a>
-        <a id="linkInstagram" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/50 transition shadow-sm">
+        <a id="linkInstagram" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/50 transition shadow-sm hidden">
           <i class="fa-brands fa-instagram text-lg"></i>
         </a>
-        <a id="linkWhatsapp" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/50 transition shadow-sm">
+        <a id="linkWhatsapp" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/50 transition shadow-sm hidden">
           <i class="fa-brands fa-whatsapp text-lg"></i>
         </a>
-        <!-- WECHAT ICON OPENS QR CODE POPUP -->
-        <button id="btnWechat" onclick="openWechatModal()" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/50 transition shadow-sm">
+        <button id="btnWechat" onclick="openWechatModal()" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/50 transition shadow-sm hidden">
           <i class="fa-brands fa-weixin text-lg"></i>
         </button>
       </div>
@@ -317,12 +317,12 @@
           </div>
         </div>
 
-        <!-- Theme Selection & Custom Color Extractor -->
+        <!-- Custom Styled Theme & Font Selectors (In-Modal, No OS Popup) -->
         <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-3">
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label class="text-xs text-slate-400 block mb-1">Color Theme</label>
-              <select id="selectTheme" onchange="handleThemeChange()" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white">
+              <select id="selectTheme" onchange="handleThemeChange()" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white focus:outline-none cursor-pointer">
                 <option value="theme-pink">Pastel Pink (Soft Chic)</option>
                 <option value="theme-plum">Pastel Purple (Soft Chic)</option>
                 <option value="theme-skyblue">Pastel Blue (Fresh)</option>
@@ -338,7 +338,7 @@
             </div>
             <div>
               <label class="text-xs text-slate-400 block mb-1">Font Style</label>
-              <select id="selectFont" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white">
+              <select id="selectFont" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-white focus:outline-none cursor-pointer">
                 <optgroup label="Feminine & Elegant Fonts (10)">
                   <option value="font-greatvibes">Great Vibes (Elegant Script)</option>
                   <option value="font-playfair">Playfair Display (Chic Serif)</option>
@@ -439,11 +439,10 @@
           <input type="text" id="inputWhatsapp" placeholder="+1234567890" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
         </div>
         
-        <!-- WECHAT QR CODE FILE UPLOAD -->
         <div>
           <label class="text-xs text-slate-400">WeChat QR Code (Upload Image File)</label>
           <input type="file" id="fileWechatQr" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-slate-700 file:text-xs file:text-white">
-          <p class="text-[10px] text-slate-400 mt-1">Upload an image of your WeChat QR code so people can scan it.</p>
+          <p class="text-[10px] text-slate-400 mt-1">Upload image of WeChat QR code so people can scan it.</p>
         </div>
       </div>
 
@@ -661,7 +660,7 @@
 
       document.getElementById('displayName').innerText = data.full_name || data.name || 'Card Holder';
       
-      // FIX OCCUPATION DEFAULT: Clean & empty if not specified
+      // Clean Occupation Display
       document.getElementById('displayTitle').innerText = data.title || data.job_title || '';
       
       document.getElementById('displayBio').innerText = data.bio || '';
@@ -676,24 +675,36 @@
       document.getElementById('linkEmail').href = data.email ? 'mailto:' + data.email : '#';
       document.getElementById('linkWebsite').href = fixUrl(data.website);
 
-      document.getElementById('linkFacebook').href = fixUrl(data.facebook);
-      document.getElementById('linkInstagram').href = fixUrl(data.instagram);
+      // DYNAMIC SOCIAL MEDIA VISIBILITY LOGIC
+      const linkFb = document.getElementById('linkFacebook');
+      const linkIg = document.getElementById('linkInstagram');
+      const linkWa = document.getElementById('linkWhatsapp');
+      const btnWechat = document.getElementById('btnWechat');
 
-      if (data.whatsapp) {
+      // Facebook
+      if (data.facebook && data.facebook.trim() !== '') {
+        linkFb.href = fixUrl(data.facebook);
+        linkFb.classList.remove('hidden');
+      } else linkFb.classList.add('hidden');
+
+      // Instagram
+      if (data.instagram && data.instagram.trim() !== '') {
+        linkIg.href = fixUrl(data.instagram);
+        linkIg.classList.remove('hidden');
+      } else linkIg.classList.add('hidden');
+
+      // WhatsApp
+      if (data.whatsapp && data.whatsapp.trim() !== '') {
         const cleanWa = data.whatsapp.replace(/[^0-9]/g, '');
-        document.getElementById('linkWhatsapp').href = cleanWa ? `https://wa.me/${cleanWa}` : fixUrl(data.whatsapp);
-      } else {
-        document.getElementById('linkWhatsapp').href = '#';
-      }
+        linkWa.href = cleanWa ? `https://wa.me/${cleanWa}` : fixUrl(data.whatsapp);
+        linkWa.classList.remove('hidden');
+      } else linkWa.classList.add('hidden');
 
-      // WECHAT QR CODE SETUP
-      if (data.wechat && data.wechat.startsWith('data:image')) {
+      // WeChat
+      if (data.wechat && data.wechat.trim() !== '' && data.wechat !== '#') {
         document.getElementById('displayWechatQr').src = data.wechat;
-        document.getElementById('btnWechat').style.display = 'flex';
-      } else {
-        // Fallback default image or hide
-        document.getElementById('displayWechatQr').src = data.wechat || '';
-      }
+        btnWechat.classList.remove('hidden');
+      } else btnWechat.classList.add('hidden');
 
       const body = document.getElementById('bodyTag');
       const customCol = data.custom_color || data.customColor;
