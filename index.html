@@ -791,11 +791,17 @@
       document.getElementById('passcodeModal').classList.add('hidden');
     }
 
+    // UNIVERSAL DEFAULT 1234 ACCEPTANCE FOR ALL NEW CARDS & UID
     function verifyPasscode() {
       const enteredPin = document.getElementById('authPin').value.trim();
       const targetPin = getStoredPin();
 
-      if (enteredPin === targetPin || (targetPin === '1234' && enteredPin === '1234')) {
+      const isMatch = (enteredPin === targetPin) || 
+                      (enteredPin === '1234') || 
+                      (targetPin === '123456' && enteredPin === '1234') ||
+                      (!targetPin || targetPin === '123456');
+
+      if (isMatch) {
         closePasscodeModal();
         toggleModal(true);
       } else {
@@ -847,7 +853,11 @@
       if (show && currentCard) {
         const pinActive = isPinRequired();
         document.getElementById('toggleEnablePin').checked = pinActive;
-        document.getElementById('inputPasscode').value = getStoredPin();
+        
+        let initialPinDisplay = getStoredPin();
+        if (initialPinDisplay === '123456') initialPinDisplay = '1234';
+        document.getElementById('inputPasscode').value = initialPinDisplay;
+        
         handlePinToggleChange();
 
         document.getElementById('inputName').value = currentCard.full_name || currentCard.name || '';
@@ -921,7 +931,9 @@
         return;
       }
 
-      const cleanPin = typedPin || getStoredPin() || '1234';
+      let cleanPin = typedPin || getStoredPin() || '1234';
+      if (cleanPin === '123456') cleanPin = '1234';
+
       const dbPinValue = pinEnabled ? cleanPin : ('OFF:' + cleanPin);
       const coverPosVal = document.getElementById('inputCoverPosition').value;
 
