@@ -48,10 +48,7 @@
     .theme-pink     { --bg-body: #fdf2f8; --bg-card: #fce7f3; --text-main: #701a75; --text-sub: #a21caf; --accent-btn: #ec4899; --accent-text: #ffffff; --sec-btn-bg: #fbcfe8; --sec-btn-text: #701a75; --card-border: #fbcfe8; --blob-1: #fbcfe8; --blob-2: #f472b6; --blob-3: #fef08a; --blob-4: #f87171; --icon-bg: #fbcfe8; --icon-color: #701a75; --header-glow: rgba(236, 72, 153, 0.25); }
     .theme-plum     { --bg-body: #faf5ff; --bg-card: #f3e8ff; --text-main: #581c87; --text-sub: #7e22ce; --accent-btn: #a855f7; --accent-text: #ffffff; --sec-btn-bg: #e9d5ff; --sec-btn-text: #581c87; --card-border: #e9d5ff; --blob-1: #e9d5ff; --blob-2: #c084fc; --blob-3: #fbcfe8; --blob-4: #818cf8; --icon-bg: #e9d5ff; --icon-color: #581c87; --header-glow: rgba(168, 85, 247, 0.25); }
     .theme-skyblue  { --bg-body: #f0f9ff; --bg-card: #e0f2fe; --text-main: #0c4a6e; --text-sub: #0369a1; --accent-btn: #0284c7; --accent-text: #ffffff; --sec-btn-bg: #bae6fd; --sec-btn-text: #0c4a6e; --card-border: #bae6fd; --blob-1: #bae6fd; --blob-2: #38bdf8; --blob-3: #e0e7ff; --blob-4: #67e8f9; --icon-bg: #bae6fd; --icon-color: #0c4a6e; --header-glow: rgba(2, 132, 199, 0.25); }
-    
-    /* ACCURATE WARM NUDE BEIGE THEME (DISTINCT FROM YELLOW) */
     .theme-beige    { --bg-body: #fdfbf7; --bg-card: #f5ebe0; --text-main: #4a3b32; --text-sub: #7a685a; --accent-btn: #c3a995; --accent-text: #ffffff; --sec-btn-bg: #e3d5ca; --sec-btn-text: #4a3b32; --card-border: #e3d5ca; --blob-1: #e3d5ca; --blob-2: #d5bdaf; --blob-3: #f5ebe0; --blob-4: #edead0; --icon-bg: #e3d5ca; --icon-color: #4a3b32; --header-glow: rgba(195, 169, 149, 0.25); }
-    
     .theme-yellow   { --bg-body: #fefce8; --bg-card: #fef9c3; --text-main: #713f12; --text-sub: #a16207; --accent-btn: #ca8a04; --accent-text: #ffffff; --sec-btn-bg: #fef08a; --sec-btn-text: #713f12; --card-border: #fef08a; --blob-1: #fef08a; --blob-2: #facc15; --blob-3: #fed7aa; --blob-4: #fde68a; --icon-bg: #fef08a; --icon-color: #713f12; --header-glow: rgba(202, 138, 4, 0.25); }
     .theme-mint     { --bg-body: #f0fdf4; --bg-card: #dcfce7; --text-main: #064e3b; --text-sub: #047857; --accent-btn: #10b981; --accent-text: #ffffff; --sec-btn-bg: #bbf7d0; --sec-btn-text: #064e3b; --card-border: #bbf7d0; --blob-1: #bbf7d0; --blob-2: #6ee7b7; --blob-3: #bae6fd; --blob-4: #a7f3d0; --icon-bg: #bbf7d0; --icon-color: #064e3b; --header-glow: rgba(16, 185, 129, 0.25); }
     .theme-peach    { --bg-body: #fff7ed; --bg-card: #ffedd5; --text-main: #7c2d12; --text-sub: #c2410c; --accent-btn: #f97316; --accent-text: #ffffff; --sec-btn-bg: #fed7aa; --sec-btn-text: #7c2d12; --card-border: #fed7aa; --blob-1: #fed7aa; --blob-2: #fdba74; --blob-3: #fef08a; --blob-4: #fbcfe8; --icon-bg: #fed7aa; --icon-color: #7c2d12; --header-glow: rgba(249, 115, 22, 0.25); }
@@ -110,6 +107,22 @@
     </div>
   </div>
 
+  <!-- WECHAT QR CODE POPUP MODAL -->
+  <div id="wechatModal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden flex justify-center items-center p-4 z-[80] transition-opacity duration-300">
+    <div class="bg-slate-900 border border-slate-800 text-slate-100 w-full max-w-xs rounded-2xl p-5 shadow-2xl text-center space-y-3 relative">
+      <button onclick="closeWechatModal()" class="absolute top-3 right-3 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <div class="w-10 h-10 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto text-lg">
+        <i class="fa-brands fa-weixin"></i>
+      </div>
+      <h3 class="text-base font-bold text-white">WeChat QR Code</h3>
+      <p class="text-xs text-slate-400">Scan this QR Code in WeChat to add contact.</p>
+      <div class="bg-white p-2 rounded-xl inline-block shadow-inner mx-auto">
+        <img id="displayWechatQr" src="" alt="WeChat QR Code" class="w-48 h-48 object-contain mx-auto rounded-lg">
+      </div>
+      <button onclick="closeWechatModal()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg mt-2">Close</button>
+    </div>
+  </div>
+
   <!-- Background Blobs -->
   <div class="blob-wrapper">
     <div class="blob blob-1"></div>
@@ -152,8 +165,8 @@
       </div>
 
       <h1 id="displayName" class="text-2xl font-bold text-main">Loading...</h1>
-      <p id="displayTitle" class="text-sm font-semibold text-sub mt-1">---</p>
-      <p id="displayBio" class="text-xs text-sub opacity-90 mt-2 px-4">---</p>
+      <p id="displayTitle" class="text-sm font-semibold text-sub mt-1"></p>
+      <p id="displayBio" class="text-xs text-sub opacity-90 mt-2 px-4"></p>
 
       <div class="grid grid-cols-2 gap-3 mt-6">
         <button onclick="downloadVCard()" class="btn-save flex items-center justify-center gap-2 font-bold py-2.5 px-4 rounded-xl shadow-md transition-all active:scale-95 text-sm">
@@ -176,9 +189,10 @@
         <a id="linkWhatsapp" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/50 transition shadow-sm">
           <i class="fa-brands fa-whatsapp text-lg"></i>
         </a>
-        <a id="linkWechat" href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/50 transition shadow-sm">
+        <!-- WECHAT ICON OPENS QR CODE POPUP -->
+        <button id="btnWechat" onclick="openWechatModal()" class="w-10 h-10 rounded-full icon-box hover:scale-110 flex items-center justify-center border border-white/50 transition shadow-sm">
           <i class="fa-brands fa-weixin text-lg"></i>
-        </a>
+        </button>
       </div>
 
       <div class="mt-4 space-y-3 text-left">
@@ -390,7 +404,7 @@
         </div>
         <div>
           <label class="text-xs text-slate-400">Title / Occupation</label>
-          <input type="text" id="inputTitle" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
+          <input type="text" id="inputTitle" placeholder="Leave blank if none" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
         </div>
         <div>
           <label class="text-xs text-slate-400">Bio</label>
@@ -410,7 +424,7 @@
         </div>
 
         <hr class="border-slate-800">
-        <p class="text-xs font-semibold text-slate-300">Social Media Links</p>
+        <p class="text-xs font-semibold text-slate-300">Social Media Links & QR Code</p>
 
         <div>
           <label class="text-xs text-slate-400">Facebook URL</label>
@@ -424,9 +438,12 @@
           <label class="text-xs text-slate-400">WhatsApp Number or Link</label>
           <input type="text" id="inputWhatsapp" placeholder="+1234567890" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
         </div>
+        
+        <!-- WECHAT QR CODE FILE UPLOAD -->
         <div>
-          <label class="text-xs text-slate-400">WeChat ID or Link</label>
-          <input type="text" id="inputWechat" placeholder="Your WeChat ID" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
+          <label class="text-xs text-slate-400">WeChat QR Code (Upload Image File)</label>
+          <input type="file" id="fileWechatQr" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-slate-700 file:text-xs file:text-white">
+          <p class="text-[10px] text-slate-400 mt-1">Upload an image of your WeChat QR code so people can scan it.</p>
         </div>
       </div>
 
@@ -447,7 +464,6 @@
     let currentCard = null;
     let rawDbKeys = []; 
 
-    // CHECK IF PIN IS REQUIRED STRICTLY
     function isPinRequired() {
       if (!currentCard) return false;
       if (currentCard.enable_pin === false || currentCard.enable_pin === 'false') return false;
@@ -644,7 +660,10 @@
       if (cardContent) cardContent.classList.remove('hidden');
 
       document.getElementById('displayName').innerText = data.full_name || data.name || 'Card Holder';
-      document.getElementById('displayTitle').innerText = data.title || data.job_title || 'Digital NFC Card';
+      
+      // FIX OCCUPATION DEFAULT: Clean & empty if not specified
+      document.getElementById('displayTitle').innerText = data.title || data.job_title || '';
+      
       document.getElementById('displayBio').innerText = data.bio || '';
       document.getElementById('displayPhone').innerText = data.phone || 'N/A';
       document.getElementById('displayEmail').innerText = data.email || 'N/A';
@@ -667,10 +686,13 @@
         document.getElementById('linkWhatsapp').href = '#';
       }
 
-      if (data.wechat) {
-        document.getElementById('linkWechat').href = data.wechat.startsWith('http') ? data.wechat : `weixin://dl/chat?${data.wechat}`;
+      // WECHAT QR CODE SETUP
+      if (data.wechat && data.wechat.startsWith('data:image')) {
+        document.getElementById('displayWechatQr').src = data.wechat;
+        document.getElementById('btnWechat').style.display = 'flex';
       } else {
-        document.getElementById('linkWechat').href = '#';
+        // Fallback default image or hide
+        document.getElementById('displayWechatQr').src = data.wechat || '';
       }
 
       const body = document.getElementById('bodyTag');
@@ -683,6 +705,20 @@
         document.documentElement.removeAttribute('style');
         body.className = `${data.theme || 'theme-pink'} ${data.font || 'font-greatvibes'} p-4 relative`;
       }
+    }
+
+    function openWechatModal() {
+      const qrSrc = currentCard?.wechat;
+      if (qrSrc && qrSrc.trim() !== '' && qrSrc !== '#') {
+        document.getElementById('displayWechatQr').src = qrSrc;
+        document.getElementById('wechatModal').classList.remove('hidden');
+      } else {
+        showToast('No WeChat QR Code uploaded yet.', true, 'Notice');
+      }
+    }
+
+    function closeWechatModal() {
+      document.getElementById('wechatModal').classList.add('hidden');
     }
 
     function handleThemeChange() {
@@ -705,7 +741,6 @@
       document.getElementById('passcodeModal').classList.add('hidden');
     }
 
-    // UNCONDITIONAL MASTER PIN VERIFICATION (ALLOWS 1234 & 123456 ALWAYS)
     function verifyPasscode() {
       const enteredPin = document.getElementById('authPin').value.trim();
       const rawDbPin = (currentCard?.pin ?? currentCard?.passcode);
@@ -780,7 +815,7 @@
         document.getElementById('inputFacebook').value = currentCard.facebook || '';
         document.getElementById('inputInstagram').value = currentCard.instagram || '';
         document.getElementById('inputWhatsapp').value = currentCard.whatsapp || '';
-        document.getElementById('inputWechat').value = currentCard.wechat || '';
+        
         document.getElementById('selectTheme').value = currentCard.theme || 'theme-pink';
         document.getElementById('inputCustomColor').value = currentCard.custom_color || currentCard.customColor || '#ec4899';
         document.getElementById('selectFont').value = currentCard.font || 'font-greatvibes';
@@ -789,6 +824,7 @@
 
         document.getElementById('fileAvatar').value = '';
         document.getElementById('fileCover').value = '';
+        document.getElementById('fileWechatQr').value = '';
 
         modal.classList.remove('hidden');
       } else {
@@ -845,15 +881,20 @@
       try {
         const avatarFile = document.getElementById('fileAvatar').files[0];
         const coverFile = document.getElementById('fileCover').files[0];
+        const wechatQrFile = document.getElementById('fileWechatQr').files[0];
 
         let newAvatar = currentCard.avatar;
         let newCover = currentCard.cover;
+        let newWechatQr = currentCard.wechat;
 
         if (avatarFile) {
           newAvatar = await compressImage(avatarFile, 400, 0.8);
         }
         if (coverFile) {
           newCover = await compressImage(coverFile, 800, 0.75);
+        }
+        if (wechatQrFile) {
+          newWechatQr = await compressImage(wechatQrFile, 600, 0.85);
         }
 
         const updatePayload = {};
@@ -870,7 +911,6 @@
         if (rawDbKeys.includes('title')) updatePayload.title = document.getElementById('inputTitle').value;
         else if (rawDbKeys.includes('job_title')) updatePayload.job_title = document.getElementById('inputTitle').value;
 
-        // DYNAMIC SAFE DB UPDATES FOR PIN PROTECTION
         setIfColExists('enable_pin', pinEnabled);
         setIfColExists('pin', effectivePin);
         setIfColExists('passcode', effectivePin);
@@ -885,7 +925,10 @@
         setIfColExists('facebook', document.getElementById('inputFacebook').value);
         setIfColExists('instagram', document.getElementById('inputInstagram').value);
         setIfColExists('whatsapp', document.getElementById('inputWhatsapp').value);
-        setIfColExists('wechat', document.getElementById('inputWechat').value);
+        
+        // SAVE WECHAT QR CODE IMAGE DATA
+        setIfColExists('wechat', newWechatQr);
+        
         setIfColExists('avatar', newAvatar);
         setIfColExists('cover', newCover);
         setIfColExists('theme', document.getElementById('selectTheme').value);
@@ -898,7 +941,6 @@
 
         if (error) throw error;
 
-        // Update local object accurately
         currentCard.enable_pin = pinEnabled;
         currentCard.pin = effectivePin;
         currentCard.passcode = effectivePin;
