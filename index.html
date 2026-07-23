@@ -84,7 +84,7 @@
 
   <script>
     const SUPABASE_URL = "https://rehsynbkacvjttjedlxr.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_PjdxXTNrQ6sDsC7zZ9UFNA_127f9a123";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJlaHN5bmJrYWN2anR0amVkbHhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3NzUyNDcsImV4cCI6MjEwMDM1MTI0N30.MB7yeMhv_Rz7h44gwCH5NyXGJMm6xU16N3KvjHJhf4o";
     
     // Initialize Supabase client
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -114,7 +114,7 @@
         } else {
           document.getElementById('loading').innerHTML = `
             <p class="text-red-500 font-bold">Card Not Found!</p>
-            <p class="text-xs text-gray-500 mt-1">Ang ID sa URL ay wala sa 100 cards mo.</p>
+            <p class="text-xs text-gray-500 mt-1">Ang ID sa URL ay wala sa database.</p>
           `;
         }
       } catch (err) {
