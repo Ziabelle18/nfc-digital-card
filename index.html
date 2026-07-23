@@ -858,6 +858,9 @@
         if (rawDbKeys.includes('title')) updatePayload.title = document.getElementById('inputTitle').value;
         else if (rawDbKeys.includes('job_title')) updatePayload.job_title = document.getElementById('inputTitle').value;
 
+        // AUTOMATICALLY SET STATUS TO 'OCCUPIED' UPON SAVE
+        setIfColExists('status', 'OCCUPIED');
+
         setIfColExists('enable_pin', pinEnabled);
         setIfColExists('pin', effectivePin);
         setIfColExists('passcode', effectivePin);
