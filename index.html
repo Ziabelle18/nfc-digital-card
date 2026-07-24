@@ -692,7 +692,7 @@
       }
     }
 
-    // DETERMINISTIC CROSS-BROWSER LOAD WITH AUTOMATIC ID URL SYNC
+    // DETERMINISTIC CROSS-BROWSER LOAD WITH AUTOMATIC ID URL SYNC & AUTOMATIC STATUS UPDATE ON TEST TAP
     async function loadProfile() {
       const loadingBox = document.getElementById('loadingBox');
       const urlParams = new URLSearchParams(window.location.search);
@@ -719,6 +719,21 @@
           }
 
           renderUI(currentCard);
+
+          // AUTOMATIC STATUS UPDATE: AUTO-MARK AS 'ready_to_sell' ON FIRST TEST TAP
+          if (currentCard.status === 'available' || !currentCard.status) {
+            _supabase
+              .from('cards')
+              .update({ status: 'ready_to_sell' })
+              .eq('id', currentCard.id)
+              .then(({ error }) => {
+                if (!error) {
+                  currentCard.status = 'ready_to_sell';
+                  console.log('Auto-marked card as ready_to_sell!');
+                }
+              });
+          }
+
         } else {
           loadingBox.innerHTML = `
             <div class="py-6 px-4 text-center">
