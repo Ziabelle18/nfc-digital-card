@@ -96,7 +96,7 @@
 
   <!-- ELEGANT CUSTOM TOAST NOTIFICATION -->
   <div id="toastNotification" class="fixed top-5 left-1/2 -translate-x-1/2 z-[100] hidden transition-all duration-300 ease-out transform -translate-y-10 opacity-0">
-    <div class="bg-slate-900/90 backdrop-blur-md text-white border border-slate-700/60 px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3">
+    <div class="bg-slate-900/90 backdrop-blur-md text-white border border-slate-700/60 px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 font-sans">
       <div id="toastIcon" class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm">
         <i class="fa-solid fa-check"></i>
       </div>
@@ -140,7 +140,7 @@
       <div class="header-circle-1"></div>
       <div class="header-circle-2"></div>
 
-      <!-- GLASSMORPHISM NFC BADGE (FIXED ELEGANT & CRISP SANS FONT) -->
+      <!-- GLASSMORPHISM NFC BADGE (LOCKED TO CRISP ELEGANT SANS-SERIF) -->
       <div class="absolute top-3 left-3 bg-white/30 dark:bg-black/30 backdrop-blur-md border border-white/40 text-xs px-3 py-1 rounded-full text-white flex items-center gap-1.5 shadow-sm font-sans">
         <i class="fa-solid fa-wifi text-[10px]"></i>
         <span class="tracking-widest text-[10px] font-bold uppercase">NFC Card</span>
@@ -403,14 +403,21 @@
           </div>
         </div>
 
+        <!-- PROFILE PHOTO UPLOAD WITH UPLOADED BADGE -->
         <div>
-          <label class="text-xs text-slate-400">Profile Photo (Upload File)</label>
+          <div class="flex justify-between items-center mb-1">
+            <label class="text-xs text-slate-400">Profile Photo (Upload File)</label>
+            <span id="avatarStatus" class="text-[10px] text-emerald-400 font-semibold hidden"><i class="fa-solid fa-circle-check"></i> Current photo loaded</span>
+          </div>
           <input type="file" id="fileAvatar" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-slate-700 file:text-xs file:text-white">
         </div>
 
-        <!-- COVER PHOTO UPLOAD + REPOSITIONING CONTROL -->
+        <!-- COVER PHOTO UPLOAD WITH UPLOADED BADGE + REPOSITIONING CONTROL -->
         <div class="space-y-2">
-          <label class="text-xs text-slate-400">Cover Photo (Upload File)</label>
+          <div class="flex justify-between items-center">
+            <label class="text-xs text-slate-400">Cover Photo (Upload File)</label>
+            <span id="coverStatus" class="text-[10px] text-emerald-400 font-semibold hidden"><i class="fa-solid fa-circle-check"></i> Current cover loaded</span>
+          </div>
           <input type="file" id="fileCover" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-slate-700 file:text-xs file:text-white">
           
           <!-- COVER PHOTO VERTICAL ALIGNMENT SLIDER -->
@@ -471,8 +478,12 @@
           <input type="text" id="inputWhatsapp" placeholder="+1234567890" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
         </div>
         
+        <!-- WECHAT QR CODE UPLOAD WITH UPLOADED BADGE -->
         <div>
-          <label class="text-xs text-slate-400">WeChat QR Code (Upload Image File)</label>
+          <div class="flex justify-between items-center mb-1">
+            <label class="text-xs text-slate-400">WeChat QR Code (Upload Image File)</label>
+            <span id="wechatStatus" class="text-[10px] text-emerald-400 font-semibold hidden"><i class="fa-solid fa-circle-check"></i> Current QR code loaded</span>
+          </div>
           <input type="file" id="fileWechatQr" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-slate-700 file:text-xs file:text-white">
           <p class="text-[10px] text-slate-400 mt-1">Upload image of WeChat QR code so people can scan it.</p>
         </div>
@@ -848,6 +859,7 @@
       document.getElementById('recoveryModal').classList.add('hidden');
     }
 
+    // ACCURATE FORGOT PIN RECOVERY WITH ERROR DISPLAY FIX
     async function resetPasscode() {
       const enteredCode = document.getElementById('recoveryKey').value.trim();
       if (enteredCode === MASTER_RECOVERY_CODE) {
@@ -872,7 +884,8 @@
           showToast(err.message, true, 'Error');
         }
       } else {
-        document.getElementById('recoveryError').classList.add('hidden');
+        // PROPERLY UNHIDE RED ERROR MESSAGE WHEN INCORRECT CODE IS ENTERED
+        document.getElementById('recoveryError').classList.remove('hidden');
       }
     }
 
@@ -911,6 +924,23 @@
         document.getElementById('fileAvatar').value = '';
         document.getElementById('fileCover').value = '';
         document.getElementById('fileWechatQr').value = '';
+
+        // DYNAMICALLY UPDATE VISUAL BADGES TO CONFIRM UPLOADED IMAGES EXIST
+        const avatarBadge = document.getElementById('avatarStatus');
+        const coverBadge = document.getElementById('coverStatus');
+        const wechatBadge = document.getElementById('wechatStatus');
+
+        if (currentCard.avatar && currentCard.avatar.trim() !== '') {
+          avatarBadge.classList.remove('hidden');
+        } else avatarBadge.classList.add('hidden');
+
+        if (currentCard.cover && currentCard.cover.trim() !== '') {
+          coverBadge.classList.remove('hidden');
+        } else coverBadge.classList.add('hidden');
+
+        if (currentCard.wechat && currentCard.wechat.trim() !== '' && currentCard.wechat !== '#') {
+          wechatBadge.classList.remove('hidden');
+        } else wechatBadge.classList.add('hidden');
 
         modal.classList.remove('hidden');
       } else {
