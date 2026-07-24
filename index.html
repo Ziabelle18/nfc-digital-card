@@ -403,22 +403,24 @@
           </div>
         </div>
 
-        <!-- PROFILE PHOTO UPLOAD WITH UPLOADED BADGE -->
+        <!-- PROFILE PHOTO UPLOAD WITH DYNAMIC FILENAME DISPLAY -->
         <div>
-          <div class="flex justify-between items-center mb-1">
-            <label class="text-xs text-slate-400">Profile Photo (Upload File)</label>
-            <span id="avatarStatus" class="text-[10px] text-emerald-400 font-semibold hidden"><i class="fa-solid fa-circle-check"></i> Current photo loaded</span>
+          <label class="text-xs text-slate-400 block mb-1">Profile Photo (Upload File)</label>
+          <div class="relative flex items-center bg-slate-800 border border-slate-700 rounded-lg p-1.5 cursor-pointer hover:border-slate-600 transition">
+            <input type="file" id="fileAvatar" accept="image/*" onchange="updateFileName('fileAvatar', 'avatarName')" class="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10">
+            <span class="bg-slate-700 text-white text-xs px-3 py-1.5 rounded-md font-semibold shrink-0 pointer-events-none">Choose File</span>
+            <span id="avatarName" class="text-xs text-slate-300 ml-3 truncate pointer-events-none">No file chosen</span>
           </div>
-          <input type="file" id="fileAvatar" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-slate-700 file:text-xs file:text-white">
         </div>
 
-        <!-- COVER PHOTO UPLOAD WITH UPLOADED BADGE + REPOSITIONING CONTROL -->
+        <!-- COVER PHOTO UPLOAD WITH DYNAMIC FILENAME DISPLAY & REPOSITION SLIDER -->
         <div class="space-y-2">
-          <div class="flex justify-between items-center">
-            <label class="text-xs text-slate-400">Cover Photo (Upload File)</label>
-            <span id="coverStatus" class="text-[10px] text-emerald-400 font-semibold hidden"><i class="fa-solid fa-circle-check"></i> Current cover loaded</span>
+          <label class="text-xs text-slate-400 block mb-1">Cover Photo (Upload File)</label>
+          <div class="relative flex items-center bg-slate-800 border border-slate-700 rounded-lg p-1.5 cursor-pointer hover:border-slate-600 transition">
+            <input type="file" id="fileCover" accept="image/*" onchange="updateFileName('fileCover', 'coverName')" class="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10">
+            <span class="bg-slate-700 text-white text-xs px-3 py-1.5 rounded-md font-semibold shrink-0 pointer-events-none">Choose File</span>
+            <span id="coverName" class="text-xs text-slate-300 ml-3 truncate pointer-events-none">No file chosen</span>
           </div>
-          <input type="file" id="fileCover" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-slate-700 file:text-xs file:text-white">
           
           <!-- COVER PHOTO VERTICAL ALIGNMENT SLIDER -->
           <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
@@ -478,13 +480,14 @@
           <input type="text" id="inputWhatsapp" placeholder="+1234567890" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none">
         </div>
         
-        <!-- WECHAT QR CODE UPLOAD WITH UPLOADED BADGE -->
+        <!-- WECHAT QR CODE UPLOAD WITH DYNAMIC FILENAME DISPLAY -->
         <div>
-          <div class="flex justify-between items-center mb-1">
-            <label class="text-xs text-slate-400">WeChat QR Code (Upload Image File)</label>
-            <span id="wechatStatus" class="text-[10px] text-emerald-400 font-semibold hidden"><i class="fa-solid fa-circle-check"></i> Current QR code loaded</span>
+          <label class="text-xs text-slate-400 block mb-1">WeChat QR Code (Upload Image File)</label>
+          <div class="relative flex items-center bg-slate-800 border border-slate-700 rounded-lg p-1.5 cursor-pointer hover:border-slate-600 transition">
+            <input type="file" id="fileWechatQr" accept="image/*" onchange="updateFileName('fileWechatQr', 'wechatName')" class="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10">
+            <span class="bg-slate-700 text-white text-xs px-3 py-1.5 rounded-md font-semibold shrink-0 pointer-events-none">Choose File</span>
+            <span id="wechatName" class="text-xs text-slate-300 ml-3 truncate pointer-events-none">No file chosen</span>
           </div>
-          <input type="file" id="fileWechatQr" accept="image/*" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-xs text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-slate-700 file:text-xs file:text-white">
           <p class="text-[10px] text-slate-400 mt-1">Upload image of WeChat QR code so people can scan it.</p>
         </div>
       </div>
@@ -514,6 +517,15 @@
       else if (val == 50) label.innerText = 'Center (50%)';
       else if (val == 100) label.innerText = 'Bottom (100%)';
       else label.innerText = `${val}% Vertical`;
+    }
+
+    // UPDATE DISPLAYED FILENAME DYNAMICALLY WHEN USER SELECTS A FILE
+    function updateFileName(inputId, labelId) {
+      const input = document.getElementById(inputId);
+      const label = document.getElementById(labelId);
+      if (input && input.files && input.files[0]) {
+        label.innerText = input.files[0].name;
+      }
     }
 
     // EXTRACT PIN VALUE SAFELY & UNIFIED ACROSS COLUMNS
@@ -884,7 +896,6 @@
           showToast(err.message, true, 'Error');
         }
       } else {
-        // PROPERLY UNHIDE RED ERROR MESSAGE WHEN INCORRECT CODE IS ENTERED
         document.getElementById('recoveryError').classList.remove('hidden');
       }
     }
@@ -925,22 +936,15 @@
         document.getElementById('fileCover').value = '';
         document.getElementById('fileWechatQr').value = '';
 
-        // DYNAMICALLY UPDATE VISUAL BADGES TO CONFIRM UPLOADED IMAGES EXIST
-        const avatarBadge = document.getElementById('avatarStatus');
-        const coverBadge = document.getElementById('coverStatus');
-        const wechatBadge = document.getElementById('wechatStatus');
+        // DYNAMICALLY POPULATE FILENAME LABELS
+        document.getElementById('avatarName').innerText = (currentCard.avatar && currentCard.avatar.trim() !== '') 
+          ? 'profile_photo.jpg' : 'No file chosen';
 
-        if (currentCard.avatar && currentCard.avatar.trim() !== '') {
-          avatarBadge.classList.remove('hidden');
-        } else avatarBadge.classList.add('hidden');
+        document.getElementById('coverName').innerText = (currentCard.cover && currentCard.cover.trim() !== '') 
+          ? 'cover_photo.jpg' : 'No file chosen';
 
-        if (currentCard.cover && currentCard.cover.trim() !== '') {
-          coverBadge.classList.remove('hidden');
-        } else coverBadge.classList.add('hidden');
-
-        if (currentCard.wechat && currentCard.wechat.trim() !== '' && currentCard.wechat !== '#') {
-          wechatBadge.classList.remove('hidden');
-        } else wechatBadge.classList.add('hidden');
+        document.getElementById('wechatName').innerText = (currentCard.wechat && currentCard.wechat.trim() !== '' && currentCard.wechat !== '#') 
+          ? 'wechat_qr.jpg' : 'No file chosen';
 
         modal.classList.remove('hidden');
       } else {
