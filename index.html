@@ -185,7 +185,8 @@
       <p id="displayTitle" class="text-sm font-semibold text-sub mt-1"></p>
       <p id="displayBio" class="text-xs text-sub opacity-90 mt-2 px-4"></p>
 
-      <div class="grid grid-cols-2 gap-3 mt-6 font-sans">
+      <!-- BUTTONS NOW INHERIT THE SELECTED FONT STYLE -->
+      <div class="grid grid-cols-2 gap-3 mt-6">
         <button onclick="downloadVCard()" class="btn-save flex items-center justify-center gap-2 font-bold py-2.5 px-4 rounded-xl shadow-md transition-all active:scale-95 text-sm">
           <i class="fa-solid fa-user-plus"></i>
           <span>Save Contact</span>
@@ -212,7 +213,8 @@
         </button>
       </div>
 
-      <div class="mt-4 space-y-3 text-left font-sans">
+      <!-- CONTACT DETAILS NOW INHERIT THE SELECTED FONT STYLE -->
+      <div class="mt-4 space-y-3 text-left">
         <a id="linkPhone" href="tel:" class="flex items-center gap-4 p-3 rounded-2xl icon-box border border-white/50 hover:opacity-90 transition shadow-sm">
           <div class="w-10 h-10 rounded-xl icon-box flex items-center justify-center">
             <i class="fa-solid fa-phone"></i>
@@ -692,7 +694,7 @@
       }
     }
 
-    // DETERMINISTIC CROSS-BROWSER LOAD WITH AUTOMATIC ID URL SYNC & AUTOMATIC STATUS UPDATE ON TEST TAP
+    // DETERMINISTIC CROSS-BROWSER LOAD WITH AUTOMATIC ID URL SYNC & AUTO STATUS MARKING
     async function loadProfile() {
       const loadingBox = document.getElementById('loadingBox');
       const urlParams = new URLSearchParams(window.location.search);
@@ -712,28 +714,24 @@
           currentCard = response.data;
           rawDbKeys = Object.keys(response.data);
 
-          // AUTOMATIC URL ID SYNC SO REFRESHES & BROWSER SWITCHES ALWAYS LOAD THIS EXACT CARD
+          // AUTOMATIC STATUS UPDATE TO 'ready_to_sell' ON FIRST TEST TAP
+          if (currentCard.status === 'available') {
+            _supabase
+              .from('cards')
+              .update({ status: 'ready_to_sell' })
+              .eq('id', currentCard.id)
+              .then(() => {
+                currentCard.status = 'ready_to_sell';
+              });
+          }
+
+          // AUTOMATIC URL ID SYNC SO REFRESHES ALWAYS LOAD THIS EXACT CARD
           if (currentCard.id) {
             const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?id=' + currentCard.id;
             window.history.replaceState({ path: newUrl }, '', newUrl);
           }
 
           renderUI(currentCard);
-
-          // AUTOMATIC STATUS UPDATE: AUTO-MARK AS 'ready_to_sell' ON FIRST TEST TAP
-          if (currentCard.status === 'available' || !currentCard.status) {
-            _supabase
-              .from('cards')
-              .update({ status: 'ready_to_sell' })
-              .eq('id', currentCard.id)
-              .then(({ error }) => {
-                if (!error) {
-                  currentCard.status = 'ready_to_sell';
-                  console.log('Auto-marked card as ready_to_sell!');
-                }
-              });
-          }
-
         } else {
           loadingBox.innerHTML = `
             <div class="py-6 px-4 text-center">
