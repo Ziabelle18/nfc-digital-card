@@ -18,6 +18,29 @@ body{font-family:Inter,ui-sans-serif,system-ui;background:#070b14;color:#e5e7eb}
 </style>
 </head>
 <body class="min-h-screen p-4 md:p-8">
+<div id="loginScreen" class="min-h-[85vh] flex items-center justify-center">
+  <div class="glass rounded-2xl p-6 w-full max-w-md">
+    <p class="text-pink-400 text-xs font-bold tracking-[.25em] uppercase">ZiaDigital</p>
+    <h1 class="text-2xl font-black mt-1">Admin Login</h1>
+    <p class="text-slate-400 text-sm mt-1 mb-5">Sign in to manage NFC cards.</p>
+    <div id="loginNotice" class="hidden mb-4 p-3 rounded-xl text-sm"></div>
+    <div class="space-y-3">
+      <div>
+        <label class="text-xs text-slate-400">Email</label>
+        <input id="loginEmail" type="email" class="input" autocomplete="username" placeholder="Admin email">
+      </div>
+      <div>
+        <label class="text-xs text-slate-400">Password</label>
+        <input id="loginPassword" type="password" class="input" autocomplete="current-password" placeholder="Password">
+      </div>
+      <button id="loginBtn" class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold rounded-xl py-3">
+        <i class="fa-solid fa-lock mr-2"></i>Sign In
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="adminApp" class="hidden">
 <div class="max-w-6xl mx-auto">
   <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
     <div>
@@ -25,7 +48,10 @@ body{font-family:Inter,ui-sans-serif,system-ui;background:#070b14;color:#e5e7eb}
       <h1 class="text-2xl md:text-3xl font-black">NFC Card Admin</h1>
       <p class="text-slate-400 text-sm mt-1">Create cards, copy permanent links, and manage card status.</p>
     </div>
-    <button id="refreshBtn" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-sm"><i class="fa-solid fa-rotate mr-2"></i>Refresh</button>
+    <div class="flex gap-2">
+      <button id="refreshBtn" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-sm"><i class="fa-solid fa-rotate mr-2"></i>Refresh</button>
+      <button id="logoutBtn" class="px-4 py-2 rounded-xl bg-red-500/15 text-red-300 hover:bg-red-500/25 text-sm"><i class="fa-solid fa-right-from-bracket mr-2"></i>Logout</button>
+    </div>
   </div>
 
   <div id="notice" class="hidden mb-5 p-3 rounded-xl text-sm"></div>
@@ -80,6 +106,7 @@ body{font-family:Inter,ui-sans-serif,system-ui;background:#070b14;color:#e5e7eb}
     </section>
   </div>
 </div>
+</div>
 
 <script>
 const firebaseConfig = {
@@ -92,6 +119,7 @@ const firebaseConfig = {
     };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+const auth = firebase.auth();
 const cardsRef = db.collection("cards");
 
 const $ = id => document.getElementById(id);
@@ -186,9 +214,48 @@ async function loadCards() {
     $("count").textContent="Could not load cards";
   }
 }
+function loginNotice(msg, error=true) {
+  const el=$("loginNotice");
+  el.classList.remove("hidden");
+  el.className="mb-4 p-3 rounded-xl text-sm "+(error
+    ?"bg-red-500/15 border border-red-500/30 text-red-300"
+    :"bg-emerald-500/15 border border-emerald-500/30 text-emerald-300");
+  el.textContent=msg;
+}
+async function loginAdmin() {
+  const email=$("loginEmail").value.trim();
+  const password=$("loginPassword").value;
+  if(!email || !password) return loginNotice("Enter your email and password.");
+  const btn=$("loginBtn");
+  btn.disabled=true;
+  btn.textContent="Signing in...";
+  try {
+    await auth.signInWithEmailAndPassword(email,password);
+  } catch(e) {
+    loginNotice(e.message || "Sign in failed.");
+  } finally {
+    btn.disabled=false;
+    btn.innerHTML='<i class="fa-solid fa-lock mr-2"></i>Sign In';
+  }
+}
+$("loginBtn").addEventListener("click",loginAdmin);
+$("loginPassword").addEventListener("keydown",e=>{ if(e.key==="Enter") loginAdmin(); });
 $("createBtn").addEventListener("click",createCard);
 $("refreshBtn").addEventListener("click",loadCards);
-loadCards();
+$("logoutBtn").addEventListener("click",()=>auth.signOut());
+
+auth.onAuthStateChanged(user=>{
+  if(user){
+    $("loginScreen").classList.add("hidden");
+    $("adminApp").classList.remove("hidden");
+    loadCards();
+  } else {
+    $("adminApp").classList.add("hidden");
+    $("loginScreen").classList.remove("hidden");
+    $("cards").innerHTML="";
+    $("count").textContent="Loading...";
+  }
+});
 </script>
 </body>
 </html>
