@@ -1,0 +1,8 @@
+{
+  "name": "nfc-digital-card",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "firebase-admin": "^13.4.0"
+  }
+}

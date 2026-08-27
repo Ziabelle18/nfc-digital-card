@@ -519,7 +519,6 @@
     const auth = firebase.auth();
     const cardsRef = db.collection("cards");
 
-    const MASTER_RECOVERY_CODE = 'ZD2026';
     let currentCard = null;
     let rawDbKeys = []; 
 
@@ -896,32 +895,39 @@
       document.getElementById('recoveryModal').classList.add('hidden');
     }
 
-    // ACCURATE FORGOT PIN RECOVERY WITH ERROR DISPLAY FIX
+    // FORGOT PIN RECOVERY IS VERIFIED SERVER-SIDE (recovery code is not exposed in browser code)
     async function resetPasscode() {
       const enteredCode = document.getElementById('recoveryKey').value.trim();
-      if (enteredCode === MASTER_RECOVERY_CODE) {
-        try {
-          const updateObj = {};
-          if (rawDbKeys.includes('pin')) updateObj.pin = '1234';
-          if (rawDbKeys.includes('passcode')) updateObj.passcode = '1234';
-          if (rawDbKeys.includes('enable_pin')) updateObj.enable_pin = true;
+      const errorEl = document.getElementById('recoveryError');
+      errorEl.classList.add('hidden');
+      if (!currentCard?.id || !enteredCode) {
+        errorEl.classList.remove('hidden');
+        return;
+      }
 
-          if (Object.keys(updateObj).length > 0) {
-            await cardsRef.doc(currentCard.id).update(updateObj);
+      try {
+        const response = await fetch('/api/reset-pin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ cardId: currentCard.id, recoveryCode: enteredCode })
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok || !result.ok) {
+          if (response.status === 401) {
+            errorEl.classList.remove('hidden');
+            return;
           }
-
-          showToast('PIN reset to default: 1234', false, 'PIN Reset');
-          currentCard.pin = '1234';
-          currentCard.passcode = '1234';
-          currentCard.enable_pin = true;
-
-          closeRecoveryModal();
-          toggleModal(true);
-        } catch (err) {
-          showToast(err.message, true, 'Error');
+          throw new Error(result.error || 'PIN reset failed.');
         }
-      } else {
-        document.getElementById('recoveryError').classList.remove('hidden');
+
+        currentCard.pin = '1234';
+        currentCard.passcode = '1234';
+        currentCard.enable_pin = true;
+        showToast('PIN reset to default: 1234', false, 'PIN Reset');
+        closeRecoveryModal();
+        toggleModal(true);
+      } catch (err) {
+        showToast(err.message || 'PIN reset failed.', true, 'Error');
       }
     }
 
