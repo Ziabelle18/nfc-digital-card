@@ -1032,9 +1032,9 @@
         const coverFile = document.getElementById('fileCover').files[0];
         const wechatQrFile = document.getElementById('fileWechatQr').files[0];
 
-        let newAvatar = currentCard.avatar;
-        let newCover = currentCard.cover;
-        let newWechatQr = currentCard.wechat;
+        let newAvatar = currentCard.avatar || '';
+        let newCover = currentCard.cover || '';
+        let newWechatQr = currentCard.wechat || '';
 
         if (avatarFile) {
           newAvatar = await compressImage(avatarFile, 400, 0.8);
