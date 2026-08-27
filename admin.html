@@ -1,1 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZiaDigital NFC Admin</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<style>
+body{font-family:Inter,ui-sans-serif,system-ui;background:#070b14;color:#e5e7eb}
+.glass{background:rgba(15,23,42,.86);backdrop-filter:blur(16px);border:1px solid #263247}
+.input{width:100%;background:#111827;border:1px solid #334155;border-radius:.75rem;padding:.7rem .8rem;outline:none}
+.input:focus{border-color:#ec4899}
+.badge{border:1px solid #334155;border-radius:999px;padding:.2rem .55rem;font-size:.72rem}
+</style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+<div class="max-w-6xl mx-auto">
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+    <div>
+      <p class="text-pink-400 text-xs font-bold tracking-[.25em] uppercase">ZiaDigital</p>
+      <h1 class="text-2xl md:text-3xl font-black">NFC Card Admin</h1>
+      <p class="text-slate-400 text-sm mt-1">Create cards, copy permanent links, and manage card status.</p>
+    </div>
+    <button id="refreshBtn" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-sm"><i class="fa-solid fa-rotate mr-2"></i>Refresh</button>
+  </div>
 
+  <div id="notice" class="hidden mb-5 p-3 rounded-xl text-sm"></div>
+
+  <div class="grid lg:grid-cols-[380px_1fr] gap-6">
+    <section class="glass rounded-2xl p-5 h-fit">
+      <h2 class="font-bold text-lg mb-1">Create New NFC Card</h2>
+      <p class="text-xs text-slate-400 mb-5">This creates a Firestore document using the same fields as your working card page.</p>
+      <div class="space-y-3">
+        <div><label class="text-xs text-slate-400">Card ID <span class="text-slate-500">(optional)</span></label>
+          <input id="cardId" class="input" placeholder="Leave blank for automatic ID"></div>
+        <div><label class="text-xs text-slate-400">Initial Name</label>
+          <input id="fullName" class="input" value="New Card Owner"></div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="text-xs text-slate-400">Theme</label>
+            <select id="theme" class="input">
+              <option value="theme-pink">Pink</option><option value="theme-plum">Purple</option>
+              <option value="theme-skyblue">Blue</option><option value="theme-beige">Beige</option>
+              <option value="theme-yellow">Yellow</option><option value="theme-mint">Mint</option>
+              <option value="theme-peach">Peach</option><option value="theme-lavender">Gray</option>
+              <option value="theme-black">Black</option><option value="theme-maroon">Maroon</option>
+            </select>
+          </div>
+          <div><label class="text-xs text-slate-400">Font</label>
+            <select id="font" class="input">
+              <option value="font-greatvibes">Great Vibes</option><option value="font-playfair">Playfair</option>
+              <option value="font-quicksand">Quicksand</option><option value="font-clickerscript">Clicker Script</option>
+              <option value="font-parisienne">Parisienne</option><option value="font-alexbrush">Alex Brush</option>
+              <option value="font-caveat">Caveat</option><option value="font-josefinsans">Josefin Sans</option>
+              <option value="font-allura">Allura</option><option value="font-pacifico">Pacifico</option>
+              <option value="font-bebas">Bebas Neue</option><option value="font-montserrat">Montserrat</option>
+              <option value="font-oswald">Oswald</option><option value="font-robotomono">Roboto Mono</option>
+              <option value="font-inter">Inter</option><option value="font-cinzel">Cinzel</option>
+              <option value="font-anton">Anton</option><option value="font-spacegrotesk">Space Grotesk</option>
+              <option value="font-righteous">Righteous</option><option value="font-firacode">Fira Code</option>
+            </select>
+          </div>
+        </div>
+        <div><label class="text-xs text-slate-400">Default PIN</label>
+          <input id="pin" maxlength="4" inputmode="numeric" class="input" value="1234"></div>
+        <button id="createBtn" class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold rounded-xl py-3 mt-2">
+          <i class="fa-solid fa-plus mr-2"></i>Create Card
+        </button>
+      </div>
+    </section>
+
+    <section class="glass rounded-2xl p-5 min-w-0">
+      <div class="flex items-center justify-between mb-4">
+        <div><h2 class="font-bold text-lg">Cards</h2><p id="count" class="text-xs text-slate-400">Loading...</p></div>
+      </div>
+      <div id="cards" class="space-y-3"></div>
+    </section>
+  </div>
+</div>
+
+<script>
+const firebaseConfig = {
+      apiKey: "AIzaSyDGol6g_zNxohP8aNhnTE6Hmb21A-EdRc4",
+      authDomain: "zialink-digital.firebaseapp.com",
+      projectId: "zialink-digital",
+      storageBucket: "zialink-digital.firebasestorage.app",
+      messagingSenderId: "991236289172",
+      appId: "1:991236289172:web:2a5d9939339f20df50fa81"
+    };
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const cardsRef = db.collection("cards");
+
+const $ = id => document.getElementById(id);
+function notice(msg, error=false) {
+  const el=$("notice"); el.classList.remove("hidden");
+  el.className="mb-5 p-3 rounded-xl text-sm "+(error?"bg-red-500/15 border border-red-500/30 text-red-300":"bg-emerald-500/15 border border-emerald-500/30 text-emerald-300");
+  el.textContent=msg; setTimeout(()=>el.classList.add("hidden"),4000);
+}
+function cardUrl(id) {
+  return new URL("index.html?id="+encodeURIComponent(id), window.location.href).href;
+}
+function esc(v) {
+  return String(v??"").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+}
+async function createCard() {
+  const btn=$("createBtn"); const pin=$("pin").value.trim()||"1234";
+  if(!/^\d{4}$/.test(pin)) return notice("PIN must be exactly 4 digits.",true);
+  btn.disabled=true; btn.textContent="Creating...";
+  try {
+    const now=firebase.firestore.FieldValue.serverTimestamp();
+    const payload={
+      full_name:$("fullName").value.trim()||"New Card Owner",
+      name:$("fullName").value.trim()||"New Card Owner",
+      title:"", bio:"", phone:"", email:"", website:"",
+      facebook:"", instagram:"", whatsapp:"", wechat:"",
+      avatar:"", cover:"",
+      theme:$("theme").value, font:$("font").value,
+      custom_color:"#ec4899", customColor:"#ec4899",
+      cover_position:"50", coverPosition:"50",
+      pin, passcode:pin, enable_pin:true,
+      status:"available", created_at:now
+    };
+    const requested=$("cardId").value.trim();
+    let ref;
+    if(requested) {
+      if(!/^[A-Za-z0-9_-]+$/.test(requested)) throw new Error("Card ID can only use letters, numbers, - and _.");
+      ref=cardsRef.doc(requested);
+      const existing=await ref.get();
+      if(existing.exists) throw new Error("That Card ID already exists.");
+      await ref.set(payload);
+    } else {
+      ref=await cardsRef.add(payload);
+    }
+    $("cardId").value="";
+    notice("Card created: "+ref.id);
+    await loadCards();
+  } catch(e) { notice(e.message||String(e),true); }
+  finally { btn.disabled=false; btn.innerHTML='<i class="fa-solid fa-plus mr-2"></i>Create Card'; }
+}
+async function setStatus(id,status) {
+  try { await cardsRef.doc(id).update({status}); notice("Status updated."); loadCards(); }
+  catch(e){notice(e.message,true)}
+}
+async function removeCard(id) {
+  if(!confirm("Delete card "+id+" permanently?")) return;
+  try { await cardsRef.doc(id).delete(); notice("Card deleted."); loadCards(); }
+  catch(e){notice(e.message,true)}
+}
+async function copyLink(id) {
+  try { await navigator.clipboard.writeText(cardUrl(id)); notice("Card link copied."); }
+  catch(e) { prompt("Copy this link:",cardUrl(id)); }
+}
+async function loadCards() {
+  $("cards").innerHTML='<p class="text-slate-400 text-sm">Loading cards...</p>';
+  try {
+    const snap=await cardsRef.get();
+    const docs=snap.docs.map(d=>({id:d.id,...d.data()}));
+    $("count").textContent=docs.length+" card"+(docs.length===1?"":"s");
+    if(!docs.length) { $("cards").innerHTML='<p class="text-slate-400 text-sm">No cards yet.</p>'; return; }
+    $("cards").innerHTML=docs.map(c=>`
+      <div class="border border-slate-700/70 bg-slate-950/60 rounded-xl p-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div class="min-w-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              <p class="font-bold truncate">${esc(c.full_name||c.name||"Unnamed Card")}</p>
+              <span class="badge text-slate-300">${esc(c.status||"available")}</span>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-1 font-mono break-all">${esc(c.id)}</p>
+          </div>
+          <div class="flex gap-2 flex-wrap">
+            <a href="${cardUrl(c.id)}" target="_blank" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs"><i class="fa-solid fa-arrow-up-right-from-square mr-1"></i>Open</a>
+            <button onclick="copyLink('${esc(c.id)}')" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs"><i class="fa-solid fa-copy mr-1"></i>Copy Link</button>
+            <select onchange="setStatus('${esc(c.id)}',this.value)" class="bg-slate-800 border border-slate-700 rounded-lg px-2 text-xs">
+              ${["available","ready_to_sell","claimed"].map(s=>`<option value="${s}" ${c.status===s?"selected":""}>${s}</option>`).join("")}
+            </select>
+            <button onclick="removeCard('${esc(c.id)}')" class="px-3 py-2 rounded-lg bg-red-500/15 text-red-300 hover:bg-red-500/25 text-xs"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </div>
+      </div>`).join("");
+  } catch(e) {
+    $("cards").innerHTML='<p class="text-red-300 text-sm">'+esc(e.message)+'</p>';
+    $("count").textContent="Could not load cards";
+  }
+}
+$("createBtn").addEventListener("click",createCard);
+$("refreshBtn").addEventListener("click",loadCards);
+loadCards();
+</script>
+</body>
+</html>
