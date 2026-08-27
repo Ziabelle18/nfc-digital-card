@@ -1049,9 +1049,7 @@
         const updatePayload = {};
 
         const writeSafeKey = (colName, val) => {
-          if (rawDbKeys.includes(colName)) {
-            updatePayload[colName] = val;
-          }
+          updatePayload[colName] = val;
         };
 
         writeSafeKey('full_name', document.getElementById('inputName').value);
