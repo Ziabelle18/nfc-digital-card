@@ -16,8 +16,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Allura&family=Anton&family=Bebas+Neue&family=Caveat:wght@600&family=Cinzel:wght@600;700&family=Clicker+Script&family=Fira+Code:wght@500&family=Great+Vibes&family=Inter:wght@400;600;700&family=Josefin+Sans:wght@400;600;700&family=Montserrat:wght@500;700&family=Oswald:wght@500;700&family=Pacifico&family=Parisienne&family=Playfair+Display:ital,wght@0,600&family=Quicksand:wght@500;700&family=Righteous&family=Roboto+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 
-  <!-- Official Supabase JS SDK v2 -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Firebase SDK (compat build for this single-file site) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
 
   <style>
     /* --- 10 FEMININE / ELEGANT FONTS --- */
@@ -502,10 +504,20 @@
   </div>
 
   <script>
-    // --- SUPABASE CONFIGURATION ---
-    const SUPABASE_URL = "https://rehsynbkacvjttjedlxr.supabase.co";
-    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJlaHN5bmJrYWN2anR0amVkbHhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3NzUyNDcsImV4cCI6MjEwMDM1MTI0N30.MB7yeMhv_Rz7h44gwCH5NyXGJMm6xU16N3KvjHJhf4o";
-    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    // --- FIREBASE CONFIGURATION ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyDGol6g_zNxohP8aNhnTE6Hmb21A-EdRc4",
+      authDomain: "zialink-digital.firebaseapp.com",
+      projectId: "zialink-digital",
+      storageBucket: "zialink-digital.firebasestorage.app",
+      messagingSenderId: "991236289172",
+      appId: "1:991236289172:web:2a5d9939339f20df50fa81"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
+    const cardsRef = db.collection("cards");
 
     const MASTER_RECOVERY_CODE = 'ZD2026';
     let currentCard = null;
@@ -701,33 +713,33 @@
       let cardId = urlParams.get('id');
 
       try {
-        let response;
+        let docSnap = null;
+
         if (cardId) {
-          response = await _supabase.from('cards').select('*').eq('id', cardId).maybeSingle();
+          const requested = await cardsRef.doc(cardId).get();
+          if (requested.exists) docSnap = requested;
         } else {
-          response = await _supabase.from('cards').select('*').order('created_at', { ascending: true }).limit(1).maybeSingle();
+          // Same behavior as before: if there is no ?id=, load the first card.
+          // Firestore document IDs are used as the permanent NFC card IDs.
+          const first = await cardsRef.limit(1).get();
+          if (!first.empty) docSnap = first.docs[0];
         }
 
-        if (response.error) throw response.error;
-
-        if (response.data) {
-          currentCard = response.data;
-          rawDbKeys = Object.keys(response.data);
+        if (docSnap) {
+          currentCard = { id: docSnap.id, ...docSnap.data() };
+          rawDbKeys = Object.keys(currentCard);
 
           // AUTOMATIC STATUS UPDATE TO 'ready_to_sell' ON FIRST TEST TAP
           if (currentCard.status === 'available') {
-            _supabase
-              .from('cards')
-              .update({ status: 'ready_to_sell' })
-              .eq('id', currentCard.id)
-              .then(() => {
-                currentCard.status = 'ready_to_sell';
-              });
+            cardsRef.doc(currentCard.id).update({ status: 'ready_to_sell' })
+              .then(() => { currentCard.status = 'ready_to_sell'; })
+              .catch(err => console.warn('Status update skipped:', err));
           }
 
           // AUTOMATIC URL ID SYNC SO REFRESHES ALWAYS LOAD THIS EXACT CARD
           if (currentCard.id) {
-            const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?id=' + currentCard.id;
+            const newUrl = window.location.protocol + "//" + window.location.host +
+              window.location.pathname + '?id=' + encodeURIComponent(currentCard.id);
             window.history.replaceState({ path: newUrl }, '', newUrl);
           }
 
@@ -736,7 +748,7 @@
           loadingBox.innerHTML = `
             <div class="py-6 px-4 text-center">
               <p class="text-red-400 font-bold text-sm">Card Not Found</p>
-              <p class="text-xs text-slate-400 mt-1">Walang nahanap na record sa database.</p>
+              <p class="text-xs text-slate-400 mt-1">Walang nahanap na record sa Firestore.</p>
             </div>
           `;
         }
@@ -895,7 +907,7 @@
           if (rawDbKeys.includes('enable_pin')) updateObj.enable_pin = true;
 
           if (Object.keys(updateObj).length > 0) {
-            await _supabase.from('cards').update(updateObj).eq('id', currentCard.id);
+            await cardsRef.doc(currentCard.id).update(updateObj);
           }
 
           showToast('PIN reset to default: 1234', false, 'PIN Reset');
@@ -1066,12 +1078,7 @@
         writeSafeKey('theme', document.getElementById('selectTheme').value);
         writeSafeKey('font', document.getElementById('selectFont').value);
 
-        const { error } = await _supabase
-          .from('cards')
-          .update(updatePayload)
-          .eq('id', currentCard.id);
-
-        if (error) throw error;
+        await cardsRef.doc(currentCard.id).update(updatePayload);
 
         currentCard.title = document.getElementById('inputTitle').value;
         currentCard.enable_pin = pinEnabled;
